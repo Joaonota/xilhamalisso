@@ -1,16 +1,4 @@
 # xilhamalisso
 
-A new Flutter project.
+Xilhamalisso LDA é uma sociedade de Advogados full-service (serviço completo), focada em serviços De Mediação de conflitos e de serviços jurídicos de excelência, orientados para as necessidades dos Clientes em todas as áreas. A nossa equipa de advogados está focada nas necessidades dos Clientes, contando com experiência na assessoria jurídica a particulares, empresas, instituições financeiras, nacionais. O nosso principal objectivo tem é alargar (aumentar) a nossa experiência e conhecimento face às cada vez mais complexas questões jurídicas que se impõem a um nível global.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

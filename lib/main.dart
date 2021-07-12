@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'splashScreen/Splash_Intro.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Splash_Intro(),
+      home: PageMenu(),
     );
   }
 }

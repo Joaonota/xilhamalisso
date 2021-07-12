@@ -51,122 +51,142 @@ class PageMenu extends StatelessWidget {
                   crossAxisSpacing: 10,
                   children: [
                     //primeiro Grid
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Color(0xff121518),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.landmark,
-                              size: 85,
-                              color: Color(0xffaa9166),
-                            ),
-                            Divider(),
-                            Text(
-                              "Consultas Jurídicas",
-                              style: GoogleFonts.ebGaramond(
-                                  fontSize: 18.0,
-                                  color: Color(0xffaa9166),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        print("Clicado o primeiro Grid");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Color(0xff121518),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.landmark,
+                                size: 85,
+                                color: Color(0xffaa9166),
+                              ),
+                              Divider(),
+                              Text(
+                                "Consultas Jurídicas",
+                                style: GoogleFonts.ebGaramond(
+                                    fontSize: 18.0,
+                                    color: Color(0xffaa9166),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     //segundo grid
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Color(0xff121518),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.users,
-                              size: 85,
-                              color: Color(0xffaa9166),
-                            ),
-                            Divider(),
-                            Text(
-                              "Assistencia Psicológica",
-                              style: GoogleFonts.ebGaramond(
-                                  fontSize: 18.0,
-                                  color: Color(0xffaa9166),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        print("Clicado o segudno Grid");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Color(0xff121518),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.users,
+                                size: 85,
+                                color: Color(0xffaa9166),
+                              ),
+                              Divider(),
+                              Text(
+                                "Assistencia Psicológica",
+                                style: GoogleFonts.ebGaramond(
+                                    fontSize: 18.0,
+                                    color: Color(0xffaa9166),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     //Terceiro grid
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Color(0xff121518),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.handHoldingHeart,
-                              size: 85,
-                              color: Color(0xffaa9166),
-                            ),
-                            Divider(),
-                            Text(
-                              "Consulta a Nutricionista",
-                              style: GoogleFonts.ebGaramond(
-                                  fontSize: 16.5,
-                                  color: Color(0xffaa9166),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        print("Clicado o terceiro grid");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Color(0xff121518),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.handHoldingHeart,
+                                size: 85,
+                                color: Color(0xffaa9166),
+                              ),
+                              Divider(),
+                              Text(
+                                "Consulta a Nutricionista",
+                                style: GoogleFonts.ebGaramond(
+                                    fontSize: 16.5,
+                                    color: Color(0xffaa9166),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     //Quarto grid
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Color(0xff121518),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.userAlt,
-                              size: 85,
-                              color: Color(0xffaa9166),
-                            ),
-                            Divider(),
-                            Text(
-                              "Minha Conta",
-                              style: GoogleFonts.ebGaramond(
-                                  fontSize: 18.0,
-                                  color: Color(0xffaa9166),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        print("Clicado o quarto Grid");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Color(0xff121518),
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.userAlt,
+                                size: 85,
+                                color: Color(0xffaa9166),
+                              ),
+                              Divider(),
+                              Text(
+                                "Minha Conta",
+                                style: GoogleFonts.ebGaramond(
+                                    fontSize: 18.0,
+                                    color: Color(0xffaa9166),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

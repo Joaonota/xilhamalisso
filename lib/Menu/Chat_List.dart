@@ -63,18 +63,19 @@ class ChatList extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                                top: 40,
-                                bottom: 4,
-                                right: 1.0,
-                                child: Stack(
-                                  children: [
-                                    Icon(
-                                      Icons.brightness_1,
-                                      color: Color(0xff30dc76),
-                                      size: 19,
-                                    ),
-                                  ],
-                                ))
+                              top: 40,
+                              bottom: 4,
+                              right: 1.0,
+                              child: Stack(
+                                children: [
+                                  Icon(
+                                    Icons.brightness_1,
+                                    color: Color(0xff30dc76),
+                                    size: 19,
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                         Expanded(
@@ -148,7 +149,7 @@ class ChatList extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Jõao Manuel Nota",
+                                    "João Manuel Nota",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),

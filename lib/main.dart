@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/Menu/Chat_List.dart';
+import 'package:xilhamalisso/Menu/menssgaem.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ChatList(),
+      home: Menssagem(),
     );
   }
 }

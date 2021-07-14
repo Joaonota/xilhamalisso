@@ -77,6 +77,7 @@ class _MenssagemState extends State<Menssagem> {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15),
       child: Container(
+        alignment: Alignment.centerRight,
         child: senderLayout(),
       ),
     );
@@ -91,7 +92,7 @@ class _MenssagemState extends State<Menssagem> {
         maxWidth: MediaQuery.of(context).size.width * 0.65,
       ),
       decoration: BoxDecoration(
-        color: Colors.yellow,
+        color: Color(0xffdde1ed),
         borderRadius: BorderRadius.only(
           topLeft: messageRadius,
           topRight: messageRadius,
@@ -101,7 +102,7 @@ class _MenssagemState extends State<Menssagem> {
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Text(
-          "Ola",
+          "Ola Mundo",
           style: TextStyle(fontSize: 16),
         ),
       ),
@@ -116,9 +117,10 @@ class _MenssagemState extends State<Menssagem> {
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-            bottomRight: menssagemRadius,
-            topLeft: menssagemRadius,
-            topRight: menssagemRadius),
+          bottomRight: menssagemRadius,
+          topRight: menssagemRadius,
+          bottomLeft: menssagemRadius,
+        ),
         color: Color(0xffdde1ed),
       ),
       child: Padding(

@@ -35,7 +35,7 @@ class _MenssagemState extends State<Menssagem> {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.video_call,
+              Icons.video_call_sharp,
               color: Colors.black,
             ),
             onPressed: () {},
@@ -65,9 +65,14 @@ class _MenssagemState extends State<Menssagem> {
   Widget listaMenssagem() {
     return ListView.builder(
       padding: EdgeInsets.all(10),
-      itemCount: 12,
+      itemCount: 1,
       itemBuilder: (contex, index) {
-        return chatMessageItem();
+        return Column(
+          children: [
+            chatMessageItem(),
+            chatMessageItem1(),
+          ],
+        );
       },
     );
   }
@@ -78,7 +83,21 @@ class _MenssagemState extends State<Menssagem> {
       margin: EdgeInsets.symmetric(vertical: 15),
       child: Container(
         alignment: Alignment.centerRight,
-        child: senderLayout(),
+        child: Column(
+          children: [senderLayout()],
+        ),
+      ),
+    );
+  }
+
+  Widget chatMessageItem1() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        child: Column(
+          children: [receiveLayout()],
+        ),
       ),
     );
   }
@@ -102,7 +121,7 @@ class _MenssagemState extends State<Menssagem> {
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Text(
-          "Ola Mundo",
+          "Um campo de chat que so será accionado mediante o pagamento de uma taxa de 50mt. Tera que ter opções de pagamento Mpsa ou mesmo por conta bancária. Para alem do chat devera ter a opcao de chamada para que o interessado poça se comunicar com os nossos profissionais",
           style: TextStyle(fontSize: 16),
         ),
       ),
@@ -121,12 +140,12 @@ class _MenssagemState extends State<Menssagem> {
           topRight: menssagemRadius,
           bottomLeft: menssagemRadius,
         ),
-        color: Color(0xffdde1ed),
+        color: Color(0xffffffff),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Text(
-          "Ola Mundo",
+          "OK.",
           style: TextStyle(fontSize: 16),
         ),
       ),

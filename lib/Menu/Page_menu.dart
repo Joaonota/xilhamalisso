@@ -68,7 +68,7 @@ class PageMenu extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Icon(
-                                FontAwesomeIcons.landmark,
+                                FontAwesomeIcons.balanceScale,
                                 size: 85,
                                 color: Color(0xffaa9166),
                               ),

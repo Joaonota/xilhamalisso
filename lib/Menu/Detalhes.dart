@@ -134,7 +134,7 @@ class Detalhes extends StatelessWidget {
                                     color: Color(0xffaa9166),
                                   ),
                                   Text(
-                                    "joaomanuelnota@gmail.com",
+                                    "joaoteste@gmail.com",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -151,7 +151,7 @@ class Detalhes extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(Icons.location_history,
                                     color: Color(0xffaa9166)),
@@ -205,11 +205,27 @@ class Detalhes extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
-                            child: Text("Sobre Mim",
-                                style: TextStyle(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  "Sobre",
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
-                                    color: Color(0xffaa9166))),
+                                    color: Color(0xffaa9166),
+                                  ),
+                                ),
+                                Text(
+                                  "Aviso",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Container(

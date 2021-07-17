@@ -1,20 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/Login/LoginScreen.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 
-// ignore: camel_case_types
-class Splash_Intro extends StatefulWidget {
+class SplashIntro extends StatefulWidget {
   @override
-  _Splash_IntroState createState() => _Splash_IntroState();
+  _SplashIntroState createState() => _SplashIntroState();
 }
 
-// ignore: camel_case_types
-class _Splash_IntroState extends State<Splash_Intro> {
+class _SplashIntroState extends State<SplashIntro> {
   bannerTime() async {
     Timer(Duration(seconds: 5), () async {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context,
+        MaterialPageRoute(
+          builder: (context) => PageMenu(),
+        ),
+      );
     });
   }
 

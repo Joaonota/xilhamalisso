@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xilhamalisso/Menu/menssgaem.dart';
 
 class Detalhes extends StatelessWidget {
   @override
@@ -177,7 +178,56 @@ class Detalhes extends StatelessWidget {
                               color: Color(0xffaa9166),
                               borderRadius: BorderRadius.circular(15)),
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext builder) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.info,
+                                            color: Colors.blue,
+                                          ),
+                                          Text(
+                                            "INFO",
+                                          )
+                                        ],
+                                      ),
+                                      content:
+                                          Text("Deseja Efectuar o Pagamento?"),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            CircularProgressIndicator();
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Menssagem(),
+                                              ),
+                                            );
+                                          },
+                                          child: Text("Sim"),
+                                        ),
+                                        ElevatedButton(
+                                          style: ButtonStyle(),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Não",
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
                             child: Text(
                               "Menssagem",
                               style: TextStyle(
@@ -216,12 +266,66 @@ class Detalhes extends StatelessWidget {
                                     color: Color(0xffaa9166),
                                   ),
                                 ),
-                                Text(
-                                  "Aviso",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.red,
+                                GestureDetector(
+                                  onTap: () {
+                                    print("Clicado");
+
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext builder) {
+                                        return AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          title: Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.warning,
+                                                  color: Colors.red,
+                                                ),
+                                                Center(
+                                                  child: Text("Atenção"),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          content: Text(
+                                            "Mediante o pagamento de uma taxa de 50mt. Tera que  Acesso a pagina de Conversa .",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          actions: [
+                                            Center(
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("OK"),
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.warning,
+                                        color: Colors.red,
+                                      ),
+                                      Text(
+                                        "Aviso",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

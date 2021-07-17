@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/Menu/chat_list_screen.dart';
+import 'package:xilhamalisso/Menu/Detalhes.dart';
+
+import 'splashScreen/Splash_Intro.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ChatListScreen(),
+      home: Detalhes(),
     );
   }
 }

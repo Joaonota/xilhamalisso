@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/Menu/menssgaem.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
@@ -62,14 +63,21 @@ class _ChatListContainerState extends State<ChatListContainer> {
         itemBuilder: (context, index) {
           return CustomTile(
             mini: false,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Menssagem(),
+                ),
+              );
+            },
             title: Text(
               "Emidio Sitoe",
               style: TextStyle(
                   color: Colors.white, fontFamily: "Arial", fontSize: 19),
             ),
             subtitle: Text(
-              "Ola bem Vindo A Xilhamalisso ",
+              "Ola bem-vindo A Xilhamalisso ",
               style: TextStyle(
                 color: UniversalVariables.greyColor,
                 fontSize: 14,

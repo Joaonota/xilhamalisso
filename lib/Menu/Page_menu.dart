@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:xilhamalisso/Menu/Chat_List.dart';
 
 class PageMenu extends StatelessWidget {
   @override
@@ -53,6 +54,12 @@ class PageMenu extends StatelessWidget {
                     //primeiro Grid
                     GestureDetector(
                       onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatList(),
+                          ),
+                        );
                         print("Clicado o primeiro Grid");
                       },
                       child: Padding(

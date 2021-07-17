@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/Menu/chat_list_screen.dart';
+import 'package:xilhamalisso/custimizado/custom_tile.dart';
+import 'package:xilhamalisso/utils/universal_variables.dart';
 
 class Menssagem extends StatefulWidget {
   @override
@@ -23,7 +26,14 @@ class _MenssagemState extends State<Menssagem> {
                 Icons.arrow_back,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatListScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -121,7 +131,7 @@ class _MenssagemState extends State<Menssagem> {
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Text(
-          "Um campo de chat que so será accionado mediante o pagamento de uma taxa de 50mt. Tera que ter opções de pagamento Mpsa ou mesmo por conta bancária. Para alem do chat devera ter a opcao de chamada para que o interessado poça se comunicar com os nossos profissionais",
+          "Um campo de chat que so será accionado mediante o pagamento de uma taxa de 50mt.",
           style: TextStyle(fontSize: 16),
         ),
       ),
@@ -169,9 +179,14 @@ class _MenssagemState extends State<Menssagem> {
               padding: EdgeInsets.all(5),
               decoration:
                   BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
-              child: Icon(
-                Icons.attach_file_sharp,
-                size: 25,
+              child: IconButton(
+                onPressed: () {
+                  addMediaModal(context);
+                },
+                icon: Icon(
+                  Icons.attach_file_sharp,
+                  size: 25,
+                ),
               ),
             ),
             SizedBox(
@@ -228,6 +243,109 @@ class _MenssagemState extends State<Menssagem> {
                   )
                 : Container()
           ],
+        ),
+      ),
+    );
+  }
+
+  addMediaModal(context) {
+    showModalBottomSheet(
+        context: context,
+        elevation: 0,
+        backgroundColor: UniversalVariables.blackColor,
+        builder: (context) {
+          return Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Row(
+                  children: <Widget>[
+                    ElevatedButton(
+                      child: Icon(
+                        Icons.close,
+                      ),
+                      onPressed: () => Navigator.maybePop(context),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          " Partilha",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(
+                child: ListView(
+                  children: <Widget>[
+                    ModalTile(
+                      title: "Galeria",
+                      subtitle: "Partilha de Foto",
+                      icon: Icons.image,
+                    ),
+                    ModalTile(
+                        title: "Documento",
+                        subtitle: "Partilha De Documento",
+                        icon: Icons.file_copy_sharp),
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
+  }
+}
+
+class ModalTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+
+  const ModalTile({
+    @required this.title,
+    @required this.subtitle,
+    @required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: CustomTile(
+        mini: false,
+        leading: Container(
+          margin: EdgeInsets.only(right: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: UniversalVariables.receiverColor,
+          ),
+          padding: EdgeInsets.all(10),
+          child: Icon(
+            icon,
+            color: UniversalVariables.greyColor,
+            size: 38,
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            color: UniversalVariables.greyColor,
+            fontSize: 14,
+          ),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontSize: 18,
+          ),
         ),
       ),
     );

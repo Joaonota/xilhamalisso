@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Menu/Detalhes.dart';
 
-import 'splashScreen/Splash_Intro.dart';
-
 void main() {
   runApp(MyApp());
 }

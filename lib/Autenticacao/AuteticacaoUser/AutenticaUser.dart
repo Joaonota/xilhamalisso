@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:international_phone_input/international_phone_input.dart';
+
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class AutenticaUser extends StatefulWidget {
 
 class _AutenticaUserState extends State<AutenticaUser> {
   String phone;
+  PhoneNumber number = PhoneNumber(isoCode: 'US');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,14 +61,25 @@ class _AutenticaUserState extends State<AutenticaUser> {
             SizedBox(
               height: 30,
             ),
-            Container(
-              child: InternationalPhoneInput(
-                decoration: InputDecoration(
-                  hintText: "Introduza seu numero",
-                  border: OutlineInputBorder(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InternationalPhoneNumberInput(
+                    formatInput: false,
+                    keyboardType: TextInputType.numberWithOptions(
+                        signed: true, decimal: true),
+                    selectorConfig: SelectorConfig(
+                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                    ),
+                    hintText: "Introduza seu Numero",
+                    inputBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    initialValue: number,
+                  ),
                 ),
-                initialPhoneNumber: phone,
-                initialSelection: "MZ",
               ),
             ),
           ],

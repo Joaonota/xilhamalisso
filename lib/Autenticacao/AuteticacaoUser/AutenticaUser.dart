@@ -9,7 +9,7 @@ class AutenticaUser extends StatefulWidget {
 
 class _AutenticaUserState extends State<AutenticaUser> {
   String phone;
-  PhoneNumber number = PhoneNumber(isoCode: 'US');
+  PhoneNumber number = PhoneNumber(isoCode: 'MZ');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +68,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InternationalPhoneNumberInput(
+                    onInputChanged: (con) {},
                     formatInput: false,
                     keyboardType: TextInputType.numberWithOptions(
                         signed: true, decimal: true),

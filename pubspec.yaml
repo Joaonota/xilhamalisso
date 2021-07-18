@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   font_awesome_flutter: ^9.1.0
   google_fonts: ^2.1.0
+  introduction_screen: ^2.1.0
+  international_phone_input: ^1.0.4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -79,3 +81,8 @@ flutter:
 
   assets:
       - assets/imagem_Splash/
+  
+  fonts:
+    - family: Signatra
+      fonts:
+        - asset: assets/fonts/Signatra.ttf

@@ -216,7 +216,9 @@ class Detalhes extends StatelessWidget {
                                           child: Text("Sim"),
                                         ),
                                         ElevatedButton(
-                                          style: ButtonStyle(),
+                                          style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty.all(Colors.red)
+                                          ),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },

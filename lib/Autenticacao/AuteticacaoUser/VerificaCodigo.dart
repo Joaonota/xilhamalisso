@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class VerificaCodigo extends StatefulWidget {
   @override
@@ -41,14 +42,9 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                 child: Container(
                   child: Column(
                     children: [
-                      Text(
-                        "Introduza Codigo",
-                        style: TextStyle(
-                          fontSize: 30.0,
-                          color: Colors.white,
-                          fontFamily: "Signatra",
-                        ),
-                      ),
+                      Text("Introduza Codigo",
+                          style: GoogleFonts.ebGaramond(
+                              fontSize: 30, color: Colors.white))
                     ],
                   ),
                 ),
@@ -65,7 +61,7 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "Digite O Codigo Enviado",

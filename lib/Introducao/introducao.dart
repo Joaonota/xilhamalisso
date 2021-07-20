@@ -54,7 +54,8 @@ class _IntroducaoState extends State<Introducao> {
           ),
           PageViewModel(
             title: "Primeira Pagina",
-            body: "dshdjsdhjshdjshdjshdjshdjshdj",
+            body:
+                "legislações videos etc.De igual forma tera que constar do website",
             image: Center(
               child:
                   Image.asset("assets/foto_intro/Online payment_Flatline.png"),

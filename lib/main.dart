@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
-import 'package:xilhamalisso/chamada/Tela_Chamada.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xilhamalisso/Menu/menssgaem.dart';
 
 class Detalhes extends StatelessWidget {
   @override
@@ -205,20 +204,14 @@ class Detalhes extends StatelessWidget {
                                         ElevatedButton(
                                           onPressed: () {
                                             CircularProgressIndicator();
-                                            Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Menssagem(),
-                                              ),
-                                            );
                                           },
                                           child: Text("Sim"),
                                         ),
                                         ElevatedButton(
                                           style: ButtonStyle(
-                                            backgroundColor: MaterialStateProperty.all(Colors.red)
-                                          ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.red)),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },

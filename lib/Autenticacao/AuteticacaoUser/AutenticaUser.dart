@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
 class AutenticaUser extends StatefulWidget {
   @override
   _AutenticaUserState createState() => _AutenticaUserState();
 }
 
 class _AutenticaUserState extends State<AutenticaUser> {
-  String phone;
-  PhoneNumber number = PhoneNumber(isoCode: 'MZ');
+  String numero;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,27 +59,40 @@ class _AutenticaUserState extends State<AutenticaUser> {
               height: 30,
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(right: 30, left: 30),
               child: Container(
-                decoration: BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InternationalPhoneNumberInput(
-                    onInputChanged: (con) {},
-                    formatInput: false,
-                    keyboardType: TextInputType.numberWithOptions(
-                        signed: true, decimal: true),
-                    selectorConfig: SelectorConfig(
-                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                    ),
-                    hintText: "Introduza seu Numero",
-                    inputBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    initialValue: number,
-                  ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (c) {
+                    numero = c;
+                  },
                 ),
               ),
             ),
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 30, left: 30),
+              child: Container(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("verifica");
+                  },
+                  child: Text(
+                    "Continuar",
+                    style: TextStyle(fontSize: 19),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

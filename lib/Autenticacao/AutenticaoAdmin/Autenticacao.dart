@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Autenticacao extends StatefulWidget {
+class AutenticacaoAdmin extends StatefulWidget {
   @override
-  _AutenticacaoState createState() => _AutenticacaoState();
+  _AutenticacaoAdminState createState() => _AutenticacaoAdminState();
 }
 
-class _AutenticacaoState extends State<Autenticacao> {
+class _AutenticacaoAdminState extends State<AutenticacaoAdmin> {
   String tCodigo;
   String tSenha;
 

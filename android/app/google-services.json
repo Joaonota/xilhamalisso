@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773849565302",
+    "project_id": "xilhamalisso-b01ba",
+    "storage_bucket": "xilhamalisso-b01ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773849565302:android:01e38c4934c4cfd214f757",
+        "android_client_info": {
+          "package_name": "com.example.xilhamalisso"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773849565302-ps26ak8dt9u4f8815vndh9msmrf5qudf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBepoof5iNqzYc7z7B8Gm_tMYU4eKHbBcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773849565302-ps26ak8dt9u4f8815vndh9msmrf5qudf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

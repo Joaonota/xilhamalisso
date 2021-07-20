@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override
@@ -58,21 +59,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
             SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30, left: 30),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (c) {
-                    numero = c;
-                  },
-                ),
-              ),
-            ),
+            InternationalPhoneNumberInput(),
             SizedBox(
               height: 25,
             ),
@@ -99,3 +86,18 @@ class _AutenticaUserState extends State<AutenticaUser> {
     );
   }
 }
+/*Padding(
+              padding: const EdgeInsets.only(right: 30, left: 30),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (c) {
+                    numero = c;
+                  },
+                ),
+              ),
+            ),*/

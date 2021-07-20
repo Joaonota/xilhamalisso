@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/chamada/Tela_Chamada.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TelaChamada(),
+      home: AutenticaUser(),
     );
   }
 }

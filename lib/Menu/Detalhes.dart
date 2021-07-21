@@ -116,7 +116,10 @@ class Detalhes extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Icon(Icons.phone, color: Color(0xffaa9166)),
+                                  Icon(
+                                    Icons.phone,
+                                    color: Color(0xffaa9166),
+                                  ),
                                   Text(
                                     "(+258)8459-82017",
                                     style: TextStyle(

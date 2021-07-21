@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override
@@ -9,164 +13,206 @@ class AutenticaUser extends StatefulWidget {
 }
 
 class _AutenticaUserState extends State<AutenticaUser> {
-  String numeroT;
+  int start = 30;
+  bool wait = false;
+  bool isvible = true;
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+  //
   PhoneNumber number = PhoneNumber(isoCode: 'MZ');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff291b12),
-      body: Container(
-        child: ListView(
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: SingleChildScrollView(
+              child: Container(
+            child: Column(
+              children: [
+                Container(
                   child: Column(
                     children: [
+                      Image.asset(
+                        "assets/fotos/foto1.png",
+                        height: 250,
+                      ),
                       Text(
-                        "Xilhamalisso",
-                        style: TextStyle(
-                          fontSize: 55.0,
-                          color: Colors.white,
-                          fontFamily: "Signatra",
+                        "Autenticação  Pelo Número",
+                        style: GoogleFonts.ebGaramond(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Escolha seu Pais e Introduza seu Número",
+                                style: GoogleFonts.ebGaramond(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 10, left: 30),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InternationalPhoneNumberInput(
+                                      selectorConfig: SelectorConfig(
+                                        selectorType:
+                                            PhoneInputSelectorType.BOTTOM_SHEET,
+                                      ),
+                                      inputBorder: InputBorder.none,
+                                      ignoreBlank: false,
+                                      textFieldController: phoneController,
+                                      maxLength: 13,
+                                      onInputChanged: (PhoneNumber numero) {
+                                        number = numero;
+
+                                        print(number);
+                                      },
+                                      initialValue: number,
+                                      hintText: "Introduza Seu Número",
+                                      textStyle:
+                                          GoogleFonts.ebGaramond(fontSize: 20),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                width: 330,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    startTimer();
+                                    phoneController.text = number.toString();
+                                    regitarUserPhone(
+                                        phoneController.text.trim(), context);
+                                  },
+                                  child: Text(
+                                    "Continuar",
+                                    style: TextStyle(fontSize: 19),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text("Escolha seu Pais e Introduza seu Numero",
-                          style: GoogleFonts.ebGaramond(
-                              fontSize: 25, color: Colors.white)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30, left: 30),
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InternationalPhoneNumberInput(
-                        selectorConfig: SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                        ),
-                        inputBorder: InputBorder.none,
-                        ignoreBlank: true,
-                        onInputChanged: (PhoneNumber numero) {
-                          number = numero;
-                          print(number);
-                        },
-                        initialValue: number,
-                        maxLength: 11,
-                        hintText: "Introduza Seu Número",
-                        textStyle: GoogleFonts.ebGaramond(fontSize: 20)),
-                  )),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30, left: 30),
-              child: Container(
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
-                  ),
-                  onPressed: () {
-                    verficaTelefone();
-                    login();
-                  },
-                  child: Text(
-                    "Continuar",
-                    style: TextStyle(fontSize: 19),
-                  ),
-                ),
-              ),
-            )
-          ],
+          )),
         ),
       ),
     );
   }
 
-  String verficaID;
-  String smsCode;
-  Future<void> verficaTelefone() async {
-    final PhoneCodeAutoRetrievalTimeout autoRetri = (String verID) {
-      this.verficaID = verID;
-    };
-    final PhoneCodeSent smsCodeSent = (String verID, [int forceCodeSent]) {
-      this.verficaID = verID;
-    };
-    final PhoneVerificationCompleted verficaSucessl =
-        (AuthCredential authCredential) {
-      print("Verficado");
-    };
-    final PhoneVerificationFailed verificationFaile =
-        (FirebaseAuthException excpecao) {
-      print("falha ${excpecao.message}");
-    };
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+258845982017',
-        verificationCompleted: verficaSucessl,
-        verificationFailed: verificationFaile,
-        codeSent: smsCodeSent,
-        codeAutoRetrievalTimeout: autoRetri,
-        timeout: Duration(seconds: 5));
+  Future regitarUserPhone(String telefone, BuildContext context) async {
+    FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+    _firebaseAuth.verifyPhoneNumber(
+        phoneNumber: telefone,
+        timeout: Duration(seconds: 60),
+        verificationCompleted: (AuthCredential authCredencial) async {
+          var resul = await _firebaseAuth.signInWithCredential(authCredencial);
+          print("erro");
+        },
+        verificationFailed: (exception) {
+          print("fallha{$exception}");
+        },
+        codeSent: (String verificationId, [int forceResendingToken]) {
+          showDialog(
+              context: context,
+              builder: (c) {
+                return Container(
+                  child: AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    title: Text(
+                      "Introduza O Codigo Enviado",
+                    ),
+                    content: OTPTextField(
+                      onChanged: (cd) {
+                        cd = codeController.text.toString().trim();
+                      },
+                      otpFieldStyle: OtpFieldStyle(
+                        backgroundColor: Colors.grey[200],
+                        focusBorderColor: Colors.blue,
+                      ),
+                    ),
+                    actions: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: TextButton(
+                            onPressed: () async {
+                              final code = codeController.text.trim();
+                              AuthCredential gredecial =
+                                  PhoneAuthProvider.credential(
+                                verificationId: verificationId,
+                                smsCode: code,
+                              );
+                              var result = await _firebaseAuth
+                                  .signInWithCredential(gredecial);
+                              User user = result.user;
+                              if (user != null) {
+                                print("Verficado");
+                              } else {
+                                print("erro");
+                              }
+                            },
+                            child: Text(
+                              "Verfificar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
+                            )),
+                      )
+                    ],
+                  ),
+                );
+              });
+        },
+        codeAutoRetrievalTimeout: null);
   }
 
-  login() {
-    var _credencial = PhoneAuthProvider.credential(
-        verificationId: verficaID, smsCode: smsCode);
-    FirebaseAuth.instance.signInWithCredential(_credencial).then((e) {
-      print("Codigo");
-    }).catchError((e) {
-      print(e);
-    });
-  }
-  //
-
-  void getPhoneNumber(String phoneNumber) async {
-    PhoneNumber number =
-        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'MZ');
-
-    setState(() {
-      this.number = number;
-      numeroT = phoneNumber;
+  void startTimer() {
+    const onsec = Duration(seconds: 1);
+    Timer _timer = Timer.periodic(onsec, (timer) {
+      if (start == 0) {
+        setState(() {
+          timer.cancel();
+          wait = false;
+        });
+      } else {
+        setState(() {
+          start--;
+        });
+      }
     });
   }
 }
-/*Padding(
-              padding: const EdgeInsets.only(right: 30, left: 30),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  onChanged: (c) {
-                    numero = c;
-                  },
-                ),
-              ),
-            ),*/

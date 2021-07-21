@@ -5,10 +5,12 @@ class TextFieldCustomizado extends StatelessWidget {
   final controller;
   final keyboardType;
   final prefixIcon;
+  final maxLength;
   const TextFieldCustomizado(
       {Key key,
       @required this.hintText,
       this.controller,
+      this.maxLength,
       this.keyboardType,
       this.prefixIcon});
 
@@ -24,6 +26,7 @@ class TextFieldCustomizado extends StatelessWidget {
           child: TextField(
             keyboardType: this.keyboardType,
             controller: this.controller,
+            maxLength: this.maxLength,
             decoration: InputDecoration(
               prefixIcon: this.prefixIcon,
               hintText: this.hintText,

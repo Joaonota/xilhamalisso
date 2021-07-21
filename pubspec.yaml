@@ -90,6 +90,7 @@ flutter:
   assets:
       - assets/imagem_Splash/
       - assets/foto_intro/
+      - assets/fotos/
   
   fonts:
     - family: Signatra

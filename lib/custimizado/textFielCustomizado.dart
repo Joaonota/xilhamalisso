@@ -20,7 +20,9 @@ class TextFieldCustomizado extends StatelessWidget {
       padding: const EdgeInsets.only(right: 20, left: 20),
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(12)),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(

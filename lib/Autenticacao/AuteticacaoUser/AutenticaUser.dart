@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/otp_field_style.dart';
+import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override
@@ -60,7 +61,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
                               Text(
                                 "Escolha seu Pais e Introduza seu Número",
                                 style: GoogleFonts.ebGaramond(
-                                  fontSize: 25,
+                                  fontSize: 19.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -154,13 +155,12 @@ class _AutenticaUserState extends State<AutenticaUser> {
                     title: Text(
                       "Introduza O Codigo Enviado",
                     ),
-                    content: OTPTextField(
-                      onChanged: (cd) {
-                        cd = codeController.text.toString().trim();
-                      },
-                      otpFieldStyle: OtpFieldStyle(
-                        backgroundColor: Colors.grey[200],
-                        focusBorderColor: Colors.blue,
+                    content: TextField(
+                      maxLength: 6,
+                      controller: codeController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: "Introduza o Codigo Enviado",
                       ),
                     ),
                     actions: [
@@ -171,7 +171,8 @@ class _AutenticaUserState extends State<AutenticaUser> {
                         ),
                         child: TextButton(
                             onPressed: () async {
-                              final code = codeController.text.trim();
+                              var code = codeController.text.trim();
+                              print("smsCode:$code");
                               AuthCredential gredecial =
                                   PhoneAuthProvider.credential(
                                 verificationId: verificationId,
@@ -182,6 +183,34 @@ class _AutenticaUserState extends State<AutenticaUser> {
                               User user = result.user;
                               if (user != null) {
                                 print("Verficado");
+
+                                final QuerySnapshot resulta =
+                                    await FirebaseFirestore.instance
+                                        .collection("Usuarios")
+                                        .where("id", isEqualTo: user.uid)
+                                        .get();
+
+                                final List<DocumentSnapshot> documents =
+                                    resulta.docs;
+                                if (documents.length == 0) {
+                                  print("novo usuario");
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EditaUser(),
+                                    ),
+                                  );
+                                } else {
+                                  print("usuario existete");
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PageMenu(),
+                                    ),
+                                  );
+                                }
                               } else {
                                 print("erro");
                               }
@@ -199,6 +228,8 @@ class _AutenticaUserState extends State<AutenticaUser> {
         },
         codeAutoRetrievalTimeout: null);
   }
+
+  verficaSms() {}
 
   void startTimer() {
     const onsec = Duration(seconds: 1);

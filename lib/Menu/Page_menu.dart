@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:xilhamalisso/Menu/Chat_List.dart';
+import 'package:xilhamalisso/Menssagem/Chat_List.dart';
 
 class PageMenu extends StatelessWidget {
   @override

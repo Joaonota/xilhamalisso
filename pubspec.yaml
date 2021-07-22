@@ -34,7 +34,9 @@ dependencies:
   shared_preferences: ^2.0.6
   libphonenumber: ^2.0.1
   firebase_core: ^1.4.0
-  otp_text_field: ^1.1.1
+  date_time_picker: ^2.1.0
+  firebase_storage: ^10.0.1
+  internet_connection_checker: ^0.0.1+2
 
 
   # The following adds the Cupertino Icons font to your application.

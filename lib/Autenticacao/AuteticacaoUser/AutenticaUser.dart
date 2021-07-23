@@ -92,8 +92,6 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                       },
                                       initialValue: number,
                                       hintText: "Introduza Seu Número",
-                                      textStyle:
-                                          GoogleFonts.ebGaramond(fontSize: 20),
                                     ),
                                   ),
                                 ),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class ErrorAlertDialog extends StatelessWidget {
@@ -19,7 +17,10 @@ class ErrorAlertDialog extends StatelessWidget {
             color: Colors.red,
             backgroundColor: Colors.white,
           ),
-          Text(menssagem),
+          Text(
+            menssagem,
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();

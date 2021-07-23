@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/DialogoBox/ErrorAlertDialog.dart';
 import 'package:xilhamalisso/DialogoBox/LoadingAlertDialog.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 import 'package:xilhamalisso/custimizado/textFielCustomizado.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -19,7 +21,7 @@ class EditaUser extends StatefulWidget {
   _EditaUserState createState() => _EditaUserState();
 }
 
-String userUrl;
+String userUrl = "";
 File imageFile;
 bool isConnectd;
 TextEditingController cEmail = TextEditingController();
@@ -94,6 +96,7 @@ class _EditaUserState extends State<EditaUser> {
                   child: Column(
                     children: <Widget>[
                       TextFieldCustomizado(
+                        controller: cNome,
                         prefixIcon: Icon(Icons.person),
                         hintText: "Nome",
                       ),
@@ -109,6 +112,7 @@ class _EditaUserState extends State<EditaUser> {
                           ),
                           child: DateTimePicker(
                             dateMask: 'd MMM, yyyy',
+                            controller: cNasci,
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.event),
                               hintText: "Data de Nascimento",
@@ -125,6 +129,7 @@ class _EditaUserState extends State<EditaUser> {
                       ),
                       TextFieldCustomizado(
                         hintText: "E-mail",
+                        controller: cEmail,
                         prefixIcon: Icon(Icons.email),
                         keyboardType: TextInputType.emailAddress,
                       ),
@@ -133,8 +138,9 @@ class _EditaUserState extends State<EditaUser> {
                       ),
                       TextFieldCustomizado(
                         hintText: "Localização",
+                        controller: cLocaliza,
                         prefixIcon: Icon(Icons.location_history),
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.text,
                       ),
                     ],
                   )),
@@ -148,15 +154,28 @@ class _EditaUserState extends State<EditaUser> {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20)),
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      // uploadAndSaveImage();
+                      final bool isConnectd =
+                          await InternetConnectionChecker().hasConnection;
+                      print(isConnectd);
+
                       isConnectd == false
                           ? showDialog(
                               context: context,
                               builder: (builder) {
                                 return ErrorAlertDialog(
-                                    menssagem: "Ligue A sua internet");
+                                  menssagem:
+                                      "Conecte a Internet Para Continuar",
+                                );
                               })
                           : uploadAndSaveImage();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (builder) => PageMenu(),
+                        ),
+                      );
                     },
                     child: Text(
                       "Gravar",
@@ -187,14 +206,14 @@ class _EditaUserState extends State<EditaUser> {
               cNome.text.isNotEmpty &
                   cNasci.text.isNotEmpty &
                   cLocaliza.text.isEmpty
-          ? uploadStorage()
-          : ScaffoldMessenger.of(context).showSnackBar(
+          ? ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.red,
                 duration: Duration(seconds: 2),
                 content: Text("Por favor preencha todo Formulario..."),
               ),
-            );
+            )
+          : uploadStorage();
       print("imagem $imageFile.toString()");
     }
   }
@@ -212,33 +231,65 @@ class _EditaUserState extends State<EditaUser> {
     String nomeImage = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseStorage storage = FirebaseStorage.instance;
     firebase_storage.Reference pastaRaiz = storage.ref();
-    firebase_storage.Reference arquivo = pastaRaiz.child(nomeImage);
+    firebase_storage.Reference arquivo =
+        pastaRaiz.child("fotos").child(nomeImage);
 
     firebase_storage.UploadTask uploadTask = arquivo.putFile(imageFile);
     firebase_storage.TaskSnapshot taskSnapshot =
-        await uploadTask.whenComplete(() {
-      print("Carregado com suscesso");
+        await uploadTask.whenComplete(() {});
+    String url = await taskSnapshot.ref.getDownloadURL();
+    print(url);
+    setState(() {
+      url = userUrl;
+      registaUser();
     });
-    await taskSnapshot.ref.getDownloadURL().then((urlImage) {
-      userUrl = urlImage;
-    });
-    print(userUrl);
-    registaUser();
   }
+
+  //verficar se usuario esta logado
 
 //
   //Registro Do Usuario
   Future registaUser() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
     User fUser;
+    fUser = auth.currentUser;
+
+    if (fUser != null) {
+      FirebaseFirestore.instance.collection("Usuarios").doc(fUser.uid).set({
+        "uid": fUser.uid,
+        "numero": fUser.phoneNumber,
+        "nome": cNome.text.trim(),
+        "Nascimento": cNasci.text.trim(),
+        "emial": cEmail.text.trim(),
+        "localiza": cLocaliza.text.trim(),
+        "foto": userUrl
+      });
+      print("Usuario cadastrado");
+    } else {
+      print("Nao existe enhum usuairo");
+    }
     //chamada de firestore
-    FirebaseFirestore.instance.collection("Usuarios").doc(fUser.uid).set({
-      "uid": fUser.uid,
-      "numero": fUser.phoneNumber,
-      "nome": cNome.text.trim(),
-      "Nascimento": cNasci.text.trim(),
-      "emial": cEmail.text.trim(),
-      "localiza": cLocaliza.text.trim(),
-      "foto": userUrl
-    });
+  }
+
+  Future verficauUsuarioLogado() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User usuarioLogado;
+    usuarioLogado = auth.currentUser;
+    if (usuarioLogado == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AutenticaUser(),
+        ),
+      );
+    } else {
+      print("Voce esta");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    verficauUsuarioLogado();
   }
 }

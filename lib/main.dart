@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
-import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

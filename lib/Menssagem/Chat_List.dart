@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xilhamalisso/Dados_do_Usuario/Detalhes.dart';
+import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 
 class ChatList extends StatelessWidget {
   @override
@@ -47,7 +47,7 @@ class ChatList extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Detalhes(),
+                      builder: (context) => DetalhesUser(),
                     ),
                   );
                 },

@@ -14,7 +14,7 @@ class AutenticaUser extends StatefulWidget {
 }
 
 class _AutenticaUserState extends State<AutenticaUser> {
-  int start = 30;
+  int start = 33;
   bool wait = false;
   bool isvible = true;
   TextEditingController phoneController = TextEditingController();
@@ -59,7 +59,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
                           child: Column(
                             children: [
                               Text(
-                                "Escolha seu Pais e Introduza seu Número",
+                                "Escolha seu País e Introduza seu Número",
                                 style: GoogleFonts.ebGaramond(
                                   fontSize: 19.0,
                                   fontWeight: FontWeight.bold,
@@ -100,10 +100,17 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                 height: 20,
                               ),
                               Container(
-                                width: 330,
+                                width: 335,
                                 child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                    ),
+                                  ),
                                   onPressed: () {
-                                    startTimer();
+                                    //startTimer();
                                     phoneController.text = number.toString();
                                     regitarUserPhone(
                                         phoneController.text.trim(), context);
@@ -193,17 +200,15 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                 if (documents.length == 0) {
                                   print("novo usuario");
                                   Navigator.pop(context);
-                                  Navigator.pushReplacement(
-                                    context,
+                                  Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => EditaUser(),
                                     ),
                                   );
                                 } else {
-                                  print("usuario existete");
+                                  print("Usuario existete");
                                   Navigator.pop(context);
-                                  Navigator.pushReplacement(
-                                    context,
+                                  Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => PageMenu(),
                                     ),
@@ -226,8 +231,6 @@ class _AutenticaUserState extends State<AutenticaUser> {
         },
         codeAutoRetrievalTimeout: null);
   }
-
-  verficaSms() {}
 
   void startTimer() {
     const onsec = Duration(seconds: 1);

@@ -170,12 +170,12 @@ class _EditaUserState extends State<EditaUser> {
                                 );
                               })
                           : uploadAndSaveImage();
-                      Navigator.pushReplacement(
+                      /* Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (builder) => PageMenu(),
                         ),
-                      );
+                      );*/
                     },
                     child: Text(
                       "Gravar",
@@ -238,18 +238,16 @@ class _EditaUserState extends State<EditaUser> {
     firebase_storage.TaskSnapshot taskSnapshot =
         await uploadTask.whenComplete(() {});
     String url = await taskSnapshot.ref.getDownloadURL();
-    print(url);
-    setState(() {
-      url = userUrl;
-      registaUser();
-    });
+    print("url da imagem $url");
+
+    registaUser(url);
   }
 
   //verficar se usuario esta logado
 
 //
   //Registro Do Usuario
-  Future registaUser() async {
+  Future registaUser(String url) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User fUser;
     fUser = auth.currentUser;
@@ -262,9 +260,11 @@ class _EditaUserState extends State<EditaUser> {
         "Nascimento": cNasci.text.trim(),
         "emial": cEmail.text.trim(),
         "localiza": cLocaliza.text.trim(),
-        "foto": userUrl
+        "foto": url
       });
       print("Usuario cadastrado");
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (c) => PageMenu()));
     } else {
       print("Nao existe enhum usuairo");
     }

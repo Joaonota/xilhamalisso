@@ -253,12 +253,17 @@ class _EditaUserState extends State<EditaUser> {
     fUser = auth.currentUser;
 
     if (fUser != null) {
-      FirebaseFirestore.instance.collection("Usuarios").doc(fUser.uid).set({
+      FirebaseFirestore.instance
+          .collection("usuarios")
+          .doc(fUser.uid)
+          .collection("meus_dados")
+          .doc(fUser.phoneNumber)
+          .set({
         "uid": fUser.uid,
         "numero": fUser.phoneNumber,
         "nome": cNome.text.trim(),
-        "Nascimento": cNasci.text.trim(),
-        "emial": cEmail.text.trim(),
+        "nascimento": cNasci.text.trim(),
+        "email": cEmail.text.trim(),
         "localiza": cLocaliza.text.trim(),
         "foto": url
       });
@@ -266,7 +271,7 @@ class _EditaUserState extends State<EditaUser> {
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (c) => PageMenu()));
     } else {
-      print("Nao existe enhum usuairo");
+      print("Nao Foi possivel Cadastar");
     }
     //chamada de firestore
   }

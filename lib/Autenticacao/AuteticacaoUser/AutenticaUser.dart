@@ -144,7 +144,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredencial) async {
           var resul = await _firebaseAuth.signInWithCredential(authCredencial);
-          print("erro");
+          print("erro $resul");
         },
         verificationFailed: (exception) {
           print("fallha{$exception}");
@@ -191,8 +191,11 @@ class _AutenticaUserState extends State<AutenticaUser> {
 
                                 final QuerySnapshot resulta =
                                     await FirebaseFirestore.instance
-                                        .collection("Usuarios")
-                                        .where("id", isEqualTo: user.uid)
+                                        .collection("usuarios")
+                                        .doc(user.uid)
+                                        .collection("meus_dados")
+                                        .where("numero",
+                                            isEqualTo: user.phoneNumber)
                                         .get();
 
                                 final List<DocumentSnapshot> documents =
@@ -234,7 +237,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
 
   void startTimer() {
     const onsec = Duration(seconds: 1);
-    Timer _timer = Timer.periodic(onsec, (timer) {
+    Timer timer = Timer.periodic(onsec, (timer) {
       if (start == 0) {
         setState(() {
           timer.cancel();

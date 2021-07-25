@@ -3,23 +3,56 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 import 'package:xilhamalisso/Menssagem/Chat_List.dart';
+import 'package:xilhamalisso/sobre/sobre.dart';
 
-class PageMenu extends StatelessWidget {
+class PageMenu extends StatefulWidget {
+  @override
+  _PageMenuState createState() => _PageMenuState();
+}
+
+class _PageMenuState extends State<PageMenu> {
+  List<String> itemLista = ["Sobre"];
+
+  itemSelecionado(String itemEscolhido) {
+    switch (itemEscolhido) {
+      case "Sobre":
+        print(itemEscolhido);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (builder) => Sobre()));
+        break;
+      default:
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Ola!"),
         actions: [
           IconButton(
-              onPressed: () {
-                deslogar();
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (builder) => AutenticaUser()));
-              },
-              icon: Icon(
-                Icons.logout_outlined,
-              ))
+            onPressed: () {
+              deslogar();
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (builder) => AutenticaUser()));
+            },
+            icon: Icon(
+              FontAwesomeIcons.powerOff,
+            ),
+          ),
+          PopupMenuButton(
+            onSelected: itemSelecionado,
+            itemBuilder: (contex) {
+              return itemLista.map((String item) {
+                return PopupMenuItem(
+                  child: Text(item),
+                  value: item,
+                );
+              }).toList();
+            },
+          )
         ],
         backgroundColor: Color(0xff000),
       ),
@@ -182,6 +215,12 @@ class PageMenu extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         print("Clicado o quarto Grid");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (builder) => DetalhesUser(),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
-import 'package:xilhamalisso/Menu/Page_menu.dart';
-import 'package:xilhamalisso/Menu/menu.dart';
+import 'Introducao/introducao.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AutenticaUser(),
+      home: new Introducao(),
     );
   }
 }

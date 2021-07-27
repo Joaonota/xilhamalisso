@@ -24,6 +24,7 @@ class EditaUser extends StatefulWidget {
 String userUrl = "";
 File imageFile;
 bool isConnectd;
+String painel = "cliente";
 TextEditingController cEmail = TextEditingController();
 TextEditingController cLocaliza = TextEditingController();
 TextEditingController cNome = TextEditingController();
@@ -262,6 +263,7 @@ class _EditaUserState extends State<EditaUser> {
         "uid": fUser.uid,
         "numero": fUser.phoneNumber,
         "nome": cNome.text.trim(),
+        "painel": painel,
         "nascimento": cNasci.text.trim(),
         "email": cEmail.text.trim(),
         "localiza": cLocaliza.text.trim(),

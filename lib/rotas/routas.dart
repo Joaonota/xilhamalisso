@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
+import 'package:xilhamalisso/Menssagem/menssgaem.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
 
 class RouteGenerator {
@@ -20,6 +21,14 @@ class RouteGenerator {
       case "/meus_dados":
         return MaterialPageRoute(
           builder: (context) => DetalhesUser(),
+        );
+      case "/editar":
+        return MaterialPageRoute(
+          builder: (context) => EditaUser(),
+        );
+      case "/menssagem":
+        return MaterialPageRoute(
+          builder: (context) => Menssagem(),
         );
       case "/editar":
         return MaterialPageRoute(

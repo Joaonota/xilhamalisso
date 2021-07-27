@@ -241,7 +241,7 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                                       ),
                                       Divider(),
                                       Text(
-                                        "Consulta Nutricional",
+                                        "Consulta Nutricionista",
                                         style: TextStyle(
                                             color: Color(0xffaa9166),
                                             fontWeight: FontWeight.bold),

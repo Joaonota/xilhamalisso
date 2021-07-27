@@ -1,11 +1,11 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
-import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
-import 'package:xilhamalisso/Menssagem/Chat_List.dart';
-import 'package:xilhamalisso/sobre/sobre.dart';
+import 'package:xilhamalisso/models/usuarios.dart';
+
+import 'menu.dart';
 
 class PageMenu extends StatefulWidget {
   @override
@@ -13,257 +13,113 @@ class PageMenu extends StatefulWidget {
 }
 
 class _PageMenuState extends State<PageMenu> {
-  List<String> itemLista = ["Sobre"];
+  final _controle = StreamController<QuerySnapshot>.broadcast();
+  String _idDoUsuario;
+  String _numeroDoUsuario;
 
-  itemSelecionado(String itemEscolhido) {
-    switch (itemEscolhido) {
-      case "Sobre":
-        print(itemEscolhido);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (builder) => Sobre()));
-        break;
-      default:
-    }
+  Future _verficaUsuario() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User fUser = await auth.currentUser;
+    _idDoUsuario = fUser.uid;
+    _numeroDoUsuario = fUser.phoneNumber;
+  }
+
+  Future<Stream<QuerySnapshot>> dadosUsurio() async {
+    try {
+      await _verficaUsuario();
+
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      Stream<QuerySnapshot> stream = db
+          .collection("usuarios")
+          .doc(_idDoUsuario)
+          .collection("meus_dados")
+          .where("numero", isEqualTo: _numeroDoUsuario)
+          .snapshots();
+
+      ///
+      stream.listen((dados) {
+        _controle.add(dados);
+      });
+      print("id do usuario{$_idDoUsuario}");
+    } catch (e) {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    dadosUsurio();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Ola!"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              deslogar();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (builder) => AutenticaUser()));
-            },
-            icon: Icon(
-              FontAwesomeIcons.powerOff,
-            ),
+    var _carregarDados = Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            color: Colors.red,
+            backgroundColor: Colors.blue,
           ),
-          PopupMenuButton(
-            onSelected: itemSelecionado,
-            itemBuilder: (contex) {
-              return itemLista.map((String item) {
-                return PopupMenuItem(
-                  child: Text(item),
-                  value: item,
-                );
-              }).toList();
-            },
+          Text(
+            "Carregando Seus Dados Agurde",
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
+            ),
           )
         ],
-        backgroundColor: Color(0xff000),
-      ),
-      backgroundColor: Color(0xff000), //Color(0xff101018),
-      body: Container(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  decoration: BoxDecoration(color: Color(0xffaa9166)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(),
-                            child: Text(
-                              "Xilhamalisso",
-                              style: GoogleFonts.ebGaramond(
-                                  fontSize: 50,
-                                  color: Color(0xff121518),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              "Melhor Serviço Online",
-                              style: GoogleFonts.ebGaramond(
-                                  fontSize: 25, color: Color(0xff121518)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  children: [
-                    //primeiro Grid
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatList(),
-                          ),
-                        );
-                        print("Clicado o primeiro Grid");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: Color(0xff121518),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.balanceScale,
-                                size: 85,
-                                color: Color(0xffaa9166),
-                              ),
-                              Divider(),
-                              Text(
-                                "Consultas Jurídicas",
-                                style: GoogleFonts.ebGaramond(
-                                    fontSize: 18.0,
-                                    color: Color(0xffaa9166),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    //segundo grid
-                    GestureDetector(
-                      onTap: () {
-                        print("Clicado o segudno Grid");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: Color(0xff121518),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.users,
-                                size: 85,
-                                color: Color(0xffaa9166),
-                              ),
-                              Divider(),
-                              Text(
-                                "Assistencia Psicológica",
-                                style: GoogleFonts.ebGaramond(
-                                    fontSize: 18.0,
-                                    color: Color(0xffaa9166),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    //Terceiro grid
-                    GestureDetector(
-                      onTap: () {
-                        print("Clicado o terceiro grid");
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: Color(0xff121518),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.handHoldingHeart,
-                                size: 85,
-                                color: Color(0xffaa9166),
-                              ),
-                              Divider(),
-                              Text(
-                                "Consulta a Nutricionista",
-                                style: GoogleFonts.ebGaramond(
-                                    fontSize: 16.5,
-                                    color: Color(0xffaa9166),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    //Quarto grid
-                    GestureDetector(
-                      onTap: () {
-                        print("Clicado o quarto Grid");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (builder) => DetalhesUser(),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: Color(0xff121518),
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.userAlt,
-                                size: 85,
-                                color: Color(0xffaa9166),
-                              ),
-                              Divider(),
-                              Text(
-                                "Minha Conta",
-                                style: GoogleFonts.ebGaramond(
-                                    fontSize: 18.0,
-                                    color: Color(0xffaa9166),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
       ),
     );
-  }
-
-  Future deslogar() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    await auth.signOut();
+    return Scaffold(
+      backgroundColor: Color(0xff000),
+      body: StreamBuilder(
+        stream: _controle.stream,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return _carregarDados;
+              break;
+            case ConnectionState.active:
+            case ConnectionState.done:
+              //exibe menssagem de Erro
+              if (snapshot.hasError) {
+                try {
+                  if (snapshot.hasError) {
+                    return Column(
+                      children: [
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.red,
+                        ),
+                        Text("Erro ao Carregar os Dados :("),
+                      ],
+                    );
+                  }
+                } catch (e, s) {
+                  print("erro{$s}");
+                }
+              }
+              QuerySnapshot querySnapshot = snapshot.data;
+              return ListView.builder(
+                  itemCount: querySnapshot.docs.length,
+                  itemBuilder: (context, indice) {
+                    List<DocumentSnapshot> usuariosx =
+                        querySnapshot.docs.toList();
+                    DocumentSnapshot docomentSnap = usuariosx[indice];
+                    Usuarios usuarios =
+                        Usuarios.fromDocumentSnapshot(docomentSnap);
+                    return DetalhesMenu(
+                      usuarios: usuarios,
+                    );
+                  });
+          }
+          return Center(
+            child: Container(
+              child: Text("Sem dados"),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

@@ -93,10 +93,10 @@ class _DetalhesUserState extends State<DetalhesUser> {
                         CircularProgressIndicator(
                           backgroundColor: Colors.red,
                         ),
-                        Text("Erro ao Carregar os Dados"),
+                        Text("Erro ao Carregar os Dados :("),
                       ],
                     );
-                  } else {}
+                  }
                 } catch (e, s) {
                   print("erro{$s}");
                 }

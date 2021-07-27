@@ -38,7 +38,7 @@ class Usuarios {
   Usuarios.fromDocumentSnapshot(dynamic documentSnapshot) {
     this.uid = documentSnapshot.id;
     this.nome = documentSnapshot.data()['nome'];
-    this.dataNas = documentSnapshot.data()['foto'];
+    this.dataNas = documentSnapshot.data()['nascimento'];
     this.email = documentSnapshot.data()['email'];
     this.numero = documentSnapshot.data()['numero'];
     this.localizacao = documentSnapshot.data()['localiza'];

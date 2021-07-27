@@ -177,8 +177,9 @@ class Detalhes extends StatelessWidget {
                         Container(
                           width: 150,
                           decoration: BoxDecoration(
-                              color: Color(0xffaa9166),
-                              borderRadius: BorderRadius.circular(15)),
+                            color: Color(0xffaa9166),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           child: TextButton(
                             onPressed: () {
                               showDialog(

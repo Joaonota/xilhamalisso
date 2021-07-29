@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Introducao/introducao.dart';
+import 'package:xilhamalisso/profissiona/EditaProfissional.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new Introducao(),
+      home: EditaProfissional(), //new Introducao(), //ChatList()
     );
   }
 }

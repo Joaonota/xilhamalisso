@@ -32,7 +32,11 @@ class TextFieldCustomizado extends StatelessWidget {
             decoration: InputDecoration(
               prefixIcon: this.prefixIcon,
               hintText: this.hintText,
-              border: InputBorder.none,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12),
+                ),
+              ),
             ),
           ),
         ),

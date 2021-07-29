@@ -14,15 +14,16 @@ class DetalhesUser extends StatefulWidget {
 class _DetalhesUserState extends State<DetalhesUser> {
   final _controle = StreamController<QuerySnapshot>.broadcast();
   String _idDoUsuario;
-  String _numeroDoUsuario;
+  // String _numeroDoUsuario;
 
   Future _verficaUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    User fUser = await auth.currentUser;
+    User fUser = auth.currentUser;
     _idDoUsuario = fUser.uid;
-    _numeroDoUsuario = fUser.phoneNumber;
+    //_numeroDoUsuario = fUser.phoneNumber;
   }
 
+  // ignore: missing_return
   Future<Stream<QuerySnapshot>> dadosUsurio() async {
     try {
       await _verficaUsuario();
@@ -30,9 +31,7 @@ class _DetalhesUserState extends State<DetalhesUser> {
       FirebaseFirestore db = FirebaseFirestore.instance;
       Stream<QuerySnapshot> stream = db
           .collection("usuarios")
-          .doc(_idDoUsuario)
-          .collection("meus_dados")
-          .where("numero", isEqualTo: _numeroDoUsuario)
+          .where("uid", isEqualTo: _idDoUsuario)
           .snapshots();
 
       ///

@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
+import 'package:xilhamalisso/Menssagem/Chat_List.dart';
 import 'package:xilhamalisso/Menssagem/menssgaem.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings definicoes) {
+  // ignore: missing_return
+  static Future<Route> generateRoute(RouteSettings definicoes) async {
+    // ignore: unused_local_variable
     final args = definicoes.arguments;
     switch (definicoes.name) {
       case "/":
@@ -34,6 +36,11 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => EditaUser(),
         );
+      case "listachat":
+        return MaterialPageRoute(
+          builder: (context) => ChatList(),
+        );
+        break;
       default:
         erooRouta();
     }

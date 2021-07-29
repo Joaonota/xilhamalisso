@@ -5,7 +5,9 @@ class Usuarios {
   String _email;
   String _numero;
   String _localizacao;
+  String _atuacao;
   String _foto;
+
   String get uid => this._uid;
 
   set uid(String value) => this._uid = value;
@@ -30,6 +32,10 @@ class Usuarios {
 
   set localizacao(value) => this._localizacao = value;
 
+  get atuacao => this._atuacao;
+
+  set atuacao(value) => this._atuacao = value;
+
   get foto => this._foto;
 
   set foto(value) => this._foto = value;
@@ -43,6 +49,7 @@ class Usuarios {
     this.numero = documentSnapshot.data()['numero'];
     this.localizacao = documentSnapshot.data()['localiza'];
     this.foto = documentSnapshot.data()['foto'];
+    this.atuacao = documentSnapshot.data()["atuacao"];
   }
   Map<String, dynamic> toMap() {
     Map<String, dynamic> mapa = {
@@ -52,6 +59,7 @@ class Usuarios {
       "email": this.email,
       "numero": this.numero,
       "localiza": this.localizacao,
+      "atuacao": this.atuacao,
       "foto": this.foto,
     };
     return mapa;

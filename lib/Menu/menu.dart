@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 import 'package:xilhamalisso/models/usuarios.dart';
 import 'package:xilhamalisso/sobre/sobre.dart';
+
+import 'Chat_List.dart';
 
 class DetalhesMenu extends StatefulWidget {
   final Usuarios usuarios;
@@ -41,7 +44,7 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                               Row(
                                 children: [
                                   Text(
-                                    "OlA",
+                                    "",
                                     style: GoogleFonts.ebGaramond(
                                         fontSize: 23,
                                         fontWeight: FontWeight.bold),
@@ -50,7 +53,7 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                                     width: 5,
                                   ),
                                   Text(
-                                    widget.usuarios.nome,
+                                    "",
                                     style: GoogleFonts.ebGaramond(
                                         fontSize: 20,
                                         color: Colors.white,
@@ -111,95 +114,108 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
               ),
 
               /// Aqui Comeca o grid
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Primeiro e segundo Grid
-                      Container(
-                        child: Row(
-                          children: [
-                            //Priemiro Grid
-                            SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Color(0xff121518),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 20),
-                                        child: Icon(
-                                          FontAwesomeIcons.balanceScale,
-                                          size: 85,
-                                          color: Color(0xffaa9166),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Consultas Jurídicas",
-                                        style: GoogleFonts.ebGaramond(
-                                            fontSize: 18.0,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatList(),
+                    ),
+                  );
+                  print("Clicado o primeiro Grid");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Primeiro e segundo Grid
+                        Container(
+                          child: Row(
+                            children: [
+                              //Priemiro Grid
+                              SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14),
+                                    color: Color(0xff121518),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 20),
+                                          child: Icon(
+                                            FontAwesomeIcons.balanceScale,
+                                            size: 85,
                                             color: Color(0xffaa9166),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                          ),
+                                        ),
+                                        Divider(),
+                                        Text(
+                                          "Consultas Jurídicas",
+                                          style: GoogleFonts.ebGaramond(
+                                              fontSize: 18.0,
+                                              color: Color(0xffaa9166),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 29,
-                            ),
-                            //Segundo grid
-                            SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Color(0xff121518),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 20),
-                                        child: Icon(
-                                          FontAwesomeIcons.users,
-                                          size: 85,
-                                          color: Color(0xffaa9166),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Assistencia Psicológica",
-                                        style: GoogleFonts.ebGaramond(
-                                            fontSize: 18.0,
+                              SizedBox(
+                                width: 29,
+                              ),
+                              //Segundo grid
+                              SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14),
+                                    color: Color(0xff121518),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 20),
+                                          child: Icon(
+                                            FontAwesomeIcons.users,
+                                            size: 85,
                                             color: Color(0xffaa9166),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                          ),
+                                        ),
+                                        Divider(),
+                                        Text(
+                                          "Assistencia Psicológica",
+                                          style: GoogleFonts.ebGaramond(
+                                              fontSize: 15.0,
+                                              color: Color(0xffaa9166),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -207,7 +223,7 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
               Divider(),
               //aqui comeca a segunda linha
               Padding(
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 10),
                 child: Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -218,8 +234,8 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                           children: [
                             //Priemiro Grid
                             SizedBox(
-                              width: 160,
-                              height: 160,
+                              width: 150,
+                              height: 150,
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(14),
@@ -242,7 +258,8 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                                       Divider(),
                                       Text(
                                         "Consulta Nutricionista",
-                                        style: TextStyle(
+                                        style: GoogleFonts.ebGaramond(
+                                            fontSize: 15.0,
                                             color: Color(0xffaa9166),
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -255,37 +272,49 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                               width: 29,
                             ),
                             //Segundo grid
-                            SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Color(0xff121518),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 20),
-                                        child: Icon(
-                                          FontAwesomeIcons.userAlt,
-                                          size: 85,
-                                          color: Color(0xffaa9166),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Minha Conta",
-                                        style: GoogleFonts.ebGaramond(
-                                            fontSize: 18.0,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetalhesUser(),
+                                  ),
+                                );
+                                print("Clicado o Utimo  Grid");
+                              },
+                              child: SizedBox(
+                                width: 150,
+                                height: 150,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14),
+                                    color: Color(0xff121518),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 20),
+                                          child: Icon(
+                                            FontAwesomeIcons.userAlt,
+                                            size: 85,
                                             color: Color(0xffaa9166),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                                          ),
+                                        ),
+                                        Divider(),
+                                        Text(
+                                          "Minha Conta",
+                                          style: GoogleFonts.ebGaramond(
+                                              fontSize: 18.0,
+                                              color: Color(0xffaa9166),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

@@ -44,7 +44,6 @@ class _EditaUserState extends State<EditaUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff291b12),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xff291b12),
@@ -117,7 +116,11 @@ class _EditaUserState extends State<EditaUser> {
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.event),
                               hintText: "Data de Nascimento",
-                              border: InputBorder.none,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                              ),
                             ),
                             type: DateTimePickerType.date,
                             firstDate: DateTime(197),
@@ -254,12 +257,7 @@ class _EditaUserState extends State<EditaUser> {
     fUser = auth.currentUser;
 
     if (fUser != null) {
-      FirebaseFirestore.instance
-          .collection("usuarios")
-          .doc(fUser.uid)
-          .collection("meus_dados")
-          .doc(fUser.phoneNumber)
-          .set({
+      FirebaseFirestore.instance.collection("usuarios").doc(fUser.uid).set({
         "uid": fUser.uid,
         "numero": fUser.phoneNumber,
         "nome": cNome.text.trim(),

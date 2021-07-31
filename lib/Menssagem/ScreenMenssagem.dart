@@ -1,17 +1,69 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/Menu/menssgaem.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
+import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'chat_list_screen.dart';
 
-class Menssagem extends StatefulWidget {
+class ScreenMenssagem extends StatefulWidget {
+  final User receiver;
+
+  const ScreenMenssagem({Key key, this.receiver}) : super(key: key);
   @override
   _MenssagemState createState() => _MenssagemState();
 }
 
-class _MenssagemState extends State<Menssagem> {
+class _MenssagemState extends State<ScreenMenssagem> {
   TextEditingController textEditingController = TextEditingController();
+
+  final _controle = StreamController<QuerySnapshot>.broadcast();
+  //
   bool iswrite = false;
+  User sender;
+  String _currentUserID;
+
+  //
+
+  ///
+  Future _verficaUsuario() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User fUser = auth.currentUser;
+    _currentUserID = fUser.uid;
+    //_numeroDoUsuario = fUser.phoneNumber;
+  }
+
+  Future<Stream<QuerySnapshot>> mostraMenssagem() async {
+    try {
+      await _verficaUsuario();
+
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      Stream<QuerySnapshot> stream = db
+          .collection("menssagem")
+          .doc(_currentUserID)
+          .collection(widget.receiver.uid)
+          .orderBy("field", descending: true)
+          .snapshots();
+
+      ///
+      stream.listen((dados) {
+        _controle.add(dados);
+      });
+      print("id do usuario{$_currentUserID}");
+    } catch (e) {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    mostraMenssagem();
+  }
+
+  ///
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,46 +126,41 @@ class _MenssagemState extends State<Menssagem> {
 
 //Lista de Menssagem
   Widget listaMenssagem() {
-    return ListView.builder(
-      padding: EdgeInsets.all(10),
-      itemCount: 1,
-      itemBuilder: (contex, index) {
-        return Column(
-          children: [
-            chatMessageItem(),
-            chatMessageItem1(),
-          ],
+    return StreamBuilder(
+      stream: _controle.stream,
+      builder: (context, snapshot) {
+        if (snapshot == null) {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+        return ListView.builder(
+          itemCount: snapshot.data.documents.length,
+          itemBuilder: (context, index) {
+            return chatMessageItem(snapshot.data.documents[index]);
+          },
         );
       },
     );
   }
 
 //Item onde contem menssagem
-  Widget chatMessageItem() {
+  Widget chatMessageItem(DocumentSnapshot snapshot) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15),
       child: Container(
-        alignment: Alignment.centerRight,
-        child: Column(
-          children: [senderLayout()],
-        ),
-      ),
+          alignment: snapshot["senderID"] == _currentUserID
+              ? Alignment.centerRight
+              : Alignment.centerLeft,
+          child: snapshot["senderID"] == _currentUserID
+              ? senderLayout(snapshot)
+              : receiveLayout(snapshot)),
     );
   }
 
-  Widget chatMessageItem1() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15),
-      child: Container(
-        alignment: Alignment.centerLeft,
-        child: Column(
-          children: [receiveLayout()],
-        ),
-      ),
-    );
-  }
-
-  Widget senderLayout() {
+  Widget senderLayout(DocumentSnapshot snapshot) {
     Radius messageRadius = Radius.circular(10);
 
     return Container(
@@ -129,17 +176,20 @@ class _MenssagemState extends State<Menssagem> {
           bottomLeft: messageRadius,
         ),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Text(
-          "Um campo de chat que so será accionado mediante o pagamento de uma taxa de 50mt.",
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
+      child:
+          Padding(padding: EdgeInsets.all(10), child: getMenssagem(snapshot)),
     );
   }
 
-  Widget receiveLayout() {
+  getMenssagem(DocumentSnapshot snapshot) {
+    return Text(
+      snapshot["menssagem"],
+      style: TextStyle(color: Colors.white, fontSize: 16),
+    );
+  }
+
+  //
+  Widget receiveLayout(DocumentSnapshot snapshot) {
     Radius menssagemRadius = Radius.circular(10);
     return Container(
       margin: EdgeInsets.only(top: 12),
@@ -155,12 +205,46 @@ class _MenssagemState extends State<Menssagem> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Text(
-          "OK.",
-          style: TextStyle(fontSize: 16),
-        ),
+        child: getMenssagem(snapshot),
       ),
     );
+  }
+
+  Future<void> addMenssagemDb(
+      ModelMenssagem menssagem, User sender, User receive) async {
+    var map = menssagem.toMap();
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    await db
+        .collection("menssagem")
+        .doc(menssagem.senderID)
+        .collection(menssagem.receiverID)
+        .add(map);
+
+    ///
+    return await db
+      ..collection("menssagem")
+          .doc(menssagem.receiverID)
+          .collection(menssagem.senderID)
+          .add(map);
+  }
+
+  mandarMennsagem() {
+    var text = textEditingController.text;
+
+    //
+    ModelMenssagem modelMenssagem = ModelMenssagem(
+      receiverID: widget.receiver.uid,
+      senderID: sender.uid,
+      menssagem: text,
+      tipo: "texto",
+      timestamp: Timestamp.now(),
+    );
+    //
+    setState(() {
+      iswrite = false;
+    });
+    addMenssagemDb(modelMenssagem, sender, widget.receiver);
   }
 
 //Aqui e parte onde se escreve menssagem
@@ -239,7 +323,7 @@ class _MenssagemState extends State<Menssagem> {
                         Icons.send,
                         size: 19,
                       ),
-                      onPressed: () {},
+                      onPressed: () => mandarMennsagem(),
                     ),
                   )
                 : Container()

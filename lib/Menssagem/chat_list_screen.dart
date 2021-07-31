@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
-import 'menssgaem.dart';
+import 'ScreenMenssagem.dart';
 
 class ChatListScreen extends StatefulWidget {
   @override
@@ -68,7 +68,7 @@ class _ChatListContainerState extends State<ChatListContainer> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Menssagem(),
+                  builder: (context) => ScreenMenssagem(),
                 ),
               );
             },

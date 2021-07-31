@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
-import 'package:xilhamalisso/Dados_do_Usuario/detalhaPro/Detalhes.dart';
 import 'package:xilhamalisso/Menssagem/Chat_List.dart';
-import 'package:xilhamalisso/Menssagem/menssgaem.dart';
+import 'package:xilhamalisso/Menssagem/ScreenMenssagem.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
-import 'package:xilhamalisso/profissional/Detalhespro.dart';
 
 class RouteGenerator {
   // ignore: missing_return
@@ -32,7 +30,7 @@ class RouteGenerator {
         );
       case "/menssagem":
         return MaterialPageRoute(
-          builder: (context) => Menssagem(),
+          builder: (context) => ScreenMenssagem(),
         );
       case "/editar":
         return MaterialPageRoute(

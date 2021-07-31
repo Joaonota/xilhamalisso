@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xilhamalisso/Menssagem/Screenmenssagem.dart';
 import 'package:xilhamalisso/models/usuarios.dart';
 
 class DetalhesPros extends StatelessWidget {
@@ -215,7 +216,13 @@ class DetalhesPros extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15)),
                           child: TextButton(
                             onPressed: () {
-                              showDialog(
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ScreenMenssagem(
+                                            receiver: usuarios.numero,
+                                          )));
+                              /* showDialog(
                                   context: context,
                                   builder: (BuildContext builder) {
                                     return AlertDialog(
@@ -258,7 +265,7 @@ class DetalhesPros extends StatelessWidget {
                                         ),
                                       ],
                                     );
-                                  });
+                                  });*/
                             },
                             child: Text(
                               "Menssagem",

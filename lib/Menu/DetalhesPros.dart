@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xilhamalisso/models/usuarios.dart';
 
-class Detalhes extends StatelessWidget {
-  Detalhes(Object args);
+class DetalhesPros extends StatelessWidget {
+  final Usuarios usuarios;
+
+  const DetalhesPros({Key key, this.usuarios}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.brown,
+      ),
       body: Container(
         decoration: BoxDecoration(
           color: Color(0xffebedf9),
@@ -62,9 +68,25 @@ class Detalhes extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
-                                      child: CircleAvatar(
-                                        maxRadius: 40,
-                                        minRadius: 40,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (builder) {
+                                                return AlertDialog(
+                                                  content: Container(
+                                                      child: Image.network(
+                                                    usuarios.foto,
+                                                  )),
+                                                );
+                                              });
+                                        },
+                                        child: CircleAvatar(
+                                          maxRadius: 40,
+                                          minRadius: 40,
+                                          backgroundImage:
+                                              NetworkImage(usuarios.foto),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -89,14 +111,14 @@ class Detalhes extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      "João Manuel Nota",
+                                      usuarios.nome,
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xffaa9166)),
                                     ),
                                     Text(
-                                      "Informatico".toUpperCase(),
+                                      usuarios.atuacao.toUpperCase(),
                                       style: TextStyle(
                                         color: Color(0xffaa9166),
                                       ),
@@ -123,7 +145,7 @@ class Detalhes extends StatelessWidget {
                                     color: Color(0xffaa9166),
                                   ),
                                   Text(
-                                    "(+258)8459-82017",
+                                    usuarios.numero,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -139,7 +161,7 @@ class Detalhes extends StatelessWidget {
                                     color: Color(0xffaa9166),
                                   ),
                                   Text(
-                                    "joaoteste@gmail.com",
+                                    usuarios.email,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -160,11 +182,21 @@ class Detalhes extends StatelessWidget {
                               children: [
                                 Icon(Icons.location_history,
                                     color: Color(0xffaa9166)),
-                                Text(
-                                  "Av. Julius Nherere",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Av.",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      usuarios.localizacao,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
@@ -179,9 +211,8 @@ class Detalhes extends StatelessWidget {
                         Container(
                           width: 150,
                           decoration: BoxDecoration(
-                            color: Color(0xffaa9166),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                              color: Color(0xffaa9166),
+                              borderRadius: BorderRadius.circular(15)),
                           child: TextButton(
                             onPressed: () {
                               showDialog(

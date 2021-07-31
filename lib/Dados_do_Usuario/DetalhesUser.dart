@@ -59,7 +59,7 @@ class _DetalhesUserState extends State<DetalhesUser> {
             backgroundColor: Colors.blue,
           ),
           Text(
-            "Carregando Seus Dados Agurde",
+            "Carregando Seus Dados Aguarde",
             style: TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.bold,

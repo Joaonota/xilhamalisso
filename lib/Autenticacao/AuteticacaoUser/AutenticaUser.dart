@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
-import 'package:xilhamalisso/Menu/Page_menu.dart';
+import 'package:xilhamalisso/profissional/dasboardPro.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override
@@ -110,6 +110,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    // alertCircular();
                                     //startTimer();
                                     phoneController.text = number.toString();
                                     regitarUserPhone(
@@ -192,10 +193,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                 final QuerySnapshot resulta =
                                     await FirebaseFirestore.instance
                                         .collection("usuarios")
-                                        .doc(user.uid)
-                                        .collection("meus_dados")
-                                        .where("numero",
-                                            isEqualTo: user.phoneNumber)
+                                        .where("uid", isEqualTo: user.uid)
                                         .get();
 
                                 final List<DocumentSnapshot> documents =
@@ -210,12 +208,31 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                   );
                                 } else {
                                   print("Usuario existete");
-                                  Navigator.pop(context);
+                                  if (documents.length == 1) {
+                                    await FirebaseFirestore.instance
+                                        .collection("usuarios")
+                                        .where("painel", isEqualTo: "pro")
+                                        .get();
+                                    final List<DocumentSnapshot> documentsc =
+                                        resulta.docs;
+                                    if (documentsc.length == 1) {
+                                      print("profissional");
+                                      Navigator.pop(context);
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => DasBoardPro(),
+                                        ),
+                                      );
+                                    }
+                                  } else {}
+
+                                  ////
+                                  /*Navigator.pop(context);
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => PageMenu(),
                                     ),
-                                  );
+                                  );*/
                                 }
                               } else {
                                 print("erro");
@@ -233,6 +250,18 @@ class _AutenticaUserState extends State<AutenticaUser> {
               });
         },
         codeAutoRetrievalTimeout: null);
+  }
+
+  alertCircular() {
+    showDialog(
+        context: context,
+        builder: (builder) {
+          return AlertDialog(
+            content: Column(
+              children: [CircularProgressIndicator(), Text("Agurde o Codigo")],
+            ),
+          );
+        });
   }
 
   void startTimer() {

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/Menu/DetalhesPros.dart';
 import 'package:xilhamalisso/models/usuarios.dart';
 
 class ChatList extends StatefulWidget {
@@ -17,7 +18,7 @@ class _ChatListState extends State<ChatList> {
   Future<Stream<QuerySnapshot>> listaUsuarios() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     Stream<QuerySnapshot> stream =
-        db.collection("usuarios").where("painel", isEqualTo: "Pro").snapshots();
+        db.collection("usuarios").where("painel", isEqualTo: "pro").snapshots();
     //
     stream.listen((dados) {
       _controle.add(dados);
@@ -102,12 +103,20 @@ class _ChatListState extends State<ChatList> {
                             SizedBox(
                               height: 10,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  print("Clicado");
-                                },
+                            GestureDetector(
+                              onTap: () {
+                                print("Clicado");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetalhesPros(
+                                      usuarios: usuarios,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   child: Card(
                                     shape: RoundedRectangleBorder(

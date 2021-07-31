@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:xilhamalisso/profissiona/EditaProfissional.dart';
+import 'package:xilhamalisso/profissional/dasboardPro.dart';
+
+import 'Introducao/introducao.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,13 +16,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Xilhamalisso',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: EditaProfissional(), //new Introducao(), //ChatList()
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Xilhamalisso',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: new DasBoardPro() //EditaProfissional(),, //ChatList()
+        );
   }
 }
 /*initialRoute: "/",

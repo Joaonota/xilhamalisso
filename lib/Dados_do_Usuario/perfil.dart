@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xilhamalisso/models/usuarios.dart';
+import 'package:xilhamalisso/models/Usuarios.dart';
 
 class Perfil extends StatelessWidget {
   final Usuarios usuarios;

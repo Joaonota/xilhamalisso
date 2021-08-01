@@ -3,17 +3,18 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/Menu/menssgaem.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
+
+import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'chat_list_screen.dart';
 
 class ScreenMenssagem extends StatefulWidget {
-  final User receiver;
+  final Usuarios receiver;
 
-  const ScreenMenssagem({Key key, this.receiver}) : super(key: key);
+  const ScreenMenssagem({this.receiver});
   @override
   _MenssagemState createState() => _MenssagemState();
 }
@@ -23,20 +24,25 @@ class _MenssagemState extends State<ScreenMenssagem> {
 
   final _controle = StreamController<QuerySnapshot>.broadcast();
   //
+
   bool iswrite = false;
-  User sender;
+  Usuarios sender;
   String _currentUserID;
+  Radius messageRadius = Radius.circular(10);
 
   //
+  String receives;
 
   ///
   Future _verficaUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User fUser = auth.currentUser;
     _currentUserID = fUser.uid;
+
     //_numeroDoUsuario = fUser.phoneNumber;
   }
 
+  FirebaseFirestore db = FirebaseFirestore.instance;
   Future<Stream<QuerySnapshot>> mostraMenssagem() async {
     try {
       await _verficaUsuario();
@@ -46,14 +52,23 @@ class _MenssagemState extends State<ScreenMenssagem> {
           .collection("menssagem")
           .doc(_currentUserID)
           .collection(widget.receiver.uid)
-          .orderBy("field", descending: true)
+          .orderBy("timestamp", descending: true)
           .snapshots();
 
+      ///
+      ///db
+      ///.collection("menssagem")
+      // .doc(_currentUserID)
+      //.collection(widget.receiver.uid)
+      // .orderBy("field", descending: true)
+      // .snapshots(),
+
+      ///
       ///
       stream.listen((dados) {
         _controle.add(dados);
       });
-      print("id do usuario{$_currentUserID}");
+      print(receives);
     } catch (e) {}
   }
 
@@ -61,6 +76,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
   void initState() {
     super.initState();
     mostraMenssagem();
+    //_verficaUsuario();
   }
 
   ///
@@ -92,7 +108,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
         ),
         centerTitle: false,
         title: Text(
-          "Joao Nota",
+          widget.receiver.nome,
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -126,125 +142,181 @@ class _MenssagemState extends State<ScreenMenssagem> {
 
 //Lista de Menssagem
   Widget listaMenssagem() {
+    var _carregarDados = Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            color: Colors.red,
+            backgroundColor: Colors.blue,
+          ),
+          Text(
+            "Carregando Sua Conversa",
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      ),
+    );
     return StreamBuilder(
       stream: _controle.stream,
       builder: (context, snapshot) {
-        if (snapshot == null) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.red,
-            ),
-          );
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return _carregarDados;
+            break;
+          case ConnectionState.active:
+          case ConnectionState.done:
+            if (snapshot.hasError) {
+              try {
+                if (snapshot.hasError) {
+                  return Column(
+                    children: [
+                      CircularProgressIndicator(
+                        backgroundColor: Colors.red,
+                      ),
+                      Text("Erro ao Carregar os Dados :("),
+                    ],
+                  );
+                }
+              } catch (e, s) {
+                print("erro{$s}");
+              }
+            }
+            QuerySnapshot querySnapshot = snapshot.data;
+            return ListView.builder(
+                itemCount: querySnapshot.docs.length,
+                itemBuilder: (context, indice) {
+                  List<DocumentSnapshot> mensagex = querySnapshot.docs.toList();
+                  DocumentSnapshot docomentSnap = mensagex[indice];
+                  ModelMenssagem usuarios =
+                      ModelMenssagem.fromDocumentSnapshot(docomentSnap);
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 15),
+                    child: Container(
+                      alignment: usuarios.senderID == _currentUserID
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        child: usuarios.senderID == _currentUserID
+                            ? Container(
+                                margin: EdgeInsets.only(top: 12),
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.65,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color(0xffdde1ed),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: messageRadius,
+                                    topRight: messageRadius,
+                                    bottomLeft: messageRadius,
+                                  ),
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      usuarios.menssagem,
+                                      style: TextStyle(
+                                          color: Colors.green, fontSize: 16),
+                                    )),
+                              )
+                            : Container(
+                                margin: EdgeInsets.only(top: 12),
+                                constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width *
+                                            0.65),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: messageRadius,
+                                    topRight: messageRadius,
+                                    bottomLeft: messageRadius,
+                                  ),
+                                  color: Color(0xffffffff),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        usuarios.menssagem,
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 16),
+                                      )),
+                                ),
+                              ),
+                      ),
+                    ),
+                  );
+                });
         }
-        return ListView.builder(
-          itemCount: snapshot.data.documents.length,
-          itemBuilder: (context, index) {
-            return chatMessageItem(snapshot.data.documents[index]);
-          },
+        return Container(
+          child: Text("Sem Dados"),
         );
       },
     );
   }
 
-//Item onde contem menssagem
-  Widget chatMessageItem(DocumentSnapshot snapshot) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15),
-      child: Container(
-          alignment: snapshot["senderID"] == _currentUserID
-              ? Alignment.centerRight
-              : Alignment.centerLeft,
-          child: snapshot["senderID"] == _currentUserID
-              ? senderLayout(snapshot)
-              : receiveLayout(snapshot)),
-    );
-  }
-
-  Widget senderLayout(DocumentSnapshot snapshot) {
-    Radius messageRadius = Radius.circular(10);
-
-    return Container(
-      margin: EdgeInsets.only(top: 12),
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.65,
-      ),
-      decoration: BoxDecoration(
-        color: Color(0xffdde1ed),
-        borderRadius: BorderRadius.only(
-          topLeft: messageRadius,
-          topRight: messageRadius,
-          bottomLeft: messageRadius,
-        ),
-      ),
-      child:
-          Padding(padding: EdgeInsets.all(10), child: getMenssagem(snapshot)),
-    );
-  }
-
-  getMenssagem(DocumentSnapshot snapshot) {
-    return Text(
-      snapshot["menssagem"],
-      style: TextStyle(color: Colors.white, fontSize: 16),
-    );
-  }
-
-  //
-  Widget receiveLayout(DocumentSnapshot snapshot) {
-    Radius menssagemRadius = Radius.circular(10);
-    return Container(
-      margin: EdgeInsets.only(top: 12),
-      constraints:
-          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomRight: menssagemRadius,
-          topRight: menssagemRadius,
-          bottomLeft: menssagemRadius,
-        ),
-        color: Color(0xffffffff),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: getMenssagem(snapshot),
-      ),
-    );
-  }
-
-  Future<void> addMenssagemDb(
-      ModelMenssagem menssagem, User sender, User receive) async {
-    var map = menssagem.toMap();
-    FirebaseFirestore db = FirebaseFirestore.instance;
-
-    await db
+//
+  adicinatodb(String text) async {
+    var db = FirebaseFirestore.instance
         .collection("menssagem")
-        .doc(menssagem.senderID)
-        .collection(menssagem.receiverID)
-        .add(map);
+        .doc(_currentUserID)
+        .collection(widget.receiver.uid)
+        .doc("menssagem");
 
-    ///
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(
+        db,
+        {
+          'senderID': _currentUserID,
+          'menssagem': text,
+          'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+          'receiverID': receives,
+          'tipo': "texto"
+        },
+      );
+    });
+
+    /* await db
+        .collection("menssagem")
+        .doc(_currentUserID)
+        .collection(widget.receiver.uid)
+        .doc("menssagem")
+        .set({
+      "senderID": _currentUserID,
+      "menssagem": text,
+      "tipo": "texto",
+      "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
+      "receiverID": receives,
+    });
+
     return await db
-      ..collection("menssagem")
-          .doc(menssagem.receiverID)
-          .collection(menssagem.senderID)
-          .add(map);
+        .collection("menssagem")
+        .doc(widget.receiver.uid)
+        .collection(_currentUserID)
+        .doc("menssagem")
+        .set({
+      "senderID": _currentUserID,
+      "menssagem": text,
+      "tipo": "texto",
+      "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
+      "receiverID": receives,
+    });*/
   }
 
-  mandarMennsagem() {
-    var text = textEditingController.text;
+  mandarMennsagem() async {
+    var texto = textEditingController.text;
 
-    //
-    ModelMenssagem modelMenssagem = ModelMenssagem(
-      receiverID: widget.receiver.uid,
-      senderID: sender.uid,
-      menssagem: text,
-      tipo: "texto",
-      timestamp: Timestamp.now(),
-    );
-    //
     setState(() {
       iswrite = false;
     });
-    addMenssagemDb(modelMenssagem, sender, widget.receiver);
+    textEditingController.clear();
+    adicinatodb(texto);
   }
 
 //Aqui e parte onde se escreve menssagem

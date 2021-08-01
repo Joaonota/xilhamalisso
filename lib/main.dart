@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
 
 import 'Introducao/introducao.dart';
+import 'Menu/Page_menu.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new DasBoardPro() //EditaProfissional(),, //ChatList()
+        home: new Introducao() //EditaProfissional(),, //ChatList()
         );
   }
 }

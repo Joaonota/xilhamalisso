@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
-import 'package:xilhamalisso/models/usuarios.dart';
+import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/sobre/sobre.dart';
 
 import 'Chat_List.dart';

@@ -7,10 +7,9 @@ class Usuarios {
   String _localizacao;
   String _atuacao;
   String _foto;
+  get uid => this._uid;
 
-  String get uid => this._uid;
-
-  set uid(String value) => this._uid = value;
+  set uid(value) => this._uid = value;
 
   get nome => this._nome;
 
@@ -40,7 +39,6 @@ class Usuarios {
 
   set foto(value) => this._foto = value;
 
-  Usuarios();
   Usuarios.fromDocumentSnapshot(dynamic documentSnapshot) {
     this.uid = documentSnapshot.id;
     this.nome = documentSnapshot.data()['nome'];

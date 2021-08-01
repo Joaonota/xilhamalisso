@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/models/usuarios.dart';
+import 'package:xilhamalisso/models/Usuarios.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -103,101 +103,101 @@ class _ChatListState extends State<ChatList> {
                     }
                     QuerySnapshot querySnapshot = snapshot.data;
                     return ListView.builder(
-                        itemCount: querySnapshot.docs.length,
-                        itemBuilder: (context, indice) {
-                          List<DocumentSnapshot> usuariosx =
-                              querySnapshot.docs.toList();
-                          DocumentSnapshot docomentSnap = usuariosx[indice];
-                          Usuarios usuarios =
-                              Usuarios.fromDocumentSnapshot(docomentSnap);
-                          return Container(
-                            child: Container(
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13.0)),
-                                color: Color(0xffeabf4e),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Stack(
-                                        children: [
-                                          Container(
-                                            child: Column(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (builder) {
-                                                          return AlertDialog(
-                                                            content: Container(
-                                                              child:
-                                                                  Image.network(
-                                                                      usuarios
-                                                                          .foto),
-                                                            ),
-                                                          );
-                                                        });
-                                                  },
-                                                  child: CircleAvatar(
-                                                    maxRadius: 30,
-                                                    minRadius: 30,
-                                                    backgroundImage:
-                                                        NetworkImage(
-                                                            usuarios.foto),
-                                                  ),
+                      itemCount: querySnapshot.docs.length,
+                      itemBuilder: (context, indice) {
+                        List<DocumentSnapshot> usuariosx =
+                            querySnapshot.docs.toList();
+                        DocumentSnapshot docomentSnap = usuariosx[indice];
+                        Usuarios usuarios =
+                            Usuarios.fromDocumentSnapshot(docomentSnap);
+                        return Container(
+                          child: Container(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.0)),
+                              color: Color(0xffeabf4e),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          child: Column(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (builder) {
+                                                        return AlertDialog(
+                                                          content: Container(
+                                                            child:
+                                                                Image.network(
+                                                                    usuarios
+                                                                        .foto),
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                                child: CircleAvatar(
+                                                  maxRadius: 30,
+                                                  minRadius: 30,
+                                                  backgroundImage: NetworkImage(
+                                                      usuarios.foto),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          Positioned(
-                                            top: 40,
-                                            bottom: 4,
-                                            right: 1.0,
-                                            child: Stack(
-                                              children: [
-                                                Icon(
-                                                  Icons.brightness_1,
-                                                  color: Color(0xff30dc76),
-                                                  size: 19,
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      Expanded(
-                                          flex: 3,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 8),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  usuarios.nome,
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text("ADVOGADO")
-                                              ],
-                                            ),
-                                          )),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: Colors.white),
-                                      )
-                                    ],
-                                  ),
+                                        ),
+                                        Positioned(
+                                          top: 40,
+                                          bottom: 4,
+                                          right: 1.0,
+                                          child: Stack(
+                                            children: [
+                                              Icon(
+                                                Icons.brightness_1,
+                                                color: Color(0xff30dc76),
+                                                size: 19,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Expanded(
+                                        flex: 3,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 8),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                usuarios.nome,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text("ADVOGADO")
+                                            ],
+                                          ),
+                                        )),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Icon(
+                                          Icons.arrow_forward_ios_outlined,
+                                          color: Colors.white),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                          );
-                        });
+                          ),
+                        );
+                      },
+                    );
                 }
                 return Container(
                   child: Text("Sem Dados"),

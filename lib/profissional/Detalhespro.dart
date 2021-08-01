@@ -4,8 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 import 'package:xilhamalisso/custimizado/Customappbar.dart';
-import 'package:xilhamalisso/models/usuarios.dart';
+import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'dasboardPro.dart';
@@ -116,7 +117,15 @@ class _DetalhesProState extends State<DetalhesPro> {
                         CustomAppBar(
                           actions: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                FirebaseAuth auth = FirebaseAuth.instance;
+                                auth.signOut();
+                                print("clicado");
+                                await auth.signOut();
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (builder) => AutenticaUser()));
+                              },
                               icon: Icon(FontAwesomeIcons.powerOff),
                             )
                           ],

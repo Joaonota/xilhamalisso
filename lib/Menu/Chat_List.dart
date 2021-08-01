@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Menu/DetalhesPros.dart';
-import 'package:xilhamalisso/models/usuarios.dart';
+import 'package:xilhamalisso/models/Usuarios.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -189,8 +189,13 @@ class _ChatListState extends State<ChatList> {
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
-                                                    Text(usuarios.atuacao
-                                                        .toUpperCase())
+                                                    Text(
+                                                      usuarios.atuacao
+                                                          .toUpperCase(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )
                                                   ],
                                                 ),
                                               )),

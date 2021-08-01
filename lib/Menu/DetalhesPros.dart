@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xilhamalisso/Menssagem/Screenmenssagem.dart';
-import 'package:xilhamalisso/models/usuarios.dart';
+import 'package:xilhamalisso/Menssagem/ScreenMenssagem.dart';
+
+import 'package:xilhamalisso/models/Usuarios.dart';
 
 class DetalhesPros extends StatelessWidget {
   final Usuarios usuarios;
@@ -216,12 +217,14 @@ class DetalhesPros extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15)),
                           child: TextButton(
                             onPressed: () {
+                              print(usuarios.uid);
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ScreenMenssagem(
-                                            receiver: usuarios.numero,
-                                          )));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenMenssagem(
+                                          receiver: usuarios,
+                                        )),
+                              );
                               /* showDialog(
                                   context: context,
                                   builder: (BuildContext builder) {

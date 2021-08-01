@@ -224,18 +224,33 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                         ),
                                       );
                                     }
-                                  } else {}
+                                  }
+                                  if (documents.length == 1) {
+                                    await FirebaseFirestore.instance
+                                        .collection("usuarios")
+                                        .where("painel", isEqualTo: "cliente")
+                                        .get();
+                                    final List<DocumentSnapshot> documentsc =
+                                        resulta.docs;
+                                    if (documentsc.length == 1) {
+                                      print("cliente");
+                                      Navigator.pop(context);
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => DasBoardPro(),
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }
 
-                                  ////
-                                  /*Navigator.pop(context);
+                                ////
+                                /*Navigator.pop(context);
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => PageMenu(),
                                     ),
                                   );*/
-                                }
-                              } else {
-                                print("erro");
                               }
                             },
                             child: Text(

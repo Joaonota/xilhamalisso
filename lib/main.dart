@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new Introducao() //EditaProfissional(),, //ChatList()
+        home: new PageMenu() //EditaProfissional(),, //ChatList()
         );
   }
 }

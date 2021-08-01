@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/custimizado/CarregarDados.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 
 import 'DetalhesMenu.dart';
@@ -51,24 +52,6 @@ class _PageMenuState extends State<PageMenu> {
 
   @override
   Widget build(BuildContext context) {
-    var _carregarDados = Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            color: Colors.red,
-            backgroundColor: Colors.blue,
-          ),
-          Text(
-            "Carregando Seus Dados Agurde",
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
-    );
     return Scaffold(
       backgroundColor: Color(0xff000),
       body: StreamBuilder(
@@ -77,7 +60,8 @@ class _PageMenuState extends State<PageMenu> {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return _carregarDados;
+              return CarregarDados(
+                  text: "Carregando Seus Dados Agurde", colors: Colors.blue);
               break;
             case ConnectionState.active:
             case ConnectionState.done:

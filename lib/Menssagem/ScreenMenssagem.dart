@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/custimizado/CarregarDados.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 
@@ -23,6 +24,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
   TextEditingController textEditingController = TextEditingController();
 
   final _controle = StreamController<QuerySnapshot>.broadcast();
+  ScrollController _listScrollController = ScrollController();
   //
 
   bool iswrite = false;
@@ -142,31 +144,16 @@ class _MenssagemState extends State<ScreenMenssagem> {
 
 //Lista de Menssagem
   Widget listaMenssagem() {
-    var _carregarDados = Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            color: Colors.red,
-            backgroundColor: Colors.blue,
-          ),
-          Text(
-            "Carregando Sua Conversa",
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
-    );
     return StreamBuilder(
       stream: _controle.stream,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return _carregarDados;
+            return CarregarDados(
+              colors: Colors.green,
+              text: "A Carregar A Conversa",
+            );
             break;
           case ConnectionState.active:
           case ConnectionState.done:
@@ -189,6 +176,8 @@ class _MenssagemState extends State<ScreenMenssagem> {
             QuerySnapshot querySnapshot = snapshot.data;
             return ListView.builder(
                 itemCount: querySnapshot.docs.length,
+                controller: _listScrollController,
+                reverse: true,
                 itemBuilder: (context, indice) {
                   List<DocumentSnapshot> mensagex = querySnapshot.docs.toList();
                   DocumentSnapshot docomentSnap = mensagex[indice];
@@ -221,7 +210,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
                                     child: Text(
                                       usuarios.menssagem,
                                       style: TextStyle(
-                                          color: Colors.green, fontSize: 16),
+                                          color: Colors.white, fontSize: 16),
                                     )),
                               )
                             : Container(
@@ -245,7 +234,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
                                       child: Text(
                                         usuarios.menssagem,
                                         style: TextStyle(
-                                            color: Colors.red, fontSize: 16),
+                                            color: Colors.white, fontSize: 16),
                                       )),
                                 ),
                               ),
@@ -263,11 +252,11 @@ class _MenssagemState extends State<ScreenMenssagem> {
 
 //
   adicinatodb(String text) async {
-    var db = FirebaseFirestore.instance
+    /* var db = FirebaseFirestore.instance
         .collection("menssagem")
         .doc(_currentUserID)
         .collection(widget.receiver.uid)
-        .doc("menssagem");
+        .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(
@@ -276,37 +265,37 @@ class _MenssagemState extends State<ScreenMenssagem> {
           'senderID': _currentUserID,
           'menssagem': text,
           'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
-          'receiverID': receives,
+          'receiverID': widget.receiver.uid,
           'tipo': "texto"
         },
       );
-    });
-
-    /* await db
+    });*/
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    await db
         .collection("menssagem")
         .doc(_currentUserID)
         .collection(widget.receiver.uid)
-        .doc("menssagem")
+        .doc(DateTime.now().millisecondsSinceEpoch.toString())
         .set({
       "senderID": _currentUserID,
       "menssagem": text,
       "tipo": "texto",
       "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      "receiverID": receives,
+      "receiverID": widget.receiver.uid,
     });
 
     return await db
         .collection("menssagem")
         .doc(widget.receiver.uid)
         .collection(_currentUserID)
-        .doc("menssagem")
+        .doc(DateTime.now().millisecondsSinceEpoch.toString())
         .set({
       "senderID": _currentUserID,
       "menssagem": text,
       "tipo": "texto",
       "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      "receiverID": receives,
-    });*/
+      "receiverID": widget.receiver.uid,
+    });
   }
 
   mandarMennsagem() async {

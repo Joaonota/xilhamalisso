@@ -37,6 +37,7 @@ dependencies:
   date_time_picker: ^2.1.0
   firebase_storage: ^10.0.1
   internet_connection_checker: ^0.0.1+2
+  provider: ^5.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

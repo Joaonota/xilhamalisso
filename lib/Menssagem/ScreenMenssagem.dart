@@ -5,9 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/custimizado/CarregarDados.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
+import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/models/contacto.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'chat_list_screen.dart';
@@ -26,6 +28,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
   final _controle = StreamController<QuerySnapshot>.broadcast();
   ScrollController _listScrollController = ScrollController();
   //
+  final MetodosFirebase metodoFirebase = MetodosFirebase();
 
   bool iswrite = false;
   Usuarios sender;
@@ -33,7 +36,6 @@ class _MenssagemState extends State<ScreenMenssagem> {
   Radius messageRadius = Radius.circular(10);
 
   //
-  String receives;
 
   ///
   Future _verficaUsuario() async {
@@ -57,20 +59,10 @@ class _MenssagemState extends State<ScreenMenssagem> {
           .orderBy("timestamp", descending: true)
           .snapshots();
 
-      ///
-      ///db
-      ///.collection("menssagem")
-      // .doc(_currentUserID)
-      //.collection(widget.receiver.uid)
-      // .orderBy("field", descending: true)
-      // .snapshots(),
-
-      ///
-      ///
       stream.listen((dados) {
         _controle.add(dados);
       });
-      print(receives);
+      //print(receives);
     } catch (e) {}
   }
 
@@ -191,28 +183,50 @@ class _MenssagemState extends State<ScreenMenssagem> {
                           : Alignment.centerLeft,
                       child: Container(
                         child: usuarios.senderID == _currentUserID
-                            ? Container(
-                                margin: EdgeInsets.only(top: 12),
-                                constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width * 0.65,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Color(0xffdde1ed),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: messageRadius,
-                                    topRight: messageRadius,
-                                    bottomLeft: messageRadius,
-                                  ),
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.all(10),
+                            // Menssageiro
+                            ? Column(
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.only(top: 11),
+                                      constraints: BoxConstraints(
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width *
+                                                0.65,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: messageRadius,
+                                          topRight: messageRadius,
+                                          bottomLeft: messageRadius,
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          usuarios.menssagem,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ),
+                                      )),
+                                  /*Container(
+                                    margin: EdgeInsets.only(
+                                        left: 50.0, top: 5.0, bottom: 5.0),
                                     child: Text(
-                                      usuarios.menssagem,
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                              int.parse(usuarios.timestamp))
+                                          .toString(),
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 16),
-                                    )),
+                                          fontSize: 12.0,
+                                          color: Colors.black,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),*/
+                                ],
                               )
+
+                            ///Receptor
                             : Container(
                                 margin: EdgeInsets.only(top: 12),
                                 constraints: BoxConstraints(
@@ -250,8 +264,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
     );
   }
 
-//
-  adicinatodb(String text) async {
+  /* adicinatodb(String text) async {
     /* var db = FirebaseFirestore.instance
         .collection("menssagem")
         .doc(_currentUserID)
@@ -283,6 +296,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
       "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
       "receiverID": widget.receiver.uid,
     });
+    adicionaContato(senderID: _currentUserID, receiverID: widget.receiver.uid);
 
     return await db
         .collection("menssagem")
@@ -297,7 +311,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
       "receiverID": widget.receiver.uid,
     });
   }
-
+*/
   mandarMennsagem() async {
     var texto = textEditingController.text;
 
@@ -305,7 +319,10 @@ class _MenssagemState extends State<ScreenMenssagem> {
       iswrite = false;
     });
     textEditingController.clear();
-    adicinatodb(texto);
+
+    //
+    metodoFirebase.adicinatodb(texto, _currentUserID, widget.receiver.uid);
+    //
   }
 
 //Aqui e parte onde se escreve menssagem

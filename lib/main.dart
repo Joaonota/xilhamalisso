@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
-
-import 'Introducao/introducao.dart';
-import 'Menu/Page_menu.dart';
+import 'package:xilhamalisso/provider/UserProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,16 +15,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Xilhamalisso',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: new PageMenu() //EditaProfissional(),, //ChatList()
-        );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UsuarioProvider()),
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Xilhamalisso',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: DasBoardPro() //EditaProfissional(),, //ChatList()
+          ),
+    );
   }
 }
+
+
 /*initialRoute: "/",
       routes: {
         "/": (context) => AutenticaUser(),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
 
 class AutenticaUser extends StatefulWidget {
@@ -208,40 +209,44 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                   );
                                 } else {
                                   print("Usuario existete");
-                                  if (documents.length == 1) {
-                                    await FirebaseFirestore.instance
-                                        .collection("usuarios")
-                                        .where("painel", isEqualTo: "pro")
-                                        .get();
-                                    final List<DocumentSnapshot> documentsc =
-                                        resulta.docs;
-                                    if (documentsc.length == 1) {
-                                      print("profissional");
-                                      Navigator.pop(context);
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => DasBoardPro(),
-                                        ),
-                                      );
+                                  //
+                                  await FirebaseFirestore.instance
+                                      .collection("usuarios")
+                                      .where("uid", isEqualTo: user.uid)
+                                      .get()
+                                      .then((docs) async {
+                                    if (docs.docs[0].exists) {
+                                      if (docs.docs[0].data()["painel"] ==
+                                          "pro") {
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) => DasBoardPro(),
+                                          ),
+                                        );
+                                        //
+                                      }
+                                    } else {
+                                      await FirebaseFirestore.instance
+                                          .collection("usuarios")
+                                          .where("uid", isEqualTo: user.uid)
+                                          .get()
+                                          .then((docs) {
+                                        if (docs.docs[0].exists) {
+                                          if (docs.docs[0].data()["painel"] ==
+                                              "cliente") {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PageMenu(),
+                                              ),
+                                            );
+                                            //
+                                          }
+                                        }
+                                      });
                                     }
-                                  }
-                                  if (documents.length == 1) {
-                                    await FirebaseFirestore.instance
-                                        .collection("usuarios")
-                                        .where("painel", isEqualTo: "cliente")
-                                        .get();
-                                    final List<DocumentSnapshot> documentsc =
-                                        resulta.docs;
-                                    if (documentsc.length == 1) {
-                                      print("cliente");
-                                      Navigator.pop(context);
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => DasBoardPro(),
-                                        ),
-                                      );
-                                    }
-                                  }
+                                  });
                                 }
 
                                 ////

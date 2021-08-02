@@ -11,6 +11,17 @@ class MetodosFirebase {
   static final CollectionReference _userCollection = db.collection("usuarios");
   final CollectionReference _messageCollection = db.collection("menssagem");
   //
+  Future<Usuarios> getUserDetailsById(id) async {
+    try {
+      DocumentSnapshot documentSnapshot = await _userCollection.doc(id).get();
+      return Usuarios.fromDocumentSnapshot(documentSnapshot);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  //
   Stream<QuerySnapshot> fetchContact({String userId}) =>
       _userCollection.doc(userId).collection("contato").snapshots();
 
@@ -64,23 +75,20 @@ class MetodosFirebase {
     });
   }
 
-  String _idDoUsuario;
   //
   Future<User> getCurrentUser() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User fUser = auth.currentUser;
-    _idDoUsuario = fUser.uid;
-
-    return fUser;
+    User currentUser;
+    currentUser = await _auth.currentUser;
+    return currentUser;
   }
 
   Future<Usuarios> detalheUsuario() async {
-    await getCurrentUser();
+    User currentUser = await getCurrentUser();
 
     //
 
     DocumentSnapshot documentSnapshot =
-        await _userCollection.doc(_idDoUsuario).get();
+        await _userCollection.doc(currentUser.uid).get();
     return Usuarios.fromDocumentSnapshot(documentSnapshot);
   }
 

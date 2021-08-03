@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/contacto.dart';
@@ -11,13 +11,8 @@ import 'package:xilhamalisso/profissional/widget/quite_Box.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
-class DasBoardPro extends StatefulWidget {
-  @override
-  _DasBoardProState createState() => _DasBoardProState();
-}
-
-class _DasBoardProState extends State<DasBoardPro> {
-  UsuarioProvider userProvider;
+class DasBoardPro extends StatelessWidget {
+/*  UsuarioProvider userProvider;
   @override
   void initState() {
     super.initState();
@@ -26,7 +21,7 @@ class _DasBoardProState extends State<DasBoardPro> {
       await userProvider.refreshUser();
     });
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,36 +38,35 @@ class _DasBoardProState extends State<DasBoardPro> {
 
 class ChatListContainer extends StatelessWidget {
   final MetodosFirebase metodoFirebase = MetodosFirebase();
+
   @override
   Widget build(BuildContext context) {
     final UsuarioProvider userProvider = Provider.of<UsuarioProvider>(context);
     return Container(
       child: StreamBuilder<QuerySnapshot>(
-        stream: metodoFirebase.fetchContact(userId: userProvider.getUSer.uid),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var docList = snapshot.data.docs;
+          stream: metodoFirebase.fetchContact(
+            userId: userProvider.getUSer.uid,
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var docList = snapshot.data.docs;
 
-            if (docList.isEmpty) {
-              return QuiteBox(
-                user: userProvider.getUSer,
+              if (docList.isEmpty) {
+                return QuiteBox();
+              }
+              return ListView.builder(
+                padding: EdgeInsets.all(10),
+                itemCount: docList.length,
+                itemBuilder: (context, index) {
+                  Contacto contact = Contacto.fromMap(docList[index].data());
+
+                  return ContactView(contact);
+                },
               );
             }
-            return ListView.builder(
-              padding: EdgeInsets.all(10),
-              itemCount: docList.length,
-              itemBuilder: (context, index) {
-                Contacto contact = Contacto.fromMap(docList[index].data());
 
-                return ContactView(
-                  contato: contact,
-                );
-              },
-            );
-          }
-          return Center(child: CircularProgressIndicator());
-        },
-      ),
+            return Center(child: CircularProgressIndicator());
+          }),
     );
   }
 }

@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
+import 'package:xilhamalisso/custimizado/CarregarDados.dart';
+import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
 
 class AutenticaUser extends StatefulWidget {
@@ -17,7 +19,7 @@ class AutenticaUser extends StatefulWidget {
 class _AutenticaUserState extends State<AutenticaUser> {
   int start = 33;
   bool wait = false;
-  bool isvible = true;
+  bool isvible;
   TextEditingController phoneController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   //
@@ -100,26 +102,48 @@ class _AutenticaUserState extends State<AutenticaUser> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                width: 335,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
+                              isvible == true
+                                  ? Container(
+                                      child: Column(
+                                        children: [
+                                          Text("Agurde o codigo"),
+                                          CircularProgressIndicator.adaptive(),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 21,
+                                ),
+                                child: Container(
+                                  width: 335,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                      ),
                                     ),
-                                  ),
-                                  onPressed: () {
-                                    // alertCircular();
-                                    //startTimer();
-                                    phoneController.text = number.toString();
-                                    regitarUserPhone(
-                                        phoneController.text.trim(), context);
-                                  },
-                                  child: Text(
-                                    "Continuar",
-                                    style: TextStyle(fontSize: 19),
+                                    onPressed: () {
+                                      // alertCircular();
+                                      //startTimer();
+                                      setState(() {
+                                        isvible = true;
+                                      });
+                                      phoneController.text = number.toString();
+                                      regitarUserPhone(
+                                          phoneController.text.trim(), context);
+                                    },
+                                    child: Text(
+                                      "Continuar",
+                                      style: TextStyle(fontSize: 23),
+                                    ),
                                   ),
                                 ),
                               )
@@ -138,6 +162,12 @@ class _AutenticaUserState extends State<AutenticaUser> {
     );
   }
 
+  agurdeProgress() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
   Future regitarUserPhone(String telefone, BuildContext context) async {
     FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -149,6 +179,17 @@ class _AutenticaUserState extends State<AutenticaUser> {
           print("erro $resul");
         },
         verificationFailed: (exception) {
+          showDialog(
+              context: context,
+              builder: (builder) {
+                return Container(
+                  child: AlertDialog(
+                    content: Container(
+                      child: Text("$exception"),
+                    ),
+                  ),
+                );
+              });
           print("fallha{$exception}");
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
@@ -220,12 +261,13 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                           "pro") {
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
-                                            builder: (context) => DasBoardPro(),
+                                            builder: (context) => HomePro(),
                                           ),
                                         );
                                         //
                                       }
-                                    } else {
+                                    }
+                                    if (documents.length == 1) {
                                       await FirebaseFirestore.instance
                                           .collection("usuarios")
                                           .where("uid", isEqualTo: user.uid)

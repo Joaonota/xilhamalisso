@@ -1,13 +1,21 @@
-class ModelMenssagem {
-  String _senderID;
-  String _receiverID;
-  String _tipo;
-  String _menssagem;
-  String _timestamp;
-  String _fotoUrl;
-  String _audioUrl;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  String get senderID => this._senderID;
+class ModelMenssagem {
+  String senderID;
+  String receiverID;
+  String tipo;
+  String menssagem;
+  Timestamp timestamp;
+  String fotoUrl;
+  String audioUrl;
+  ModelMenssagem({
+    this.senderID,
+    this.receiverID,
+    this.timestamp,
+    this.tipo,
+    this.menssagem,
+  });
+  /* String get senderID => this._senderID;
 
   set senderID(String value) => this._senderID = value;
 
@@ -56,11 +64,11 @@ class ModelMenssagem {
       //"foto": this.foto,
     };
     return mapa;
-  }
+  }*/
 
   //
   // este metodo vai ser chamado so quando quiser enviar uma imagem
-  /* ModelMenssagem.imagemMessagem(
+  ModelMenssagem.imagemMessagem(
       {this.senderID,
       this.receiverID,
       this.timestamp,
@@ -103,5 +111,5 @@ class ModelMenssagem {
     map['menssagem'] = this.menssagem;
     map['fotoUrl'] = this.fotoUrl;
     return map;
-  }*/
+  }
 }

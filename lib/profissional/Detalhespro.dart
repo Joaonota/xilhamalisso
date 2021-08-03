@@ -10,7 +10,7 @@ import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/profissional/widget/User_circule.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
-import 'dasboardPro.dart';
+
 
 class DetalhesPro extends StatefulWidget {
   @override

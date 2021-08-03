@@ -9,7 +9,7 @@ class Introducao extends StatefulWidget {
 }
 
 class _IntroducaoState extends State<Introducao> {
-  Future verficaPrimeiravez() async {
+  Future<void> verficaPrimeiravez() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool _ver = (preferences.getBool("ver") ?? false);
     if (_ver) {
@@ -33,9 +33,8 @@ class _IntroducaoState extends State<Introducao> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IntroductionScreen(
+      body: new IntroductionScreen(
         doneColor: Colors.blue,
-        animationDuration: 350,
         done: Text("DONE"),
         skip: Text("SKIP"),
         next: Icon(Icons.arrow_forward_rounded),

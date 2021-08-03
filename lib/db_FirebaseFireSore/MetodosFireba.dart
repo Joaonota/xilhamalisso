@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/models/contacto.dart';
 
@@ -45,40 +46,30 @@ class MetodosFirebase {
 //metodo para adicionar contacto
 
   //medotod para adicionar Menssagem no Firestore
-  Future<void> adicinatodb(String text, _currentUserID, receiver) async {
+  Future<void> adicinatodb(
+      ModelMenssagem menssagem, Usuarios sender, Usuarios receive) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
+    var map = menssagem.toMap();
     await db
         .collection("menssagem")
-        .doc(_currentUserID)
-        .collection(receiver)
-        .doc(DateTime.now().millisecondsSinceEpoch.toString())
-        .set({
-      "senderID": _currentUserID,
-      "menssagem": text,
-      "tipo": "texto",
-      "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      "receiverID": receiver,
-    });
-    adicionaContato(senderID: _currentUserID, receiverID: receiver);
+        .doc(menssagem.senderID)
+        .collection(menssagem.receiverID)
+        .add(map);
+
+    adicionaContato(
+        senderID: menssagem.senderID, receiverID: menssagem.receiverID);
 
     return await db
         .collection("menssagem")
-        .doc(receiver)
-        .collection(_currentUserID)
-        .doc(DateTime.now().millisecondsSinceEpoch.toString())
-        .set({
-      "senderID": _currentUserID,
-      "menssagem": text,
-      "tipo": "texto",
-      "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
-      "receiverID": receiver,
-    });
+        .doc(menssagem.receiverID)
+        .collection(menssagem.senderID)
+        .add(map);
   }
 
   //
   Future<User> getCurrentUser() async {
     User currentUser;
-    currentUser = await _auth.currentUser;
+    currentUser = _auth.currentUser;
     return currentUser;
   }
 
@@ -102,7 +93,7 @@ class MetodosFirebase {
     if (!documentSnapshotSender.exists) {
       //
       Contacto senderContato = Contacto(
-        uid: senderId,
+        uid: receiveId,
         addedOn: currentTime,
       );
       var senderMap = senderContato.toMap(senderContato);
@@ -112,10 +103,7 @@ class MetodosFirebase {
 
   //adiciona
   Future<void> adicionaReceiveContato(
-    String senderId,
-    String receiveId,
-    currentTime,
-  ) async {
+      String senderId, String receiveId, currentTime) async {
     DocumentSnapshot documentSnapshotReceive =
         await getDocomentRef(of: receiveId, forContact: senderId).get();
 
@@ -123,7 +111,7 @@ class MetodosFirebase {
     if (!documentSnapshotReceive.exists) {
       //
       Contacto receiverContato = Contacto(
-        uid: receiveId,
+        uid: senderId,
         addedOn: currentTime,
       );
       var receiverMap = receiverContato.toMap(receiverContato);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:xilhamalisso/Menssagem/ScreenMenssagem.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
@@ -11,9 +12,9 @@ import 'package:xilhamalisso/utils/universal_variables.dart';
 class ContactView extends StatelessWidget {
   final Contacto contato;
 
-  MetodosFirebase _metodosFirebase = MetodosFirebase();
+  final MetodosFirebase _metodosFirebase = MetodosFirebase();
 
-  ContactView({Key key, this.contato}) : super(key: key);
+  ContactView(this.contato);
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +38,11 @@ class ContactView extends StatelessWidget {
 
 class ViewLayout extends StatelessWidget {
   final Usuarios contatos;
-
-  const ViewLayout({Key key, this.contatos}) : super(key: key);
+  final MetodosFirebase _metodosFirebase = MetodosFirebase();
+  ViewLayout({Key key, this.contatos}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    MetodosFirebase _metodosFirebase = MetodosFirebase();
     final UsuarioProvider userProvider = Provider.of<UsuarioProvider>(context);
     return CustomTile(
         leading: Container(
@@ -69,8 +69,17 @@ class ViewLayout extends StatelessWidget {
           ),
         ),
         mini: false,
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ScreenMenssagem(
+                receiver: contatos,
+              ),
+            )),
         title: Text(
-          contatos?.nome ?? "...",
+          (contatos != null ? contatos.nome : null) != null
+              ? contatos.nome
+              : "..",
           style:
               TextStyle(color: Colors.white, fontFamily: "Arial", fontSize: 19),
         ),

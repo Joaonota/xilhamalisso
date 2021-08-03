@@ -9,7 +9,6 @@ import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 
 import 'package:xilhamalisso/models/Usuarios.dart';
-import 'package:xilhamalisso/models/contacto.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'chat_list_screen.dart';
@@ -69,8 +68,15 @@ class _MenssagemState extends State<ScreenMenssagem> {
   @override
   void initState() {
     super.initState();
-    mostraMenssagem();
-    //_verficaUsuario();
+    //mostraMenssagem();
+    _verficaUsuario();
+    /*  metodoFirebase.getCurrentUser().then((users) {
+      _currentUserID = users.uid;
+
+      setState(() {
+        sender =Usuarios()
+      });
+    });*/
   }
 
   ///
@@ -137,130 +143,106 @@ class _MenssagemState extends State<ScreenMenssagem> {
 //Lista de Menssagem
   Widget listaMenssagem() {
     return StreamBuilder(
-      stream: _controle.stream,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return CarregarDados(
-              colors: Colors.green,
-              text: "A Carregar A Conversa",
-            );
-            break;
-          case ConnectionState.active:
-          case ConnectionState.done:
-            if (snapshot.hasError) {
-              try {
-                if (snapshot.hasError) {
-                  return Column(
-                    children: [
-                      CircularProgressIndicator(
-                        backgroundColor: Colors.red,
-                      ),
-                      Text("Erro ao Carregar os Dados :("),
-                    ],
-                  );
-                }
-              } catch (e, s) {
-                print("erro{$s}");
-              }
-            }
-            QuerySnapshot querySnapshot = snapshot.data;
-            return ListView.builder(
-                itemCount: querySnapshot.docs.length,
-                controller: _listScrollController,
-                reverse: true,
-                itemBuilder: (context, indice) {
-                  List<DocumentSnapshot> mensagex = querySnapshot.docs.toList();
-                  DocumentSnapshot docomentSnap = mensagex[indice];
-                  ModelMenssagem usuarios =
-                      ModelMenssagem.fromDocumentSnapshot(docomentSnap);
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 15),
-                    child: Container(
-                      alignment: usuarios.senderID == _currentUserID
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        child: usuarios.senderID == _currentUserID
-                            // Menssageiro
-                            ? Column(
-                                children: [
-                                  Container(
-                                      margin: EdgeInsets.only(top: 11),
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.65,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.green,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: messageRadius,
-                                          topRight: messageRadius,
-                                          bottomLeft: messageRadius,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Text(
-                                          usuarios.menssagem,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                      )),
-                                  /*Container(
-                                    margin: EdgeInsets.only(
-                                        left: 50.0, top: 5.0, bottom: 5.0),
-                                    child: Text(
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                              int.parse(usuarios.timestamp))
-                                          .toString(),
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.black,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),*/
-                                ],
-                              )
-
-                            ///Receptor
-                            : Container(
-                                margin: EdgeInsets.only(top: 12),
-                                constraints: BoxConstraints(
-                                    maxWidth:
-                                        MediaQuery.of(context).size.width *
-                                            0.65),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    bottomRight: messageRadius,
-                                    topRight: messageRadius,
-                                    bottomLeft: messageRadius,
-                                  ),
-                                  color: Color(0xffffffff),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        usuarios.menssagem,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 16),
-                                      )),
-                                ),
-                              ),
-                      ),
-                    ),
-                  );
-                });
+      stream: FirebaseFirestore.instance
+          .collection("menssagem")
+          .doc(_currentUserID)
+          .collection(widget.receiver.uid)
+          .orderBy("timestamp", descending: true)
+          .snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.data == null) {
+          return Center(child: CircularProgressIndicator());
         }
-        return Container(
-          child: Text("Sem Dados"),
+
+        // SchedulerBinding.instance.addPostFrameCallback((_) {
+        //   _listScrollController.animateTo(
+        //     _listScrollController.position.minScrollExtent,
+        //     duration: Duration(milliseconds: 250),
+        //     curve: Curves.easeInOut,
+        //   );
+        // });
+
+        return ListView.builder(
+          padding: EdgeInsets.all(10),
+          controller: _listScrollController,
+          reverse: true,
+          itemCount: snapshot.data.docs.length,
+          itemBuilder: (context, index) {
+            // mention the arrow syntax if you get the time
+            return chatMessageItem(snapshot.data.docs[index]);
+          },
         );
       },
+    );
+  }
+
+  Widget chatMessageItem(DocumentSnapshot snapshot) {
+    ModelMenssagem _message = ModelMenssagem.fromMap(snapshot.data());
+
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15),
+      child: Container(
+        alignment: _message.senderID == _currentUserID
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
+        child: _message.senderID == _currentUserID
+            ? senderLayout(_message)
+            : receiverLayout(_message),
+      ),
+    );
+  }
+
+  Widget senderLayout(ModelMenssagem message) {
+    Radius messageRadius = Radius.circular(10);
+
+    return Container(
+      margin: EdgeInsets.only(top: 12),
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
+      decoration: BoxDecoration(
+        color: UniversalVariables.senderColor,
+        borderRadius: BorderRadius.only(
+          topLeft: messageRadius,
+          topRight: messageRadius,
+          bottomLeft: messageRadius,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: getMessage(message),
+      ),
+    );
+  }
+
+  getMessage(ModelMenssagem message) {
+    return Text(
+      message.menssagem,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 16.0,
+      ),
+    );
+  }
+
+  Widget receiverLayout(ModelMenssagem message) {
+    Radius messageRadius = Radius.circular(10);
+
+    return Container(
+      margin: EdgeInsets.only(top: 12),
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
+      decoration: BoxDecoration(
+        color: UniversalVariables.receiverColor,
+        borderRadius: BorderRadius.only(
+          bottomRight: messageRadius,
+          topRight: messageRadius,
+          bottomLeft: messageRadius,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: getMessage(message),
+      ),
     );
   }
 
@@ -320,8 +302,15 @@ class _MenssagemState extends State<ScreenMenssagem> {
     });
     textEditingController.clear();
 
+    ModelMenssagem _modelMenssagem = ModelMenssagem(
+        receiverID: widget.receiver.uid,
+        senderID: _currentUserID,
+        menssagem: texto,
+        timestamp: Timestamp.now(),
+        tipo: "texto");
+
     //
-    metodoFirebase.adicinatodb(texto, _currentUserID, widget.receiver.uid);
+    metodoFirebase.adicinatodb(_modelMenssagem, sender, widget.receiver);
     //
   }
 

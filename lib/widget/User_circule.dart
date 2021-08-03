@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/profissiona/Detalhespro.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
-
-import '../Detalhespro.dart';
 
 class UserCircle extends StatelessWidget {
   @override

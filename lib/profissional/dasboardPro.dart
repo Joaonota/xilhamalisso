@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:xilhamalisso/Menssagem/chat_list_screen.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/contacto.dart';
-
-import 'package:xilhamalisso/profissional/widget/User_circule.dart';
-import 'package:xilhamalisso/profissional/widget/contacto_view.dart';
-import 'package:xilhamalisso/profissional/widget/quite_Box.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
+import 'package:xilhamalisso/widget/contacto_view.dart';
+import 'package:xilhamalisso/widget/quite_Box.dart';
 
 class DasBoardPro extends StatelessWidget {
 /*  UsuarioProvider userProvider;

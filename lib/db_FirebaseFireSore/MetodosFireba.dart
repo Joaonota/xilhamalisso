@@ -1,9 +1,13 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/enum/status_usuario.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/models/contacto.dart';
+import 'package:xilhamalisso/utils/utilitarios.dart';
 
 class MetodosFirebase {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -119,4 +123,14 @@ class MetodosFirebase {
           .set(receiverMap);
     }
   }
+
+  ///actualiza satus do usuario
+  void setUserState({@required String userID, @required UserState userState}) {
+    int stateNum = Utilitarios.stateToNum(userState);
+
+    _userCollection.doc(userID).update({"status": stateNum});
+  }
+
+  Stream<DocumentSnapshot> getUserStrem({@required String uid}) =>
+      _userCollection.doc(uid).snapshots();
 }

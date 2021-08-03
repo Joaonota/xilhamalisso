@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Menu/DetalhesPros.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/widget/Online_DotIndicator.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -164,11 +165,8 @@ class _ChatListState extends State<ChatList> {
                                                 right: 1.0,
                                                 child: Stack(
                                                   children: [
-                                                    Icon(
-                                                      Icons.brightness_1,
-                                                      color: Color(0xff30dc76),
-                                                      size: 19,
-                                                    ),
+                                                    OnlineDotIndicator(
+                                                        uid: usuarios.nome)
                                                   ],
                                                 ),
                                               )

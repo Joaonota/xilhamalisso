@@ -5,12 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Menssagem/chat_list_screen.dart';
 import 'package:xilhamalisso/custimizado/Customappbar.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
-import 'package:xilhamalisso/profissional/widget/User_circule.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
-
-
 
 class DetalhesPro extends StatefulWidget {
   @override

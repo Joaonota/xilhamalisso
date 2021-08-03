@@ -4,12 +4,13 @@ class Usuarios {
   String _dataNas;
   String _email;
   String _numero;
+  int _status;
   String _localizacao;
   String _atuacao;
   String _foto;
-  get uid => this._uid;
+  String get uid => this._uid;
 
-  set uid(value) => this._uid = value;
+  set uid(String value) => this._uid = value;
 
   get nome => this._nome;
 
@@ -26,6 +27,10 @@ class Usuarios {
   get numero => this._numero;
 
   set numero(value) => this._numero = value;
+
+  get status => this._status;
+
+  set status(value) => this._status = value;
 
   get localizacao => this._localizacao;
 
@@ -48,6 +53,7 @@ class Usuarios {
     this.localizacao = documentSnapshot.data()['localiza'];
     this.foto = documentSnapshot.data()['foto'];
     this.atuacao = documentSnapshot.data()["atuacao"];
+    this.status = documentSnapshot.data()["status"];
   }
   Map<String, dynamic> toMap() {
     Map<String, dynamic> mapa = {
@@ -58,6 +64,7 @@ class Usuarios {
       "numero": this.numero,
       "localiza": this.localizacao,
       "atuacao": this.atuacao,
+      "status": this.status,
       "foto": this.foto,
     };
     return mapa;

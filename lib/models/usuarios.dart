@@ -45,7 +45,7 @@ class Usuarios {
   set foto(value) => this._foto = value;
 
   Usuarios.fromDocumentSnapshot(dynamic documentSnapshot) {
-    this.uid = documentSnapshot.id;
+    this.uid = documentSnapshot.data()['uid'];
     this.nome = documentSnapshot.data()['nome'];
     this.dataNas = documentSnapshot.data()['nascimento'];
     this.email = documentSnapshot.data()['email'];
@@ -55,6 +55,18 @@ class Usuarios {
     this.atuacao = documentSnapshot.data()["atuacao"];
     this.status = documentSnapshot.data()["status"];
   }
+
+//
+  Usuarios.fromMap(Map<String, dynamic> mapData) {
+    this.uid = mapData['uid'];
+    this.nome = mapData['nome'];
+    this.email = mapData['email'];
+    this.dataNas = mapData['nascimento'];
+    this.localizacao = mapData['localiza'];
+    this.status = mapData['status'];
+    this.foto = mapData['foto'];
+  }
+  //
   Map<String, dynamic> toMap() {
     Map<String, dynamic> mapa = {
       "uid": this.uid,

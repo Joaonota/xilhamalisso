@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/enum/status_usuario.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/utils/universal_variables.dart';
 import 'package:xilhamalisso/utils/utilitarios.dart';
 
 class OnlineDotIndicator extends StatelessWidget {
@@ -20,7 +21,7 @@ class OnlineDotIndicator extends StatelessWidget {
         case UserState.Offline:
           return Colors.red;
         case UserState.Online:
-          return Colors.green;
+          return UniversalVariables.onlineDotColor;
         default:
           return Colors.orange;
       }
@@ -36,12 +37,12 @@ class OnlineDotIndicator extends StatelessWidget {
           Usuarios user;
 
           if (snapshot.hasData && snapshot.data.data != null) {
-            user = Usuarios.fromDocumentSnapshot(snapshot.data.data());
+            user = Usuarios.fromMap(snapshot.data.data());
           }
 
           return Container(
-            height: 10,
-            width: 10,
+            height: 12,
+            width: 12,
             margin: EdgeInsets.only(right: 5, top: 5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,

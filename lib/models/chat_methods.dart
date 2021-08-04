@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:xilhamalisso/models/user.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 
 import 'ModelMenssagem.dart.dart';

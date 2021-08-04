@@ -166,7 +166,7 @@ class _ChatListState extends State<ChatList> {
                                                 child: Stack(
                                                   children: [
                                                     OnlineDotIndicator(
-                                                        uid: usuarios.nome)
+                                                        uid: usuarios.uid)
                                                   ],
                                                 ),
                                               )

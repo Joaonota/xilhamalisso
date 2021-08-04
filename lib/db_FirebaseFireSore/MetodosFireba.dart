@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,7 @@ class MetodosFirebase {
   Future<Usuarios> getUserDetailsById(id) async {
     try {
       DocumentSnapshot documentSnapshot = await _userCollection.doc(id).get();
-      return Usuarios.fromDocumentSnapshot(documentSnapshot);
+      return Usuarios.fromMap(documentSnapshot.data());
     } catch (e) {
       print(e);
       return null;
@@ -78,13 +76,12 @@ class MetodosFirebase {
   }
 
   Future<Usuarios> detalheUsuario() async {
-    User currentUser = await getCurrentUser();
-
     //
-
+    User currentUser = await getCurrentUser();
+    //
     DocumentSnapshot documentSnapshot =
         await _userCollection.doc(currentUser.uid).get();
-    return Usuarios.fromDocumentSnapshot(documentSnapshot);
+    return Usuarios.fromMap(documentSnapshot.data());
   }
 
   ///

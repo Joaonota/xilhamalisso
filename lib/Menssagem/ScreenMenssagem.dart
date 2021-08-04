@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bubble/bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,6 @@ class _MenssagemState extends State<ScreenMenssagem> {
     _verficaUsuario();
     /*  metodoFirebase.getCurrentUser().then((users) {
       _currentUserID = users.uid;
-
       setState(() {
         sender =Usuarios()
       });
@@ -87,25 +87,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
       //este appBar sera custimisado
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xffebedf9),
-        leading: Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatListScreen(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+        backgroundColor: Colors.green[100],
         centerTitle: false,
         title: Text(
           widget.receiver.nome,
@@ -180,7 +162,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
     ModelMenssagem _message = ModelMenssagem.fromMap(snapshot.data());
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 15),
+      margin: EdgeInsets.symmetric(vertical: 1),
       child: Container(
         alignment: _message.senderID == _currentUserID
             ? Alignment.centerRight
@@ -193,9 +175,31 @@ class _MenssagemState extends State<ScreenMenssagem> {
   }
 
   Widget senderLayout(ModelMenssagem message) {
+    // Radius messageRadius = Radius.circular(10);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          width: 200,
+          margin: EdgeInsets.symmetric(vertical: 5),
+          child: Bubble(
+            child: getMessagesend(message),
+            color: Colors.green,
+            padding: const BubbleEdges.all(10.0),
+            margin: BubbleEdges.only(top: 4),
+            nip: BubbleNip.rightTop,
+            elevation: 8,
+          ),
+        ),
+      ],
+    );
+  }
+/*bbb
+    Widget senderLayout(ModelMenssagem message) {
     Radius messageRadius = Radius.circular(10);
 
-    return Container(
+    return Bubble(
       margin: EdgeInsets.only(top: 12),
       constraints:
           BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.65),
@@ -212,19 +216,49 @@ class _MenssagemState extends State<ScreenMenssagem> {
         child: getMessage(message),
       ),
     );
-  }
+  }*/
 
-  getMessage(ModelMenssagem message) {
+  getMessagesend(ModelMenssagem message) {
     return Text(
       message.menssagem,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 16.0,
+      ),
+    );
+  }
+
+  getMessagereceive(ModelMenssagem message) {
+    return Text(
+      message.menssagem,
+      style: TextStyle(
+        color: Colors.black,
       ),
     );
   }
 
   Widget receiverLayout(ModelMenssagem message) {
+    //Radius messageRadius = Radius.circular(10);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 200,
+          margin: EdgeInsets.symmetric(vertical: 5),
+          child: Bubble(
+            child: getMessagereceive(message),
+            color: Colors.white,
+            padding: const BubbleEdges.all(10.0),
+            margin: BubbleEdges.only(top: 4),
+            nip: BubbleNip.leftTop,
+            elevation: 8,
+          ),
+        ),
+      ],
+    );
+  }
+
+/*Widget receiverLayout(ModelMenssagem message) {
     Radius messageRadius = Radius.circular(10);
 
     return Container(
@@ -244,15 +278,13 @@ class _MenssagemState extends State<ScreenMenssagem> {
         child: getMessage(message),
       ),
     );
-  }
-
+  }*/
   /* adicinatodb(String text) async {
     /* var db = FirebaseFirestore.instance
         .collection("menssagem")
         .doc(_currentUserID)
         .collection(widget.receiver.uid)
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
-
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(
         db,
@@ -279,7 +311,6 @@ class _MenssagemState extends State<ScreenMenssagem> {
       "receiverID": widget.receiver.uid,
     });
     adicionaContato(senderID: _currentUserID, receiverID: widget.receiver.uid);
-
     return await db
         .collection("menssagem")
         .doc(widget.receiver.uid)
@@ -324,11 +355,11 @@ class _MenssagemState extends State<ScreenMenssagem> {
 
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(15.0),
         child: Row(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(5),
+              // padding: EdgeInsets.all(5),
               decoration:
                   BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
               child: IconButton(
@@ -344,32 +375,36 @@ class _MenssagemState extends State<ScreenMenssagem> {
             SizedBox(
               width: 5,
             ),
-            Expanded(
-              child: TextField(
-                controller: textEditingController,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-                onChanged: (val) {
-                  (val.length > 0 && val.trim() != "")
-                      ? setWritingTo(true)
-                      : setWritingTo(false);
-                },
-                decoration: InputDecoration(
-                    hintText: "Escreva uma Menssagem",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide.none,
-                    ),
-                    fillColor: Colors.white70,
-                    filled: true,
-                    suffixIcon: GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.face,
-                        color: Colors.black,
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  controller: textEditingController,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  onChanged: (val) {
+                    (val.length > 0 && val.trim() != "")
+                        ? setWritingTo(true)
+                        : setWritingTo(false);
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Menssagem",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
                       ),
-                    )),
+                      fillColor: Colors.white70,
+                      filled: true,
+                      suffixIcon: GestureDetector(
+                        onTap: () {},
+                        child: Icon(
+                          Icons.face,
+                          color: Colors.black,
+                        ),
+                      )),
+                ),
               ),
             ),
             iswrite

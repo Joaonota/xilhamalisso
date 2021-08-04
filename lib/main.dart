@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/Introducao/introducao.dart';
+import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: Introducao() //EditaProfissional(),, //ChatList()
+          home: HomePro() //EditaProfissional(),, //ChatList()
           ),
     );
   }

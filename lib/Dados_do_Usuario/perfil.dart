@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/widget/Online_DotIndicator.dart';
 
 class Perfil extends StatelessWidget {
   final Usuarios usuarios;
@@ -66,15 +67,12 @@ class Perfil extends StatelessWidget {
                                   ),
                                 ),
                                 Positioned(
-                                  top: 60,
-                                  bottom: 5,
-                                  right: 4.0,
+                                  top: 10,
+                                  bottom: 10,
+                                  right: 15.0,
                                   child: Stack(
                                     children: [
-                                      Icon(
-                                        Icons.brightness_1,
-                                        color: Colors.green,
-                                      )
+                                      OnlineDotIndicator(uid: usuarios.uid)
                                     ],
                                   ),
                                 ),

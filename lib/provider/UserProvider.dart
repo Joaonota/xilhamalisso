@@ -3,14 +3,14 @@ import 'package:xilhamalisso/db_FirebaseFireSore/metodosFireba.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 
 class UsuarioProvider with ChangeNotifier {
-  Usuarios usuario;
+  Usuarios _usuario;
 
   MetodosFirebase metodosFirebase = MetodosFirebase();
-  Usuarios get getUSer => usuario;
+  Usuarios get getUSer => _usuario;
 
   Future<void> refreshUser() async {
     Usuarios user = await metodosFirebase.detalheUsuario();
-    usuario = user;
+    _usuario = user;
     notifyListeners();
   }
 }

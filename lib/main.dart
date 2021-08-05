@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: TelaRecebeChamada() //EditaProfissional(),, //ChatList()
+          home: HomePro() //EditaProfissional(),, //ChatList()
           ),
     );
   }

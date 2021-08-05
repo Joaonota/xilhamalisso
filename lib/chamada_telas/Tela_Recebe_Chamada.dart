@@ -38,17 +38,20 @@ class TelaRecebeChamada extends StatelessWidget {
                 ),
               ),
             ),*/
-            Image.network(
+            /*  Image.network(
               chamada.callerPic,
               height: 150,
               width: 150,
+            ),*/
+            CircleAvatar(
+              backgroundImage: NetworkImage(chamada.chamadaPic),
             ),
             SizedBox(
               height: 15,
             ),
             Container(
               child: Text(
-                chamada.callerName,
+                "chamada.callerName",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,

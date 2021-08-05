@@ -1,5 +1,5 @@
 class Usuarios {
-  String _uid;
+  String uid;
   String _nome;
   String _dataNas;
   String _email;
@@ -8,9 +8,6 @@ class Usuarios {
   String _localizacao;
   String _atuacao;
   String _foto;
-  String get uid => this._uid;
-
-  set uid(String value) => this._uid = value;
 
   get nome => this._nome;
 
@@ -55,6 +52,10 @@ class Usuarios {
     this.atuacao = documentSnapshot.data()["atuacao"];
     this.status = documentSnapshot.data()["status"];
   }
+
+  Usuarios({
+    this.uid,
+  });
 
 //
   Usuarios.fromMap(Map<String, dynamic> mapData) {

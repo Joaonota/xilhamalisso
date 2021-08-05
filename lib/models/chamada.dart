@@ -1,46 +1,50 @@
-class Chamada {
-  String callerId;
-  String callerName;
-  String callerPic;
-  String receiverId;
+
+
+class Chamada{
+  String chamadaID;
+  String chamadaNome;
+  String chamadaPic;
+  String receiverID;
   String receiverName;
   String receiverPic;
-  String channelId;
-  bool hasDialled;
+  String channelID;
+  bool hasDisabled;
 
   Chamada({
-    this.callerId,
-    this.callerName,
-    this.callerPic,
-    this.receiverId,
-    this.receiverName,
-    this.receiverPic,
-    this.channelId,
-    this.hasDialled,
+  this.chamadaID,
+  this.chamadaNome,
+  this.chamadaPic,
+  this.receiverID,
+  this.receiverName,
+  this.receiverPic,
+  this.channelID,
+  this. hasDisabled
   });
 
-  // to map
-  Map<String, dynamic> toMap(Chamada call) {
-    Map<String, dynamic> callMap = Map();
-    callMap["caller_id"] = call.callerId;
-    callMap["caller_name"] = call.callerName;
-    callMap["caller_pic"] = call.callerPic;
-    callMap["receiver_id"] = call.receiverId;
-    callMap["receiver_name"] = call.receiverName;
-    callMap["receiver_pic"] = call.receiverPic;
-    callMap["channel_id"] = call.channelId;
-    callMap["has_dialled"] = call.hasDialled;
-    return callMap;
-  }
+  Map <String, dynamic>toMap(Chamada chamada){
+    Map <String, dynamic>callMap = Map();
 
-  Chamada.fromMap(Map callMap) {
-    this.callerId = callMap["caller_id"];
-    this.callerName = callMap["caller_name"];
-    this.callerPic = callMap["caller_pic"];
-    this.receiverId = callMap["receiver_id"];
-    this.receiverName = callMap["receiver_name"];
-    this.receiverPic = callMap["receiver_pic"];
-    this.channelId = callMap["channel_id"];
-    this.hasDialled = callMap["has_dialled"];
-  }
+  callMap['chamada_ID']=chamada.chamadaID; 
+   callMap['chamada_Nome']=chamada.chamadaNome; 
+    callMap['chamada_Pic']=chamada.chamadaPic; 
+     callMap['receiver_ID']=chamada.receiverID; 
+      callMap['receiver_Name']=chamada.receiverName; 
+      callMap['receiver_Pic']=chamada.receiverPic; 
+      callMap['channel_ID']=chamada.channelID; 
+      callMap['has_Disabled']=chamada.hasDisabled; 
+      return callMap;
+}
+Chamada.fromMap(Map callMap){
+  this.chamadaID=callMap['chamada_ID']; 
+   this.chamadaNome=callMap['chamada_Nome']; 
+    this.chamadaPic=callMap['chamada_Pic']; 
+    this.receiverID= callMap['receiver_ID']; 
+     this.receiverName= callMap['receiver_Name']; 
+      this.receiverPic=callMap['receiver_Pic']; 
+      this.channelID=callMap['channel_ID']; 
+      this.hasDisabled=callMap['has_Disabled'];
+
+}
+  
+
 }

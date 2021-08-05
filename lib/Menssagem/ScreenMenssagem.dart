@@ -10,6 +10,7 @@ import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/utils/chamadaUtils.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'chat_list_screen.dart';
@@ -71,12 +72,17 @@ class _MenssagemState extends State<ScreenMenssagem> {
     super.initState();
     //mostraMenssagem();
     _verficaUsuario();
-    /*  metodoFirebase.getCurrentUser().then((users) {
+    metodoFirebase.getCurrentUser().then((users) {
       _currentUserID = users.uid;
-      setState(() {
+      /* setState(() {
         sender =Usuarios()
       });
     });*/
+
+      setState(() {
+        sender = Usuarios(uid: users.uid);
+      });
+    });
   }
 
   ///
@@ -106,7 +112,11 @@ class _MenssagemState extends State<ScreenMenssagem> {
               Icons.phone,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () => ChamadaUtils.dial(
+              to: widget.receiver,
+              from: sender,
+              context: context,
+            ),
           ),
         ],
       ),

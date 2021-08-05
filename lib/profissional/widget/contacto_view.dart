@@ -5,9 +5,9 @@ import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/models/contacto.dart';
-import 'package:xilhamalisso/profissional/widget/LastMenssagem.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
+import 'package:xilhamalisso/widget/LastMenssagem.dart';
 
 class ContactView extends StatelessWidget {
   final Contacto contato;

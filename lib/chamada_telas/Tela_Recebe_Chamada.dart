@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/db_FirebaseFireSore/MetodoChamada.dart';
+import 'package:xilhamalisso/models/chamada.dart';
 
-class TelaChamada extends StatelessWidget {
+class TelaRecebeChamada extends StatelessWidget {
+  final Chamada chamada;
+  final MetodoChmada metodoChamada = MetodoChmada();
+  TelaRecebeChamada({Key key, @required this.chamada}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +23,7 @@ class TelaChamada extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-            Container(
+            /* Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 color: Colors.grey,
@@ -32,13 +37,23 @@ class TelaChamada extends StatelessWidget {
                   ),
                 ),
               ),
+            ),*/
+            Image.network(
+              chamada.callerPic,
+              height: 150,
+              width: 150,
             ),
             SizedBox(
               height: 15,
             ),
             Container(
-              child: Text("Emidio Sitoe",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              child: Text(
+                chamada.callerName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
             ),
             SizedBox(
               height: 75,
@@ -50,10 +65,15 @@ class TelaChamada extends StatelessWidget {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.red),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12))),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      await metodoChamada.endCall(chamada: chamada);
+                    },
                     child: Icon(Icons.call_end),
                   ),
                   SizedBox(width: 25),

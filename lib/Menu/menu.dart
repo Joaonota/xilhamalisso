@@ -351,5 +351,6 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
     await auth.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (builder) => AutenticaUser()));
+    return auth.signOut();
   }
 }

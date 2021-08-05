@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/Introducao/introducao.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
+
+import 'chamada_telas/Tela_Recebe_Chamada.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: HomePro() //EditaProfissional(),, //ChatList()
+          home: TelaRecebeChamada() //EditaProfissional(),, //ChatList()
           ),
     );
   }

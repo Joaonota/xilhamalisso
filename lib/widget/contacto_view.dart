@@ -51,9 +51,10 @@ class ViewLayout extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             CircleAvatar(
-                maxRadius: 30,
-                backgroundColor: Colors.grey,
-                backgroundImage: NetworkImage(contatos.foto)),
+              maxRadius: 30,
+              backgroundColor: Colors.grey,
+              backgroundImage: NetworkImage(contatos.foto),
+            ),
             OnlineDotIndicator(uid: contatos.uid)
           ],
         ),

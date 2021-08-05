@@ -3,8 +3,13 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'package:xilhamalisso/custimizado/CarregarDados.dart';
+import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
+import 'package:xilhamalisso/enum/status_usuario.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/provider/UserProvider.dart';
 
 import 'DetalhesMenu.dart';
 
@@ -13,7 +18,7 @@ class PageMenu extends StatefulWidget {
   _PageMenuState createState() => _PageMenuState();
 }
 
-class _PageMenuState extends State<PageMenu> {
+class _PageMenuState extends State<PageMenu> with WidgetsBindingObserver {
   final _controle = StreamController<QuerySnapshot>.broadcast();
   String _idDoUsuario;
   //String _numeroDoUsuario;
@@ -44,10 +49,28 @@ class _PageMenuState extends State<PageMenu> {
     } catch (e) {}
   }
 
+  final MetodosFirebase metodoFirebase = MetodosFirebase();
+  UsuarioProvider userProviders;
   @override
   void initState() {
     super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      userProviders = Provider.of<UsuarioProvider>(context, listen: false);
+      await userProviders.refreshUser();
+
+      metodoFirebase.setUserState(
+          userID: userProviders.getUSer.uid, userState: UserState.Online);
+    });
+
+    WidgetsBinding.instance.addObserver(this);
     dadosUsurio();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override

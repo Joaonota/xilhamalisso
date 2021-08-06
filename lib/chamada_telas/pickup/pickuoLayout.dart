@@ -19,9 +19,9 @@ class PickoutLayout extends StatelessWidget {
     return (usuarioProvider != null && usuarioProvider.getUSer != null)
         ? StreamBuilder<DocumentSnapshot>(
             stream: metodoChmada.callStream(uid: usuarioProvider.getUSer.uid),
-            builder: (context, snapShot) {
-              if (snapShot.hasData && snapShot.data.data() != null) {
-                Chamada chamada = Chamada.fromMap(snapShot.data.data());
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data.data() != null) {
+                Chamada chamada = Chamada.fromMap(snapshot.data.data());
 
                 if (!chamada.hasDisabled) {
                   return TelaRecebeChamada(chamada: chamada);

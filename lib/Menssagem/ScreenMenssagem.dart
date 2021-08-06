@@ -4,7 +4,6 @@ import 'package:bubble/bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/custimizado/CarregarDados.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
@@ -12,8 +11,6 @@ import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/utils/chamadaUtils.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
-
-import 'chat_list_screen.dart';
 
 class ScreenMenssagem extends StatefulWidget {
   final Usuarios receiver;
@@ -72,15 +69,29 @@ class _MenssagemState extends State<ScreenMenssagem> {
     super.initState();
     //mostraMenssagem();
     _verficaUsuario();
-    metodoFirebase.getCurrentUser().then((users) {
+    /* metodoFirebase.getCurrentUser().then((users) {
       _currentUserID = users.uid;
+
+      
       /* setState(() {
         sender =Usuarios()
       });
     });*/
 
       setState(() {
-        sender = Usuarios(uid: users.uid);
+        sender = Usuarios(
+          uid: users.uid,
+          foto: users.,
+          nome: users.phoneNumber,
+        );
+      });
+    });*/
+
+    metodoFirebase.getUserDetailsById(_currentUserID).then((users) {
+      _currentUserID = users.uid;
+
+      setState(() {
+        sender = Usuarios(nome: users.nome, uid: users.uid, foto: users.foto);
       });
     });
   }
@@ -345,10 +356,12 @@ class _MenssagemState extends State<ScreenMenssagem> {
 
     ModelMenssagem _modelMenssagem = ModelMenssagem(
         receiverID: widget.receiver.uid,
-        senderID: _currentUserID,
+        senderID: sender.uid,
         menssagem: texto,
         timestamp: Timestamp.now(),
         tipo: "texto");
+    print(sender.uid);
+    print(_modelMenssagem.menssagem);
 
     //
     metodoFirebase.adicinatodb(_modelMenssagem, sender, widget.receiver);

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:xilhamalisso/chamada_telas/TelaChamda.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodoChamada.dart';
 import 'package:xilhamalisso/models/chamada.dart';
+import 'package:xilhamalisso/widget/cached_image.dart';
 
 class TelaRecebeChamada extends StatelessWidget {
   final Chamada chamada;
   final MetodoChmada metodoChamada = MetodoChmada();
-  TelaRecebeChamada({Key key, @required this.chamada}) : super(key: key);
+  TelaRecebeChamada({@required this.chamada});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +19,7 @@ class TelaRecebeChamada extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "Chamada Recebida",
+              "Chamada Recebida...",
               style: TextStyle(
                 fontSize: 30,
               ),
@@ -44,6 +46,8 @@ class TelaRecebeChamada extends StatelessWidget {
               width: 150,
             ),*/
             CircleAvatar(
+              maxRadius: 80,
+              minRadius: 80,
               backgroundImage: NetworkImage(chamada.chamadaPic),
             ),
             SizedBox(
@@ -51,7 +55,7 @@ class TelaRecebeChamada extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "chamada.callerName",
+                chamada.chamadaNome,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
@@ -86,7 +90,12 @@ class TelaRecebeChamada extends StatelessWidget {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12))),
                     ),
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TelaChamada(chamada: chamada),
+                      ),
+                    ),
                     child: Icon(Icons.call),
                   ),
                 ],

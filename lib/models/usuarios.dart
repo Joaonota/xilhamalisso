@@ -1,17 +1,20 @@
 class Usuarios {
   String uid;
-  String _nome;
+  String nome;
   String _dataNas;
   String _email;
   String _numero;
   int _status;
   String _localizacao;
   String _atuacao;
-  String _foto;
+  String foto;
+  String get getUid => this.uid;
 
-  get nome => this._nome;
+  set setUid(String uid) => this.uid = uid;
 
-  set nome(value) => this._nome = value;
+  get getNome => this.nome;
+
+  set setNome(nome) => this.nome = nome;
 
   get dataNas => this._dataNas;
 
@@ -37,9 +40,9 @@ class Usuarios {
 
   set atuacao(value) => this._atuacao = value;
 
-  get foto => this._foto;
+  get getFoto => this.foto;
 
-  set foto(value) => this._foto = value;
+  set setFoto(foto) => this.foto = foto;
 
   Usuarios.fromDocumentSnapshot(dynamic documentSnapshot) {
     this.uid = documentSnapshot.data()['uid'];
@@ -55,6 +58,8 @@ class Usuarios {
 
   Usuarios({
     this.uid,
+    this.nome,
+    this.foto,
   });
 
 //

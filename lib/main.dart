@@ -3,10 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/Introducao/introducao.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
+import 'package:xilhamalisso/Telas_Teste/Tela_teste_Chamada.dart';
 import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/profissional/dasboardPro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 
+import 'Telas_Teste/Tela_Teste_Conversa.dart';
+import 'Telas_Teste/Tela_teste_ligar.dart';
 import 'chamada_telas/Tela_Recebe_Chamada.dart';
 
 Future<void> main() async {

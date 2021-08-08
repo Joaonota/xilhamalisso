@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/chamada_telas/TelaChamda.dart';
+import 'package:xilhamalisso/chamada_telas/Telaligar.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodoChamada.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/models/chamada.dart';
@@ -32,7 +33,7 @@ class ChamadaUtils {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TelaChamada(chamada: chamada),
+          builder: (context) => TelaLigar(chamada: chamada),
         ),
       );
     }

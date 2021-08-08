@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:xilhamalisso/chamada_telas/TelaChamda.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodoChamada.dart';
 import 'package:xilhamalisso/models/chamada.dart';
-import 'package:xilhamalisso/widget/cached_image.dart';
 
 class TelaRecebeChamada extends StatelessWidget {
   final Chamada chamada;

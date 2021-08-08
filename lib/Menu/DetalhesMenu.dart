@@ -114,28 +114,70 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
               ),
 
               /// Aqui Comeca o grid
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Primeiro e segundo Grid
-                      Container(
-                        child: Row(
-                          children: [
-                            //Priemiro Grid
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ChatList(),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Primeiro e segundo Grid
+                        Container(
+                          child: Row(
+                            children: [
+                              //Priemiro Grid
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatList(),
+                                    ),
+                                  );
+                                  print("Clicado o primeiro Grid");
+                                },
+                                child: SizedBox(
+                                  width: 150,
+                                  height: 150,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                      color: Color(0xff121518),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20),
+                                            child: Icon(
+                                              FontAwesomeIcons.balanceScale,
+                                              size: 85,
+                                              color: Color(0xffaa9166),
+                                            ),
+                                          ),
+                                          Divider(),
+                                          Text(
+                                            "Consultas Jurídicas",
+                                            style: GoogleFonts.ebGaramond(
+                                                fontSize: 18.0,
+                                                color: Color(0xffaa9166),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                );
-                                print("Clicado o primeiro Grid");
-                              },
-                              child: SizedBox(
+                                ),
+                              ),
+                              SizedBox(
+                                width: 29,
+                              ),
+                              //Segundo grid
+                              SizedBox(
                                 width: 150,
                                 height: 150,
                                 child: Container(
@@ -153,16 +195,16 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                                           padding:
                                               const EdgeInsets.only(right: 20),
                                           child: Icon(
-                                            FontAwesomeIcons.balanceScale,
+                                            FontAwesomeIcons.users,
                                             size: 85,
                                             color: Color(0xffaa9166),
                                           ),
                                         ),
                                         Divider(),
                                         Text(
-                                          "Consultas Jurídicas",
+                                          "Assistencia Psicológica",
                                           style: GoogleFonts.ebGaramond(
-                                              fontSize: 18.0,
+                                              fontSize: 15.0,
                                               color: Color(0xffaa9166),
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -171,50 +213,11 @@ class _DetalhesMenuState extends State<DetalhesMenu> {
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 29,
-                            ),
-                            //Segundo grid
-                            SizedBox(
-                              width: 150,
-                              height: 150,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Color(0xff121518),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 20),
-                                        child: Icon(
-                                          FontAwesomeIcons.users,
-                                          size: 85,
-                                          color: Color(0xffaa9166),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Text(
-                                        "Assistencia Psicológica",
-                                        style: GoogleFonts.ebGaramond(
-                                            fontSize: 15.0,
-                                            color: Color(0xffaa9166),
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

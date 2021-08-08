@@ -24,26 +24,6 @@ class TelaRecebeChamada extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50),
-            /* Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.grey,
-              ),
-              child: SizedBox(
-                width: 180,
-                height: 180,
-                child: ClipRRect(
-                  child: Image.asset(
-                    "assets/imagem_Splash/capa.png",
-                  ),
-                ),
-              ),
-            ),*/
-            /*  Image.network(
-              chamada.callerPic,
-              height: 150,
-              width: 150,
-            ),*/
             CircleAvatar(
               maxRadius: 80,
               minRadius: 80,

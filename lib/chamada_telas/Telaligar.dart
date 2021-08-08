@@ -20,9 +20,48 @@ class TelaLigar extends StatefulWidget {
 }
 
 class _TelaLigarState extends State<TelaLigar> {
+  bool visibelN = false;
+
+  String displayTime = "00:00:00";
+  var watchPhome = Stopwatch();
+//
   final MetodoChmada metodoChmada = MetodoChmada();
   UsuarioProvider usuarioProvider;
   StreamSubscription callStreamSubscription;
+//
+  startTimer() {
+    Timer(Duration(seconds: 1), iniciaCont);
+    watchPhome.start();
+  }
+
+  iniciaCont() {
+    if (watchPhome.isRunning) {
+      startTimer();
+    }
+    setState(() {
+      displayTime = watchPhome.elapsed.inHours.toString().padLeft(2, "0") +
+          ":" +
+          (watchPhome.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
+          ":" +
+          (watchPhome.elapsed.inSeconds % 60).toString().padLeft(2, "0");
+    });
+  }
+
+  void autoFalante() {
+    setState(() {
+      autoF = !autoF;
+    });
+    _engine.setEnableSpeakerphone(autoF);
+  }
+
+  void ficarmudo() {
+    setState(() {
+      mudo = !mudo;
+    });
+
+    _engine.muteLocalAudioStream(mudo);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +81,19 @@ class _TelaLigarState extends State<TelaLigar> {
             Padding(
               padding: const EdgeInsets.only(top: 30),
               child: Center(
-                child: Text(
-                  "A Ligar...",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
+                child: visibelN == false
+                    ? Text(
+                        "A Ligar...",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      )
+                    : Text(
+                        "Em Conversa..",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
               ),
             ),
             Padding(
@@ -79,45 +127,105 @@ class _TelaLigarState extends State<TelaLigar> {
               padding: const EdgeInsets.only(top: 10),
               child: Container(
                 child: Center(
-                  child: Text(
-                    "+258845982017",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
+                  child: Column(
+                    children: [
+                      visibelN == false
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.record_voice_over,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  displayTime,
+                                  style: TextStyle(color: Colors.green),
+                                )
+                              ],
+                            ),
+                    ],
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 200,
+              height: 170,
             ),
             Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.red),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                  visibelN == false
+                      ? Container()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(100)),
+                                child: TextButton(
+                                  onPressed: ficarmudo,
+                                  child: Icon(
+                                    mudo ? Icons.mic_off : Icons.mic,
+                                    color: mudo ? Colors.blue : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: autoFalante,
+                                    child: Icon(
+                                      autoF
+                                          ? Icons.speaker
+                                          : Icons.speaker_notes_off,
+                                      color: autoF ? Colors.blue : Colors.white,
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(100)),
+                            child: TextButton(
+                              onPressed: () async => await metodoChmada.endCall(
+                                  chamada: widget.chamada),
+                              child: Icon(
+                                Icons.call_end,
+                                color: Colors.white,
                               ),
                             )),
-                        onPressed: () async =>
-                            await metodoChmada.endCall(chamada: widget.chamada),
-                        child: Icon(
-                          Icons.call_end,
-                        ),
                       ),
-                    ),
-                  )
+                    ],
+                  ),
                 ],
               ),
             )
@@ -128,8 +236,8 @@ class _TelaLigarState extends State<TelaLigar> {
   }
 
   static final _users = <int>[];
-
-  bool muted = false;
+  bool mudo = false;
+  bool autoF = false;
   RtcEngine _engine;
 
   @override
@@ -143,6 +251,8 @@ class _TelaLigarState extends State<TelaLigar> {
   void dispose() {
     super.dispose();
     _users.clear();
+    visibelN = false;
+    watchPhome.stop();
     // Destroy sdk
     _engine.leaveChannel();
     _engine.destroy();
@@ -180,9 +290,14 @@ class _TelaLigarState extends State<TelaLigar> {
         print('userJoined: $uid');
         setState(() {
           _users.add(uid);
+          visibelN = true;
+          startTimer();
         });
       },
       userOffline: (uid, elapsed) {
+        setState(() {
+          visibelN = false;
+        });
         metodoChmada.endCall(chamada: widget.chamada);
         print('userJoined: $uid');
         setState(() {

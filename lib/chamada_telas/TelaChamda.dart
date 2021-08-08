@@ -41,21 +41,6 @@ class _TelaChamadaState extends State<TelaChamada> {
               ),
             ),
             SizedBox(height: 50),
-            /* Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.grey,
-              ),
-              child: SizedBox(
-                width: 180,
-                height: 180,
-                child: ClipRRect(
-                  child: Image.asset(
-                    "assets/imagem_Splash/capa.png",
-                  ),
-                ),
-              ),
-            ),*/
             CircleAvatar(
               maxRadius: 90,
               minRadius: 90,

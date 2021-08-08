@@ -4,6 +4,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/AgoraSDK/Settings.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodoChamada.dart';
@@ -193,8 +194,8 @@ class _TelaLigarState extends State<TelaLigar> {
                                     onPressed: autoFalante,
                                     child: Icon(
                                       autoF
-                                          ? Icons.speaker
-                                          : Icons.speaker_notes_off,
+                                          ? FontAwesomeIcons.volumeUp
+                                          : FontAwesomeIcons.volumeMute,
                                       color: autoF ? Colors.blue : Colors.white,
                                     ),
                                   )),

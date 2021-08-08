@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -102,11 +103,13 @@ class _TelaLigarState extends State<TelaLigar> {
               child: Center(
                 child: Container(
                   child: CircleAvatar(
-                      maxRadius: 79,
-                      minRadius: 79,
-                      backgroundColor: Colors.grey,
-                      backgroundImage:
-                          NetworkImage(widget.chamada.receiverPic)),
+                    maxRadius: 79,
+                    minRadius: 79,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: verfica == false
+                        ? NetworkImage(widget.chamada.receiverPic)
+                        : NetworkImage(widget.chamada.chamadaPic),
+                  ),
                 ),
               ),
             ),
@@ -114,13 +117,21 @@ class _TelaLigarState extends State<TelaLigar> {
               padding: const EdgeInsets.only(top: 30),
               child: Container(
                 child: Center(
-                  child: Text(
-                    widget.chamada.receiverName,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
+                  child: verfica == false
+                      ? Text(
+                          widget.chamada.receiverName,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        )
+                      : Text(
+                          widget.chamada.chamadaNome,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
                 ),
               ),
             ),
@@ -175,7 +186,7 @@ class _TelaLigarState extends State<TelaLigar> {
                                 child: TextButton(
                                   onPressed: ficarmudo,
                                   child: Icon(
-                                    mudo ? Icons.mic_off : Icons.mic,
+                                    mudo ? Icons.mic : Icons.mic_off,
                                     color: mudo ? Colors.blue : Colors.white,
                                   ),
                                 ),
@@ -194,8 +205,8 @@ class _TelaLigarState extends State<TelaLigar> {
                                     onPressed: autoFalante,
                                     child: Icon(
                                       autoF
-                                          ? FontAwesomeIcons.volumeUp
-                                          : FontAwesomeIcons.volumeMute,
+                                          ? FontAwesomeIcons.volumeMute
+                                          : FontAwesomeIcons.volumeUp,
                                       color: autoF ? Colors.blue : Colors.white,
                                     ),
                                   )),
@@ -236,8 +247,20 @@ class _TelaLigarState extends State<TelaLigar> {
     );
   }
 
+  //
+  String _idDoUsuario;
+  // String _numeroDoUsuario;
+
+  Future _verficaUsuario() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User fUser = auth.currentUser;
+    _idDoUsuario = fUser.uid;
+    //_numeroDoUsuario = fUser.phoneNumber;
+  }
+
   static final _users = <int>[];
   bool mudo = false;
+  bool verfica;
   bool autoF = false;
   RtcEngine _engine;
 
@@ -246,6 +269,7 @@ class _TelaLigarState extends State<TelaLigar> {
     super.initState();
     addPostFrameCallback();
     initializeAgora();
+    _verficaUsuario();
   }
 
   @override
@@ -253,6 +277,7 @@ class _TelaLigarState extends State<TelaLigar> {
     super.dispose();
     _users.clear();
     visibelN = false;
+    verfica = false;
     watchPhome.stop();
     // Destroy sdk
     _engine.leaveChannel();
@@ -280,6 +305,15 @@ class _TelaLigarState extends State<TelaLigar> {
       },
       joinChannelSuccess: (channel, uid, elapsed) {
         print('onJoinChannel: $channel, uid: $uid');
+        if (_idDoUsuario == channel) {
+          setState(() {
+            verfica = false;
+          });
+        } else {
+          setState(() {
+            verfica = true;
+          });
+        }
       },
       leaveChannel: (stats) {
         setState(() {

@@ -7,9 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
-import 'package:xilhamalisso/custimizado/CarregarDados.dart';
 import 'package:xilhamalisso/profissional/HomePro.dart';
-import 'package:xilhamalisso/profissional/dasboardPro.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override

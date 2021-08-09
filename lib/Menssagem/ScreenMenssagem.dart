@@ -1,16 +1,26 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bubble/bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
+import 'package:xilhamalisso/db_FirebaseFireSore/storage_methods.dart';
+import 'package:xilhamalisso/enum/view_state.dart';
 import 'package:xilhamalisso/models/ModelMenssagem.dart.dart';
 
 import 'package:xilhamalisso/models/Usuarios.dart';
+import 'package:xilhamalisso/provider/image_upload_provider.dart';
 import 'package:xilhamalisso/utils/chamadaUtils.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
+import 'package:xilhamalisso/utils/utilitarios.dart';
+
+import 'package:xilhamalisso/widget/cached_image.dart';
 
 class ScreenMenssagem extends StatefulWidget {
   final Usuarios receiver;
@@ -33,6 +43,8 @@ class _MenssagemState extends State<ScreenMenssagem> {
   String _currentUserID;
   Radius messageRadius = Radius.circular(10);
 
+  var dia = DateTime.now().day;
+
   //
 
   ///
@@ -45,6 +57,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
   }
 
   FirebaseFirestore db = FirebaseFirestore.instance;
+  // ignore: missing_return
   Future<Stream<QuerySnapshot>> mostraMenssagem() async {
     try {
       await _verficaUsuario();
@@ -99,6 +112,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
   ///
   @override
   Widget build(BuildContext context) {
+    _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
     return Scaffold(
       backgroundColor: Color(0xffebedf9),
       //este appBar sera custimisado
@@ -137,6 +151,13 @@ class _MenssagemState extends State<ScreenMenssagem> {
           Flexible(
             child: listaMenssagem(),
           ),
+          _imageUploadProvider.getViewState == ViewState.LOADING
+              ? Container(
+                  alignment: Alignment.centerRight,
+                  margin: EdgeInsets.only(right: 15),
+                  child: CircularProgressIndicator(),
+                )
+              : Container(),
           chatControl(),
         ],
       ),
@@ -189,7 +210,25 @@ class _MenssagemState extends State<ScreenMenssagem> {
             ? Alignment.centerRight
             : Alignment.centerLeft,
         child: _message.senderID == _currentUserID
-            ? senderLayout(_message)
+            ? Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 190),
+                    child: senderLayout(_message),
+                  ),
+                  //DataFormatada(),
+                  Container(
+                    padding: const EdgeInsets.only(left: 190),
+                    child: Text(
+                      DateFormat('dd MMM kk:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(_message.hora),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )
             : receiverLayout(_message),
       ),
     );
@@ -198,22 +237,17 @@ class _MenssagemState extends State<ScreenMenssagem> {
   Widget senderLayout(ModelMenssagem message) {
     // Radius messageRadius = Radius.circular(10);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          width: 200,
-          margin: EdgeInsets.symmetric(vertical: 5),
-          child: Bubble(
-            child: getMessagesend(message),
-            color: Colors.green,
-            padding: const BubbleEdges.all(10.0),
-            margin: BubbleEdges.only(top: 4),
-            nip: BubbleNip.rightTop,
-            elevation: 8,
-          ),
-        ),
-      ],
+    return Container(
+      width: 200,
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Bubble(
+        child: getMessage(message),
+        color: Colors.green,
+        padding: const BubbleEdges.all(10.0),
+        margin: BubbleEdges.only(top: 4),
+        nip: BubbleNip.rightTop,
+        elevation: 8,
+      ),
     );
   }
 /*bbb
@@ -239,13 +273,23 @@ class _MenssagemState extends State<ScreenMenssagem> {
     );
   }*/
 
-  getMessagesend(ModelMenssagem message) {
-    return Text(
-      message.menssagem,
-      style: TextStyle(
-        color: Colors.white,
-      ),
-    );
+  getMessage(ModelMenssagem message) {
+    return message.tipo != "imagem"
+        ? Text(
+            message.menssagem,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
+          )
+        : message.fotoUrl != null
+            ? CachedImage(
+                message.fotoUrl,
+                height: 250,
+                width: 250,
+                radius: 10,
+              )
+            : Text("Url was null");
   }
 
   getMessagereceive(ModelMenssagem message) {
@@ -260,22 +304,17 @@ class _MenssagemState extends State<ScreenMenssagem> {
   Widget receiverLayout(ModelMenssagem message) {
     //Radius messageRadius = Radius.circular(10);
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 200,
-          margin: EdgeInsets.symmetric(vertical: 5),
-          child: Bubble(
-            child: getMessagereceive(message),
-            color: Colors.white,
-            padding: const BubbleEdges.all(10.0),
-            margin: BubbleEdges.only(top: 4),
-            nip: BubbleNip.leftTop,
-            elevation: 8,
-          ),
-        ),
-      ],
+    return Container(
+      width: 200,
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Bubble(
+        child: getMessagereceive(message),
+        color: Colors.white,
+        padding: const BubbleEdges.all(10.0),
+        margin: BubbleEdges.only(top: 4),
+        nip: BubbleNip.leftTop,
+        elevation: 8,
+      ),
     );
   }
 
@@ -300,7 +339,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
       ),
     );
   }*/
-  /* adicinatodb(String text) async {
+/* adicinatodb(String text) async {
     /* var db = FirebaseFirestore.instance
         .collection("menssagem")
         .doc(_currentUserID)
@@ -358,6 +397,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
         receiverID: widget.receiver.uid,
         senderID: sender.uid,
         menssagem: texto,
+        hora: DateTime.now().millisecondsSinceEpoch.toString(),
         timestamp: Timestamp.now(),
         tipo: "texto");
     print(sender.uid);
@@ -458,6 +498,18 @@ class _MenssagemState extends State<ScreenMenssagem> {
     );
   }
 
+  StorageMethods _storageMethods = StorageMethods();
+  ImageUploadProvider _imageUploadProvider;
+
+  void pickImage({@required ImageSource source}) async {
+    File selectedImage = await Utilitarios.pickImage(source: source);
+    _storageMethods.uploadImage(
+        imagem: selectedImage,
+        receiverId: widget.receiver.uid,
+        senderId: _currentUserID,
+        imageUploadProvider: _imageUploadProvider);
+  }
+
   addMediaModal(context) {
     showModalBottomSheet(
         context: context,
@@ -494,10 +546,14 @@ class _MenssagemState extends State<ScreenMenssagem> {
               Flexible(
                 child: ListView(
                   children: <Widget>[
-                    ModalTile(
-                      title: "Galeria",
-                      subtitle: "Partilha de Foto",
-                      icon: Icons.image,
+                    GestureDetector(
+                      onTap: () =>
+                          ImagePicker().pickImage(source: ImageSource.gallery),
+                      child: ModalTile(
+                        title: "Galeria",
+                        subtitle: "Partilha de Foto",
+                        icon: Icons.image,
+                      ),
                     ),
                     ModalTile(
                         title: "Documento",
@@ -516,11 +572,13 @@ class ModalTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
+  final Function onTap;
 
   const ModalTile({
     @required this.title,
     @required this.subtitle,
     @required this.icon,
+    this.onTap,
   });
 
   @override

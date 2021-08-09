@@ -28,7 +28,7 @@ class QuiteBox extends StatelessWidget {
               ),
               SizedBox(height: 25),
               Text(
-                "Procure seus amigos e familiares para começar a ligar ou conversar com eles",
+                "Procure teu Colega  ou Aguarde por um Cliente",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   letterSpacing: 1.2,

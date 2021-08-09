@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:xilhamalisso/custimizado/DropButom.dart';
 import 'package:xilhamalisso/custimizado/textFielCustomizado.dart';
 import 'package:xilhamalisso/models/AreaActuacao.dart';
 
@@ -21,7 +20,7 @@ TextEditingController cLocaliza = TextEditingController();
 TextEditingController cNome = TextEditingController();
 TextEditingController cNasci = TextEditingController();
 GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-List<DropdownMenuItem<String>> _listaDropArea = List();
+List<DropdownMenuItem<String>> _listaDropArea = [];
 String _itemSelecionadoArea;
 
 class _EditaProfissionalState extends State<EditaProfissional> {

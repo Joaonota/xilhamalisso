@@ -152,21 +152,25 @@ class DetalhesPros extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Icon(
-                                    Icons.mail,
-                                    color: Color(0xffaa9166),
-                                  ),
-                                  Text(
-                                    usuarios.email,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                              Flexible(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Icon(
+                                      Icons.mail,
+                                      color: Color(0xffaa9166),
                                     ),
-                                  ),
-                                ],
+                                    Flexible(
+                                      child: Text(
+                                        usuarios.email,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

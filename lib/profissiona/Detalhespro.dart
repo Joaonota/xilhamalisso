@@ -1,10 +1,8 @@
-import 'package:date_time_picker/date_time_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:xilhamalisso/custimizado/Customappbar.dart';
-import 'package:xilhamalisso/custimizado/DropButom.dart';
-import 'package:xilhamalisso/custimizado/textFielCustomizado.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 
 import 'dasboardPro.dart';

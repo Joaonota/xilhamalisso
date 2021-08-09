@@ -6,12 +6,14 @@ class ModelMenssagem {
   String tipo;
   String menssagem;
   Timestamp timestamp;
+  String hora;
   String fotoUrl;
   String audioUrl;
   ModelMenssagem({
     this.senderID,
     this.receiverID,
     this.timestamp,
+    this.hora,
     this.tipo,
     this.menssagem,
   });
@@ -90,6 +92,7 @@ class ModelMenssagem {
     map['receiverID'] = this.receiverID;
     map['timestamp'] = this.timestamp;
     map['tipo'] = this.tipo;
+    map['hora'] = this.hora;
     map['menssagem'] = this.menssagem;
     return map;
   }
@@ -100,6 +103,7 @@ class ModelMenssagem {
     this.tipo = map['tipo'];
     this.menssagem = map['menssagem'];
     this.timestamp = map['timestamp'];
+    this.hora = map['hora'];
     this.fotoUrl = map['fotoUrl'];
   }
   Map toImageMap() {

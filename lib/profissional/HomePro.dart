@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:xilhamalisso/chamada_telas/pickup/pickuoLayout.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/enum/status_usuario.dart';
+import 'package:xilhamalisso/profissional/meusContatos.dart';
 
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
@@ -99,11 +100,14 @@ class _HomeProState extends State<HomePro> with WidgetsBindingObserver {
             Container(
               child: DasBoardPro(),
             ),
-            Center(
+            /*Center(
               child: Text(
                 "Meus Contactos",
                 style: TextStyle(color: Colors.white),
               ),
+            ),*/
+            Container(
+              child: MeusContatos(),
             ),
             Center(
               child: Text(

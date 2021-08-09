@@ -130,4 +130,31 @@ class MetodosFirebase {
 
   Stream<DocumentSnapshot> getUserStrem({@required String uid}) =>
       _userCollection.doc(uid).snapshots();
+
+  //metodo para enviar Imagem
+  void setImageMsg(String url, String receiverId, String senderId) async {
+    ModelMenssagem message;
+
+    message = ModelMenssagem.imagemMessagem(
+        menssagem: "IMAGEM",
+        receiverID: receiverId,
+        senderID: senderId,
+        fotoUrl: url,
+        timestamp: Timestamp.now(),
+        tipo: 'imagem');
+
+    // create imagemap
+    var map = message.toImageMap();
+
+    // var map = Map<String, dynamic>();
+    await _messageCollection
+        .doc(message.senderID)
+        .collection(message.receiverID)
+        .add(map);
+
+    _messageCollection
+        .doc(message.receiverID)
+        .collection(message.senderID)
+        .add(map);
+  }
 }

@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:xilhamalisso/Introducao/introducao.dart';
-import 'package:xilhamalisso/Menu/Page_menu.dart';
-import 'package:xilhamalisso/Telas_Teste/Tela_teste_Chamada.dart';
 import 'package:xilhamalisso/profissional/HomePro.dart';
-import 'package:xilhamalisso/profissional/dasboardPro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
-
-import 'Telas_Teste/Tela_Teste_Conversa.dart';
-import 'Telas_Teste/Tela_teste_ligar.dart';
-import 'chamada_telas/Tela_Recebe_Chamada.dart';
+import 'package:xilhamalisso/provider/image_upload_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ImageUploadProvider()),
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
       ],
       child: MaterialApp(

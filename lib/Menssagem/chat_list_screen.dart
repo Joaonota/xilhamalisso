@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
+import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
+import 'package:xilhamalisso/utils/utilitarios.dart';
 
 import 'ScreenMenssagem.dart';
 
@@ -117,6 +120,8 @@ class _ChatListContainerState extends State<ChatListContainer> {
 class UserCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final UsuarioProvider usuarioProvider =
+        Provider.of<UsuarioProvider>(context);
     return Container(
       height: 40,
       width: 40,
@@ -129,7 +134,7 @@ class UserCircle extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Text(
-              "JN",
+              Utilitarios.getInitials(usuarioProvider.getUSer.nome),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: UniversalVariables.lightBlueColor,

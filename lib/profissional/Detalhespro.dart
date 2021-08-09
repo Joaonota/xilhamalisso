@@ -26,6 +26,7 @@ class _DetalhesProState extends State<DetalhesPro> {
     //_numeroDoUsuario = fUser.phoneNumber;
   }
 
+  // ignore: missing_return
   Future<Stream<QuerySnapshot>> dadosUsurio() async {
     try {
       await _verficaUsuario();

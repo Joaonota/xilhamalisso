@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:xilhamalisso/Introducao/FirstRun.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
 import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/provider/image_upload_provider.dart';
+
+import 'Dados_do_Usuario/EditaUser.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,13 +26,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Xilhamalisso',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: HomePro() //EditaProfissional(),, //ChatList()
-          ),
+        debugShowCheckedModeBanner: false,
+        title: 'Xilhamalisso',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => FirstRun(),
+          '/homePro': (context) => HomePro(),
+          '/Menu': (context) => PageMenu(),
+          "/novo": (context) => EditaUser(),
+        }, //EditaProfissional(),, //ChatList()
+      ),
     );
   }
 }

@@ -428,9 +428,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
               decoration:
                   BoxDecoration(shape: BoxShape.circle, color: Colors.white70),
               child: IconButton(
-                onPressed: () {
-                  addMediaModal(context);
-                },
+                onPressed: () => addMediaModal(context),
                 icon: Icon(
                   Icons.attach_file_sharp,
                   size: 25,
@@ -545,14 +543,12 @@ class _MenssagemState extends State<ScreenMenssagem> {
               Flexible(
                 child: ListView(
                   children: <Widget>[
-                    GestureDetector(
+                    ModalTile(
+                      title: "Galeria",
+                      subtitle: "Partilha de Foto",
+                      icon: Icons.image,
                       onTap: () =>
                           ImagePicker().pickImage(source: ImageSource.gallery),
-                      child: ModalTile(
-                        title: "Galeria",
-                        subtitle: "Partilha de Foto",
-                        icon: Icons.image,
-                      ),
                     ),
                     ModalTile(
                         title: "Documento",

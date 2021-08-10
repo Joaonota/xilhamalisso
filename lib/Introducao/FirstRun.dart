@@ -33,7 +33,7 @@ class _FirstRunState extends State<FirstRun> with AfterLayoutMixin<FirstRun> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CarregarDados(text: "Carregandos", colors: Colors.green),
+        child: CarregarDados(text: "Carregando", colors: Colors.green),
       ),
     );
   }

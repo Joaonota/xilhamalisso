@@ -1,35 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
 
-class Introducao extends StatefulWidget {
-  @override
-  _IntroducaoState createState() => _IntroducaoState();
-}
-
-class _IntroducaoState extends State<Introducao> {
-  Future verficaPrimeiravez() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool _ver = (preferences.getBool("ver") ?? false);
-    if (_ver) {
-      Navigator.of(context).pushReplacement(new MaterialPageRoute(
-        builder: (context) => new AutenticaUser(),
-      ));
-    } else {
-      await preferences.setBool("ver", true);
-      Navigator.of(context).pushReplacement(new MaterialPageRoute(
-        builder: (context) => new Introducao(),
-      ));
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    verficaPrimeiravez();
-  }
-
+class Introducao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

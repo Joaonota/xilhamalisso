@@ -5,9 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
-import 'package:xilhamalisso/Menu/Page_menu.dart';
-import 'package:xilhamalisso/profissional/HomePro.dart';
 
 class AutenticaUser extends StatefulWidget {
   @override
@@ -240,12 +237,13 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                     resulta.docs;
                                 if (documents.length == 0) {
                                   print("novo usuario");
-                                  Navigator.pop(context);
-                                  Navigator.of(context).pushReplacement(
+                                  /*Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => EditaUser(),
                                     ),
-                                  );
+                                  );*/
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("/novo");
                                 } else {
                                   print("Usuario existete");
                                   //
@@ -257,12 +255,15 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                     if (docs.docs[0].exists) {
                                       if (docs.docs[0].data()["painel"] ==
                                           "pro") {
-                                        Navigator.of(context).pushReplacement(
+                                        /* Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) => HomePro(),
                                           ),
-                                        );
+                                        );*/
                                         //
+
+                                        Navigator.of(context)
+                                            .pushReplacementNamed("/homePro");
                                       }
                                     }
                                     if (documents.length == 1) {
@@ -274,14 +275,16 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                         if (docs.docs[0].exists) {
                                           if (docs.docs[0].data()["painel"] ==
                                               "cliente") {
-                                            Navigator.of(context)
+                                            /* Navigator.of(context)
                                                 .pushReplacement(
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     PageMenu(),
                                               ),
-                                            );
+                                            );*/
                                             //
+                                            Navigator.of(context)
+                                                .pushReplacementNamed("/Menu");
                                           }
                                         }
                                       });

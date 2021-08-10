@@ -47,9 +47,9 @@ class _EditaUserState extends State<EditaUser> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         backgroundColor: Color(0xff291b12),
         title: Text("Perfil"),
-        leading: Icon(Icons.arrow_back),
       ),
       body: Container(
         child: Padding(

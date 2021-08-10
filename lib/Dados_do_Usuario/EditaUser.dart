@@ -21,6 +21,7 @@ class EditaUser extends StatefulWidget {
   _EditaUserState createState() => _EditaUserState();
 }
 
+String atuacao = "";
 String userUrl = "";
 File imageFile;
 bool isConnectd;
@@ -265,6 +266,7 @@ class _EditaUserState extends State<EditaUser> {
         "nascimento": cNasci.text.trim(),
         "email": cEmail.text.trim(),
         "localiza": cLocaliza.text.trim(),
+        "atuacao": atuacao,
         "foto": url
       });
       print("Usuario cadastrado");

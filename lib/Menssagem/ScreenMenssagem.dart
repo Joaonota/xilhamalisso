@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:xilhamalisso/chamada_telas/pickup/pickuoLayout.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/storage_methods.dart';
@@ -19,8 +20,6 @@ import 'package:xilhamalisso/provider/image_upload_provider.dart';
 import 'package:xilhamalisso/utils/chamadaUtils.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 import 'package:xilhamalisso/utils/utilitarios.dart';
-
-import 'package:xilhamalisso/widget/cached_image.dart';
 
 class ScreenMenssagem extends StatefulWidget {
   final Usuarios receiver;
@@ -41,7 +40,9 @@ class _MenssagemState extends State<ScreenMenssagem> {
   bool iswrite = false;
   Usuarios sender;
   String _currentUserID;
-  Radius messageRadius = Radius.circular(10);
+  //Radius messageRadius = Radius.circular(10);
+  StorageMethods _storageMethods = StorageMethods();
+  ImageUploadProvider _imageUploadProvider;
 
   var dia = DateTime.now().day;
 
@@ -113,53 +114,55 @@ class _MenssagemState extends State<ScreenMenssagem> {
   @override
   Widget build(BuildContext context) {
     _imageUploadProvider = Provider.of<ImageUploadProvider>(context);
-    return Scaffold(
-      backgroundColor: Color(0xffebedf9),
-      //este appBar sera custimisado
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.green[100],
-        centerTitle: false,
-        title: Text(
-          widget.receiver.nome,
-          style: TextStyle(color: Colors.black),
+    return PickoutLayout(
+      scaffold: Scaffold(
+        backgroundColor: Color(0xffebedf9),
+        //este appBar sera custimisado
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.green[100],
+          centerTitle: false,
+          title: Text(
+            widget.receiver.nome,
+            style: TextStyle(color: Colors.black),
+          ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.video_call_sharp,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.phone,
+                color: Colors.black,
+              ),
+              onPressed: () => ChamadaUtils.dial(
+                to: widget.receiver,
+                from: sender,
+                context: context,
+              ),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.video_call_sharp,
-              color: Colors.black,
+        //Aqui fecha AppBar
+        body: Column(
+          children: <Widget>[
+            Flexible(
+              child: listaMenssagem(),
             ),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.phone,
-              color: Colors.black,
-            ),
-            onPressed: () => ChamadaUtils.dial(
-              to: widget.receiver,
-              from: sender,
-              context: context,
-            ),
-          ),
-        ],
-      ),
-      //Aqui fecha AppBar
-      body: Column(
-        children: <Widget>[
-          Flexible(
-            child: listaMenssagem(),
-          ),
-          _imageUploadProvider.getViewState == ViewState.LOADING
-              ? Container(
-                  alignment: Alignment.centerRight,
-                  margin: EdgeInsets.only(right: 15),
-                  child: CircularProgressIndicator(),
-                )
-              : Container(),
-          chatControl(),
-        ],
+            _imageUploadProvider.getViewState == ViewState.LOADING
+                ? Container(
+                    alignment: Alignment.centerRight,
+                    margin: EdgeInsets.only(right: 15),
+                    child: CircularProgressIndicator(),
+                  )
+                : Container(),
+            chatControl(),
+          ],
+        ),
       ),
     );
   }
@@ -283,11 +286,10 @@ class _MenssagemState extends State<ScreenMenssagem> {
             ),
           )
         : message.fotoUrl != null
-            ? CachedImage(
+            ? Image.network(
                 message.fotoUrl,
                 height: 250,
                 width: 250,
-                radius: 10,
               )
             : Text("Url was null");
   }
@@ -497,9 +499,6 @@ class _MenssagemState extends State<ScreenMenssagem> {
       ),
     );
   }
-
-  StorageMethods _storageMethods = StorageMethods();
-  ImageUploadProvider _imageUploadProvider;
 
   void pickImage({@required ImageSource source}) async {
     File selectedImage = await Utilitarios.pickImage(source: source);

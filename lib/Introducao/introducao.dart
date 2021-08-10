@@ -9,7 +9,7 @@ class Introducao extends StatefulWidget {
 }
 
 class _IntroducaoState extends State<Introducao> {
-  Future<void> verficaPrimeiravez() async {
+  Future verficaPrimeiravez() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool _ver = (preferences.getBool("ver") ?? false);
     if (_ver) {

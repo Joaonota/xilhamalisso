@@ -104,7 +104,7 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                   ? Container(
                                       child: Column(
                                         children: [
-                                          Text("Agurde o codigo"),
+                                          Text("Aguarde o codigo"),
                                           CircularProgressIndicator.adaptive(),
                                         ],
                                       ),

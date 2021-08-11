@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/VerificaCodigo.dart';
+import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
+import 'package:xilhamalisso/Menu/Page_menu.dart';
+import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/provider/image_upload_provider.dart';
 
@@ -31,8 +34,10 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => TelaTestePhone(),
-          'codigoSms': (context) => VerificaCodigo(),
+          '/': (context) => HomePro(),
+          '/novo': (context) => EditaUser(),
+          '/homePro': (context) => HomePro(),
+          '/Menu': (context) => PageMenu(),
         },
         //EditaProfissional(),, //ChatList()
       ),

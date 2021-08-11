@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/VerificaCodigo.dart';
 
 class TelaTestePhone extends StatefulWidget {
   @override
@@ -151,22 +152,14 @@ class _TelaTestePhoneState extends State<TelaTestePhone> {
 
   Future registarNumero(String numero) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-      this.verificationId = verId;
-    };
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-      this.verificationId = verId;
 
-      Navigator.of(context)
-          .pushNamed("codigoSms", arguments: this.verificationId);
-    };
     //
     auth.verifyPhoneNumber(
         timeout: Duration(seconds: 60),
         phoneNumber: numero,
         verificationCompleted: (AuthCredential authCredencial) async {
-          var result = await auth.signInWithCredential(authCredencial);
-          print(result);
+          var resul = await auth.signInWithCredential(authCredencial);
+          print("erro $resul");
         },
         verificationFailed: (exception) {
           showDialog(
@@ -181,7 +174,14 @@ class _TelaTestePhoneState extends State<TelaTestePhone> {
                 );
               });
         },
-        codeSent: smsSent,
-        codeAutoRetrievalTimeout: autoTimeout);
+        codeSent: (String verificationId, [int forceResendingToken]) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => VerificaCodigo(
+                        verificationId: verificationId,
+                      )));
+        },
+        codeAutoRetrievalTimeout: null);
   }
 }

@@ -3,7 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class Permissoes {
   static Future<bool> requestePermissionCell() async {
-    PermissionStatus permission = await Permission.microphone.status;
+    PermissionStatus permission = await _getMicrofonePermission();
     if (permission != PermissionStatus.granted) {
       await Permission.microphone.request();
       PermissionStatus permissions = await Permission.microphone.status;
@@ -13,6 +13,18 @@ class Permissoes {
         _handleInvalidPermissions(permission);
         return false;
       }
+    }
+  }
+
+  static Future<PermissionStatus> _getMicrofonePermission() async {
+    PermissionStatus permission = await Permission.camera.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      var permissionStatus = await Permission.microphone.request();
+
+      return permissionStatus ?? Permission.microphone ?? Permission.unknown;
+    } else {
+      return permission;
     }
   }
 

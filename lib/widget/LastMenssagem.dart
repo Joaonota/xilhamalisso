@@ -59,7 +59,7 @@ class LastMessageContainer extends StatelessWidget {
           }
 
           return Text(
-            "nao tem Menssagem",
+            "Não tem Menssagem",
             style: TextStyle(
               color: Colors.grey,
               fontSize: 14,

@@ -136,10 +136,11 @@ class MetodosFirebase {
     ModelMenssagem message;
 
     message = ModelMenssagem.imagemMessagem(
-        menssagem: "IMAGEM",
+        menssagem: Icon(Icons.games).toString(),
         receiverID: receiverId,
         senderID: senderId,
         fotoUrl: url,
+        hora: DateTime.now().millisecondsSinceEpoch.toString(),
         timestamp: Timestamp.now(),
         tipo: 'imagem');
 

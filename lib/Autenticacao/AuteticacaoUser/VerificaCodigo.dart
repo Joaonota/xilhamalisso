@@ -134,7 +134,7 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                                       AuthCredential gredecial =
                                           PhoneAuthProvider.credential(
                                         verificationId: widget.verificationId,
-                                        smsCode: code,
+                                        smsCode: codeController.text,
                                       );
                                       var result = await auth
                                           .signInWithCredential(gredecial);
@@ -180,8 +180,8 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                                                 //
 
                                                 Navigator.of(context)
-                                                    .restorablePushReplacementNamed(
-                                                        "homePro");
+                                                    .pushReplacementNamed(
+                                                        "/homePro");
                                               }
                                             }
                                             if (documents.length == 1) {

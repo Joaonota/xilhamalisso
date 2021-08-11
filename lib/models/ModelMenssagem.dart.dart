@@ -75,6 +75,7 @@ class ModelMenssagem {
       this.receiverID,
       this.timestamp,
       this.tipo,
+      this.hora,
       this.menssagem,
       this.fotoUrl});
   // este metodo vai ser chamado so quando quiser enviar um audio
@@ -112,6 +113,7 @@ class ModelMenssagem {
     map['receiverID'] = this.receiverID;
     map['timestamp'] = this.timestamp;
     map['tipo'] = this.tipo;
+    map['hora'] = this.hora;
     map['menssagem'] = this.menssagem;
     map['fotoUrl'] = this.fotoUrl;
     return map;

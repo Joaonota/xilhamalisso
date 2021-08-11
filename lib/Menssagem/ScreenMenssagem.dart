@@ -21,6 +21,7 @@ import 'package:xilhamalisso/provider/image_upload_provider.dart';
 import 'package:xilhamalisso/utils/chamadaUtils.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 import 'package:xilhamalisso/utils/utilitarios.dart';
+import 'package:xilhamalisso/widget/cached_image.dart';
 
 class ScreenMenssagem extends StatefulWidget {
   final Usuarios receiver;
@@ -288,7 +289,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
             ),
           )
         : message.fotoUrl != null
-            ? Image.network(
+            ? CachedImage(
                 message.fotoUrl,
                 height: 250,
                 width: 250,
@@ -474,11 +475,14 @@ class _MenssagemState extends State<ScreenMenssagem> {
             ),
             iswrite
                 ? Container()
-                : Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
+                : GestureDetector(
+                    onTap: () => pickImage(source: ImageSource.camera),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      child: Icon(Icons.camera_alt),
                     ),
-                    child: Icon(Icons.camera_alt),
                   ),
             iswrite
                 ? Container(
@@ -503,10 +507,11 @@ class _MenssagemState extends State<ScreenMenssagem> {
   void pickImage({@required ImageSource source}) async {
     File selectedImage = await Utilitarios.pickImage(source: source);
     _storageMethods.uploadImage(
-        imagem: selectedImage,
-        receiverId: widget.receiver.uid,
-        senderId: _currentUserID,
-        imageUploadProvider: _imageUploadProvider);
+      imagem: selectedImage,
+      receiverId: widget.receiver.uid,
+      senderId: _currentUserID,
+      imageUploadProvider: _imageUploadProvider,
+    );
   }
 
   addMediaModal(context) {

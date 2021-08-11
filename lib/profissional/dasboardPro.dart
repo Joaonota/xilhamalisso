@@ -29,7 +29,6 @@ class DasBoardPro extends StatelessWidget {
         backgroundColor: UniversalVariables.blackColor,
         centerTitle: true,
         title: UserCircle(),
-        
       ),
       body: ChatListContainer(),
     );

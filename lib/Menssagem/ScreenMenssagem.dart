@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/chamada_telas/pickup/pickuoLayout.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
+import 'package:xilhamalisso/db/permissoes.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/storage_methods.dart';
 import 'package:xilhamalisso/enum/view_state.dart';
@@ -135,16 +136,17 @@ class _MenssagemState extends State<ScreenMenssagem> {
               onPressed: () {},
             ),
             IconButton(
-              icon: Icon(
-                Icons.phone,
-                color: Colors.black,
-              ),
-              onPressed: () => ChamadaUtils.dial(
-                to: widget.receiver,
-                from: sender,
-                context: context,
-              ),
-            ),
+                icon: Icon(
+                  Icons.phone,
+                  color: Colors.black,
+                ),
+                onPressed: () async => await Permissoes.requestePermissionCell()
+                    ? ChamadaUtils.dial(
+                        to: widget.receiver,
+                        from: sender,
+                        context: context,
+                      )
+                    : {}),
           ],
         ),
         //Aqui fecha AppBar

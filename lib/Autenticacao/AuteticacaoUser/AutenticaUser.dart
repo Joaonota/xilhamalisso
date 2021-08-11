@@ -263,7 +263,8 @@ class _AutenticaUserState extends State<AutenticaUser> {
                                         //
 
                                         Navigator.of(context)
-                                            .pushReplacementNamed("/homePro");
+                                            .restorablePushReplacementNamed(
+                                                "homePro");
                                       }
                                     }
                                     if (documents.length == 1) {

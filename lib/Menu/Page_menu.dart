@@ -76,7 +76,7 @@ class _PageMenuState extends State<PageMenu> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff000),
+      backgroundColor: Colors.white,
       body: StreamBuilder(
         stream: _controle.stream,
         builder: (context, snapshot) {
@@ -84,7 +84,7 @@ class _PageMenuState extends State<PageMenu> with WidgetsBindingObserver {
             case ConnectionState.none:
             case ConnectionState.waiting:
               return CarregarDados(
-                  text: "Carregando Seus Dados Agurde", colors: Colors.blue);
+                  text: "Carregando Seus Dados Agurde", colors: Colors.green);
               break;
             case ConnectionState.active:
             case ConnectionState.done:

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:xilhamalisso/Menu/DetalhesPros.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 import 'package:xilhamalisso/widget/Online_DotIndicator.dart';
+import 'package:xilhamalisso/widget/cached_image.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -141,19 +142,17 @@ class _ChatListState extends State<ChatList> {
                                                               return AlertDialog(
                                                                 content:
                                                                     Container(
-                                                                        child: Image
-                                                                            .network(
-                                                                  usuarios.foto,
-                                                                )),
+                                                                  child: CachedImage(
+                                                                      usuarios
+                                                                          .foto),
+                                                                ),
                                                               );
                                                             });
                                                       },
-                                                      child: CircleAvatar(
-                                                        maxRadius: 30,
-                                                        minRadius: 30,
-                                                        backgroundImage:
-                                                            NetworkImage(
-                                                                usuarios.foto),
+                                                      child: CachedImage(
+                                                        usuarios.foto,
+                                                        radius: 80,
+                                                        isRound: true,
                                                       ),
                                                     ),
                                                   ],

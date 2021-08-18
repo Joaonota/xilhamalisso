@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/VerificaCodigo.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
 import 'package:xilhamalisso/profissional/HomePro.dart';
 import 'package:xilhamalisso/provider/UserProvider.dart';
 import 'package:xilhamalisso/provider/image_upload_provider.dart';
 
-import 'Telas_Teste/TelaTestePhone.dart';
+import 'Telas_Teste/TelaTestePerfil.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => HomePro(),
+          '/': (context) => TelaTestePerfil(),
           '/novo': (context) => EditaUser(),
           '/homePro': (context) => HomePro(),
           '/Menu': (context) => PageMenu(),

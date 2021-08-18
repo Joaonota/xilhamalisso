@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Menssagem/Chat_List.dart';
+import 'package:xilhamalisso/Telas_Teste/AutenticaUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/DetalhesUser.dart';
 import 'package:xilhamalisso/Dados_do_Usuario/EditaUser.dart';
-import 'package:xilhamalisso/Menssagem/Chat_List.dart';
+
 import 'package:xilhamalisso/Menssagem/ScreenMenssagem.dart';
 import 'package:xilhamalisso/Menu/Page_menu.dart';
 
@@ -38,7 +39,7 @@ class RouteGenerator {
         );
       case "listachat":
         return MaterialPageRoute(
-          builder: (context) => ChatList(),
+          builder: (context) => ChatLists(),
         );
         /*case "detalhes":
         return MaterialPageRoute(

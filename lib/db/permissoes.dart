@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Permissoes {
+  // ignore: missing_return
   static Future<bool> requestePermissionCell() async {
     PermissionStatus permission = await _getMicrofonePermission();
     if (permission != PermissionStatus.granted) {

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Telas_Teste/AutenticaUser.dart';
 import 'package:xilhamalisso/Menssagem/chat_list_screen.dart';
 import 'package:xilhamalisso/custimizado/Customappbar.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';

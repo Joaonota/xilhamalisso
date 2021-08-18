@@ -1,7 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Telas_Teste/AutenticaUser.dart';
 import 'package:xilhamalisso/custimizado/CarregarDados.dart';
 
 import 'introducao.dart';

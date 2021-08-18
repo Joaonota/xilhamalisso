@@ -16,6 +16,7 @@ class VerificaCodigo extends StatefulWidget {
 class _VerificaCodigoState extends State<VerificaCodigo> {
   TextEditingController codeController = TextEditingController();
   int start = 60;
+  String display = "00";
 
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
@@ -36,7 +37,7 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                   child: Column(
                     children: [
                       Image.asset(
-                        "assets/fotos/foto1.png",
+                        "assets/fotos/otp.png",
                         height: 250,
                       ),
                       Text(
@@ -68,14 +69,23 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    " $start",
-                                    style: GoogleFonts.ebGaramond(
-                                      fontSize: 19.0,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  start == 0
+                                      ? Text(
+                                          " $display",
+                                          style: GoogleFonts.ebGaramond(
+                                            fontSize: 19.0,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : Text(
+                                          " $start",
+                                          style: GoogleFonts.ebGaramond(
+                                            fontSize: 19.0,
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                 ],
                               ),
                               SizedBox(
@@ -180,8 +190,9 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
                                                 //
 
                                                 Navigator.of(context)
-                                                    .pushReplacementNamed(
-                                                        "/homePro");
+                                                    .pushNamedAndRemoveUntil(
+                                                        "/homePro",
+                                                        (route) => false);
                                               }
                                             }
                                             if (documents.length == 1) {
@@ -247,6 +258,12 @@ class _VerificaCodigoState extends State<VerificaCodigo> {
   @override
   void initState() {
     super.initState();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
     startTimer();
   }
 

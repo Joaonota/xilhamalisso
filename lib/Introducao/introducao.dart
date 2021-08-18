@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:xilhamalisso/Autenticacao/AuteticacaoUser/AutenticaUser.dart';
+import 'package:xilhamalisso/Telas_Teste/AutenticaUser.dart';
 
 class Introducao extends StatelessWidget {
   @override

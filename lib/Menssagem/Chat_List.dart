@@ -5,12 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xilhamalisso/models/Usuarios.dart';
 
-class ChatList extends StatefulWidget {
+class ChatLists extends StatefulWidget {
   @override
   _ChatListState createState() => _ChatListState();
 }
 
-class _ChatListState extends State<ChatList> {
+class _ChatListState extends State<ChatLists> {
   final _controle = StreamController<QuerySnapshot>.broadcast();
   String _idDoUsuario;
   // String _numeroDoUsuario;

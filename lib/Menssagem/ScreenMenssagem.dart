@@ -6,11 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:xilhamalisso/chamada_telas/pickup/pickuoLayout.dart';
 import 'package:xilhamalisso/custimizado/custom_tile.dart';
-import 'package:xilhamalisso/db/permissoes.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/MetodosFireba.dart';
 import 'package:xilhamalisso/db_FirebaseFireSore/storage_methods.dart';
 import 'package:xilhamalisso/enum/view_state.dart';
@@ -22,6 +21,7 @@ import 'package:xilhamalisso/utils/chamadaUtils.dart';
 import 'package:xilhamalisso/utils/universal_variables.dart';
 import 'package:xilhamalisso/utils/utilitarios.dart';
 import 'package:xilhamalisso/widget/cached_image.dart';
+import 'package:xilhamalisso/widget/fullFoto.dart';
 
 class ScreenMenssagem extends StatefulWidget {
   final Usuarios receiver;
@@ -141,13 +141,14 @@ class _MenssagemState extends State<ScreenMenssagem> {
                   Icons.phone,
                   color: Colors.black,
                 ),
-                onPressed: () async => await Permissoes.requestePermissionCell()
-                    ? ChamadaUtils.dial(
-                        to: widget.receiver,
-                        from: sender,
-                        context: context,
-                      )
-                    : {}),
+                onPressed: () async {
+                  await Permission.microphone.request();
+                  ChamadaUtils.dial(
+                    to: widget.receiver,
+                    from: sender,
+                    context: context,
+                  );
+                }),
           ],
         ),
         //Aqui fecha AppBar
@@ -216,14 +217,10 @@ class _MenssagemState extends State<ScreenMenssagem> {
             ? Alignment.centerRight
             : Alignment.centerLeft,
         child: _message.senderID == _currentUserID
-            ? Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 190),
-                    child: senderLayout(_message),
-                  ),
-                  //DataFormatada(),
-                  Container(
+            ? senderLayout(_message)
+
+            //DataFormatada(),
+            /* Container(
                     padding: const EdgeInsets.only(left: 190),
                     child: Text(
                       DateFormat('dd MMM kk:mm').format(
@@ -232,9 +229,8 @@ class _MenssagemState extends State<ScreenMenssagem> {
                         ),
                       ),
                     ),
-                  )
-                ],
-              )
+                  )*/
+
             : receiverLayout(_message),
       ),
     );
@@ -247,7 +243,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
       width: 200,
       margin: EdgeInsets.symmetric(vertical: 5),
       child: Bubble(
-        child: getMessage(message),
+        child: getMessage(message, context),
         color: Colors.green,
         padding: const BubbleEdges.all(10.0),
         margin: BubbleEdges.only(top: 4),
@@ -279,7 +275,7 @@ class _MenssagemState extends State<ScreenMenssagem> {
     );
   }*/
 
-  getMessage(ModelMenssagem message) {
+  getMessage(ModelMenssagem message, context) {
     return message.tipo != "imagem"
         ? Text(
             message.menssagem,
@@ -289,10 +285,21 @@ class _MenssagemState extends State<ScreenMenssagem> {
             ),
           )
         : message.fotoUrl != null
-            ? CachedImage(
-                message.fotoUrl,
-                height: 250,
-                width: 250,
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FullPhoto(
+                              url: message.fotoUrl,
+                            )),
+                  );
+                },
+                child: CachedImage(
+                  message.fotoUrl,
+                  height: 250,
+                  width: 250,
+                ),
               )
             : Text("Url was null");
   }
